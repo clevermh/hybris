@@ -1,5 +1,13 @@
 package com.kumquat.hybris;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import android.app.Activity;
@@ -11,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Test extends Activity {
@@ -37,25 +46,83 @@ public class Test extends Activity {
 	
 	private boolean scanAvailable;
 	
-	private OnClickListener buttonClick = new OnClickListener() {
-
+	private OnClickListener scanClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Context con = getApplicationContext();
-			CharSequence test = "Button pressed!";
-			int dur = Toast.LENGTH_SHORT;
-			
-			Toast tst = Toast.makeText(con, test, dur);
-			tst.show();
-			
 			if(scanAvailable) {
-				Toast.makeText(con, "You could be scanning something!", Toast.LENGTH_SHORT).show();
+				toaster("You could be scanning something!").show();
+				
+				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+		        intent.setPackage("com.google.zxing.client.android");
+		        intent.putExtra("SCAN_MODE", "UPC_A");
+		        startActivityForResult(intent, 0);
 			} else {
-				Toast.makeText(con, "Sorry you can't scan", Toast.LENGTH_SHORT).show();
+				toaster("Sorry you can't scan").show();
 			}
 		}
-		
 	};
+	
+	private OnClickListener manualClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			toaster("Manual entry").show();
+		}
+	};
+	
+	private String getItemFromBarcode(String code) {
+		String res = "Who knows";
+		
+		try {
+			URL url = new URL("http://www.upcdatabase.com/item/" + code);
+			HttpURLConnection urlconnect = (HttpURLConnection)url.openConnection();
+			InputStream in = new BufferedInputStream(urlconnect.getInputStream());
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String page = "";
+			String line = br.readLine();
+			while(line != null) {
+				page += line;
+				line = br.readLine();
+			}
+			
+			int st, en;
+			st = page.indexOf("<td>Description") + 15 + 18;
+			en = page.indexOf("</td>", st);
+			
+			res = page.substring(st, en);
+		} catch (MalformedURLException e) {
+			setTextViewText(R.id.error, e.toString());
+			toaster("MalformedURLException").show();
+		} catch (IOException e) {
+			setTextViewText(R.id.error, e.toString());
+			toaster("IOException").show();
+		}
+		
+		return res;
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	    if (requestCode == 0) {
+	        if (resultCode == RESULT_OK) {
+	        	// Handle successful scan
+	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
+	            setTextViewText(R.id.type, "Type: " + intent.getStringExtra("SCAN_RESULT_FORMAT"));
+	            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
+	        } else if (resultCode == RESULT_CANCELED) {
+	            // Handle cancel
+	        	// Do nothing
+	        }
+	    }
+	}
+	
+	private void setTextViewText(int id, String text) {
+		TextView tv = (TextView)findViewById(id);
+		if(tv != null) { tv.setText(text); }
+	}
+	
+	private Toast toaster(String msg) {
+		Context con = getApplicationContext();
+		return Toast.makeText(con, msg, Toast.LENGTH_SHORT);
+	}
 	
     /** Called when the activity is first created. */
     @Override
@@ -63,12 +130,20 @@ public class Test extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
         
-        Button b = (Button)findViewById(R.id.buttongo);
-        b.setOnClickListener(buttonClick);
+        Button sc = (Button)findViewById(R.id.scan);
+        sc.setOnClickListener(scanClick);
+        
+        Button ma = (Button)findViewById(R.id.manual);
+        ma.setOnClickListener(manualClick);
         
         scanAvailable = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
-        CharSequence avail = scanAvailable ? "Barcode scanner installed" : "Barcode scanner not installed";
-        Toast toast = Toast.makeText(this, avail, Toast.LENGTH_SHORT);
-        toast.show();
+        String bsavail = scanAvailable ? "Barcode scanner installed" : "Barcode scanner not installed";
+        toaster(bsavail).show();
+        
+        if(!scanAvailable) { sc.setEnabled(false); }
+        
+        setTextViewText(R.id.code, "Code: 300054451705");
+        setTextViewText(R.id.type, "Type: UPC_A");
+        setTextViewText(R.id.item, "Item: " + getItemFromBarcode("300054451705"));
     }
 }
