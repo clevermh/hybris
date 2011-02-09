@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +52,6 @@ public class Test extends Activity {
 		@Override
 		public void onClick(View v) {
 			if(scanAvailable) {
-				toaster("You could be scanning something!").show();
-				
 				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 		        intent.setPackage("com.google.zxing.client.android");
 		        intent.putExtra("SCAN_MODE", "UPC_A");
@@ -61,11 +61,19 @@ public class Test extends Activity {
 			}
 		}
 	};
+	// 661195562003
 	
 	private OnClickListener manualClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			toaster("Manual entry").show();
+			
+			EditText txt = (EditText)findViewById(R.id.manualentry);
+			
+			String code = txt.getText().toString();
+			setTextViewText(R.id.code, "Code: " + code);
+            setTextViewText(R.id.type, "Type: " + "?");
+            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(code));
 		}
 	};
 	
@@ -86,9 +94,11 @@ public class Test extends Activity {
 			
 			int st, en;
 			st = page.indexOf("<td>Description") + 15 + 18;
-			en = page.indexOf("</td>", st);
-			
-			res = page.substring(st, en);
+			if(st != -1) {
+				en = page.indexOf("</td>", st);
+				
+				res = page.substring(st, en);
+			}
 		} catch (MalformedURLException e) {
 			setTextViewText(R.id.error, e.toString());
 			toaster("MalformedURLException").show();
@@ -103,10 +113,19 @@ public class Test extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
+	        	Bundle bnd = intent.getExtras();
+	        	Set<String> keys = bnd.keySet();
+	        	
+	        	String str = "";
+	        	for(String s : keys) {
+	        		str += s + " : " + bnd.getString(s) + "\n";
+	        	}
+	        	setTextViewText(R.id.error, str);
 	        	// Handle successful scan
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
 	            setTextViewText(R.id.type, "Type: " + intent.getStringExtra("SCAN_RESULT_FORMAT"));
-	            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
+	            setTextViewText(R.id.item, "HI");
+	            //setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // Handle cancel
 	        	// Do nothing
