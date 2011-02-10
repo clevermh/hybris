@@ -117,7 +117,7 @@ public class Test extends Activity {
 		}
 		
 		return res;
-	}
+	} 
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
@@ -133,8 +133,8 @@ public class Test extends Activity {
 	        	// Handle successful scan
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
 	            setTextViewText(R.id.type, "Type: " + intent.getStringExtra("SCAN_RESULT_FORMAT"));
-	            setTextViewText(R.id.item, "HI");
-	            //setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
+	            //setTextViewText(R.id.item, "HI");
+	            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // Handle cancel
 	        	// Do nothing
