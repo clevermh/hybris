@@ -101,8 +101,9 @@ public class Test extends Activity {
 			}
 			
 			int st, en;
-			st = page.indexOf("<td>Description") + 15 + 18;
+			st = page.indexOf("<td>Description");
 			if(st != -1) {
+				st += 15 + 18;
 				en = page.indexOf("</td>", st);
 				
 				res = page.substring(st, en);
