@@ -77,6 +77,14 @@ public class Test extends Activity {
 		}
 	};
 	
+	private OnClickListener aboutClick = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			toaster("Credits yo").show();
+			setContentView(R.layout.credits);
+		}
+	};
+	
 	private String getItemFromBarcode(String code) {
 		String res = "Who knows";
 		
@@ -154,6 +162,9 @@ public class Test extends Activity {
         
         Button ma = (Button)findViewById(R.id.manual);
         ma.setOnClickListener(manualClick);
+        
+        Button ab = (Button)findViewById(R.id.creds);
+        ab.setOnClickListener(aboutClick);
         
         scanAvailable = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
         String bsavail = scanAvailable ? "Barcode scanner installed" : "Barcode scanner not installed";
