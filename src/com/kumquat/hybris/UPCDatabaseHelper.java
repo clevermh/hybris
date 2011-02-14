@@ -8,11 +8,11 @@ import android.util.Log;
 public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase database;
 	private final Context context;
-	public static final int VERSION = 1;
+	public static final int VERSION = 2;
 	
 	private static final String createDB = "CREATE TABLE upctable (" +
-											"upc			varchar(10) primary key" +
-											", item			varchar(255)" +
+											"upc			varchar(12) primary key" +
+											", item			varchar(5000)" +
 											", amount		int" +
 											", amount_type	varchar(255)" +
 											");";
