@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -47,6 +51,7 @@ public class Test extends Activity {
 	}
 	
 	private boolean scanAvailable;
+	private UPCDatabaseHelper dbhelper;
 	
 	private OnClickListener scanClick = new OnClickListener() {
 		@Override
@@ -86,7 +91,49 @@ public class Test extends Activity {
 	};
 	
 	private String getItemFromBarcode(String code) {
-		String res = "Who knows";
+		String res = getItemByDatabase(code);
+		if(res != null) { return res; }
+		
+		setTextViewText(R.id.error, "Not in DB :(");
+		
+		toaster("Not in DB").show();
+		res = getItemByInternet(code);
+		if(res != null) {
+			SQLiteDatabase db = dbhelper.getWritableDatabase();
+			
+			ContentValues cv = new ContentValues();
+			cv.put("upc", code);
+			cv.put("item", res);
+			long ret = db.insert("upctable", null, cv);
+			if(ret == -1) { Log.e("DB", "Error adding new item"); setTextViewText(R.id.error, "Error adding item"); }
+			toaster("Added item" + code).show();
+			db.close();
+			
+			return res;
+		}
+		
+		return null;
+	}
+	
+	private String getItemByDatabase(String code) {
+		String res = null;
+		
+		SQLiteDatabase db = dbhelper.getReadableDatabase();
+		Cursor c = db.query("upctable", new String[]{"item"}, "upc = " + code, null, null, null, null);
+		
+		if(c == null || c.getCount() == 0) { return null; }
+		
+		c.moveToFirst();
+		res = c.getString(0);
+		
+		db.close();
+		c.close();
+		
+		return res;
+	}
+	
+	private String getItemByInternet(String code) {
+		String res = null;
 		
 		try {
 			URL url = new URL("http://www.upcdatabase.com/item/" + code);
@@ -117,7 +164,7 @@ public class Test extends Activity {
 		}
 		
 		return res;
-	} 
+	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
@@ -173,8 +220,10 @@ public class Test extends Activity {
         
         if(!scanAvailable) { sc.setEnabled(false); }
         
-        setTextViewText(R.id.code, "Code: 300054451705");
-        setTextViewText(R.id.type, "Type: UPC_A");
-        setTextViewText(R.id.item, "Item: " + getItemFromBarcode("300054451705"));
+        dbhelper = new UPCDatabaseHelper(getApplicationContext());
+        
+        //setTextViewText(R.id.code, "Code: 300054451705");
+        //setTextViewText(R.id.type, "Type: UPC_A");
+        //setTextViewText(R.id.item, "Item: " + getItemFromBarcode("300054451705"));
     }
 }
