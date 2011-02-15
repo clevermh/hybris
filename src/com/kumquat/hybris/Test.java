@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,6 +93,7 @@ public class Test extends Activity {
 	
 	private String getItemFromBarcode(String code) {
 		String res = getItemByDatabase(code);
+		setTextViewText(R.id.error, "In DB :D");
 		if(res != null) { return res; }
 		
 		setTextViewText(R.id.error, "Not in DB :(");
@@ -104,9 +106,17 @@ public class Test extends Activity {
 			ContentValues cv = new ContentValues();
 			cv.put("upc", code);
 			cv.put("item", res);
-			long ret = db.insert("upctable", null, cv);
-			if(ret == -1) { Log.e("DB", "Error adding new item"); setTextViewText(R.id.error, "Error adding item"); }
-			toaster("Added item" + code).show();
+			try {
+				long ret = db.insertOrThrow("upctable", null, cv);
+				
+				if(ret == -1) {
+					toaster("Error adding " + code).show();
+					Log.e("DB", "Error adding new item");
+					setTextViewText(R.id.error, "Error adding item");
+				}
+			} catch (SQLException e) {
+				setTextViewText(R.id.error, e.toString());
+			}
 			db.close();
 			
 			return res;
@@ -119,7 +129,7 @@ public class Test extends Activity {
 		String res = null;
 		
 		SQLiteDatabase db = dbhelper.getReadableDatabase();
-		Cursor c = db.query("upctable", new String[]{"item"}, "upc = " + code, null, null, null, null);
+		Cursor c = db.query("upctable", new String[]{"item"}, "upc = \"" + code + "\"", null, null, null, null);
 		
 		if(c == null || c.getCount() == 0) { return null; }
 		
@@ -169,18 +179,8 @@ public class Test extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
-	        	Bundle bnd = intent.getExtras();
-	        	Set<String> keys = bnd.keySet();
-	        	
-	        	String str = "";
-	        	for(String s : keys) {
-	        		str += s + " : " + bnd.getString(s) + "\n";
-	        	}
-	        	setTextViewText(R.id.error, str);
-	        	// Handle successful scan
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
 	            setTextViewText(R.id.type, "Type: " + intent.getStringExtra("SCAN_RESULT_FORMAT"));
-	            //setTextViewText(R.id.item, "HI");
 	            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // Handle cancel
@@ -222,8 +222,22 @@ public class Test extends Activity {
         
         dbhelper = new UPCDatabaseHelper(getApplicationContext());
         
-        //setTextViewText(R.id.code, "Code: 300054451705");
-        //setTextViewText(R.id.type, "Type: UPC_A");
-        //setTextViewText(R.id.item, "Item: " + getItemFromBarcode("300054451705"));
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+		Cursor c = db.query("upctable", new String[]{"upc", "item"}, "1 = 1", null, null, null, null);
+		
+		if(c != null && c.getCount() > 0) {
+			c.moveToFirst();
+			String res = "";
+			do {
+				res += "{ " + c.getString(0) + ", " + c.getString(1) + " }\n";
+			} while(c.moveToNext());
+			
+			setTextViewText(R.id.error, res);
+		} else {
+			setTextViewText(R.id.error, "DB is empty");
+		}
+		
+		db.close();
+		c.close();
     }
 }
