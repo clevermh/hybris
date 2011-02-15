@@ -2,6 +2,9 @@ package com.kumquat.hybris;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.Set;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -21,6 +23,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,34 +81,69 @@ public class Test extends Activity {
 			
 			String code = txt.getText().toString();
 			setTextViewText(R.id.code, "Code: " + code);
-            setTextViewText(R.id.type, "Type: " + "?");
-            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(code));
+			String[] item = getItemFromBarcode(code);
+			if(item != null) {
+            	setTextViewText(R.id.item, "Item: " + item[0]);
+            	setTextViewText(R.id.other, "Amt: " + item[1] + "\nType: " + item[2]);
+            }
 		}
 	};
 	
 	private OnClickListener aboutClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			toaster("Credits yo").show();
-			setContentView(R.layout.credits);
+			toaster("Dumping DB to file").show();
+			SQLiteDatabase db = dbhelper.getWritableDatabase();
+			Cursor c = db.query("upctable", null, "1 = 1", null, null, null, null);
+			
+			if(c != null && c.getCount() > 0) {
+				c.moveToFirst();
+				String data = "";
+				do {
+					for(int a = 0; a < c.getColumnCount(); a++) {
+						if(a > 0) { data += ", "; }
+						data += c.getString(a);
+					}
+					data += "\n";
+				} while(c.moveToNext());
+				
+				String st = Environment.getExternalStorageState();
+				if(Environment.MEDIA_MOUNTED.equals(st)) {
+					File esd = Environment.getExternalStorageDirectory();
+					File wrt = new File(esd, "Android/data/com.kumquat.hybris/files/upcdb_dump.txt");
+					try {
+						wrt.mkdirs();
+						wrt.createNewFile();
+						BufferedWriter bw = new BufferedWriter(new FileWriter(wrt));
+						bw.write(data);
+						bw.flush();
+						bw.close();
+					} catch(IOException e) {
+						setTextViewText(R.id.error, e.toString());
+					}
+				}
+			}
+			
+			db.close();
+			c.close();
 		}
 	};
 	
-	private String getItemFromBarcode(String code) {
-		String res = getItemByDatabase(code);
+	private String[] getItemFromBarcode(String code) {
+		String[] res = getItemByDatabase(code);
 		setTextViewText(R.id.error, "In DB :D");
 		if(res != null) { return res; }
 		
 		setTextViewText(R.id.error, "Not in DB :(");
-		
-		toaster("Not in DB").show();
 		res = getItemByInternet(code);
 		if(res != null) {
 			SQLiteDatabase db = dbhelper.getWritableDatabase();
 			
 			ContentValues cv = new ContentValues();
 			cv.put("upc", code);
-			cv.put("item", res);
+			cv.put("item", res[0]);
+			cv.put("amount", res[1]);
+			cv.put("amount_type", res[2]);
 			try {
 				long ret = db.insertOrThrow("upctable", null, cv);
 				
@@ -125,26 +163,26 @@ public class Test extends Activity {
 		return null;
 	}
 	
-	private String getItemByDatabase(String code) {
-		String res = null;
+	private String[] getItemByDatabase(String code) {
+		String[] res = new String[3];
 		
 		SQLiteDatabase db = dbhelper.getReadableDatabase();
-		Cursor c = db.query("upctable", new String[]{"item"}, "upc = \"" + code + "\"", null, null, null, null);
+		Cursor c = db.query("upctable", new String[]{"item", "amount", "amount_type"}, "upc = \"" + code + "\"", null, null, null, null);
 		
 		if(c == null || c.getCount() == 0) { return null; }
 		
 		c.moveToFirst();
-		res = c.getString(0);
+		res[0] = c.getString(0);
+		res[1] = c.getString(1);
+		res[2] = c.getString(2);
 		
-		db.close();
 		c.close();
+		db.close();
 		
 		return res;
 	}
 	
-	private String getItemByInternet(String code) {
-		String res = null;
-		
+	private String[] getItemByInternet(String code) {
 		try {
 			URL url = new URL("http://www.upcdatabase.com/item/" + code);
 			HttpURLConnection urlconnect = (HttpURLConnection)url.openConnection();
@@ -163,7 +201,23 @@ public class Test extends Activity {
 				st += 15 + 18;
 				en = page.indexOf("</td>", st);
 				
-				res = page.substring(st, en);
+				String[] res = new String[3];
+				res[0] = page.substring(st, en);
+				
+				st = page.indexOf("<td></td>", en + 2);
+				st += 13;
+				en = page.indexOf("</td>", st);
+				String tmp = page.substring(st, en);
+				
+				String[] tmp2 = tmp.split("\\s", 2);
+				if(tmp2.length == 2) {
+					res[1] = tmp2[0];
+					res[2] = tmp2[1];
+				} else {
+					res[1] = res[2] = "";
+				}
+				
+				return res;
 			}
 		} catch (MalformedURLException e) {
 			setTextViewText(R.id.error, e.toString());
@@ -173,15 +227,18 @@ public class Test extends Activity {
 			toaster("IOException").show();
 		}
 		
-		return res;
+		return null;
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
-	            setTextViewText(R.id.type, "Type: " + intent.getStringExtra("SCAN_RESULT_FORMAT"));
-	            setTextViewText(R.id.item, "Item: " + getItemFromBarcode(intent.getStringExtra("SCAN_RESULT")));
+	            String[] item = getItemFromBarcode(intent.getStringExtra("SCAN_RESULT"));
+	            if(item != null) {
+	            	setTextViewText(R.id.item, "Item: " + item[0]);
+	            	setTextViewText(R.id.other, "Amt: " + item[1] + "\nType: " + item[2]);
+	            }
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // Handle cancel
 	        	// Do nothing
@@ -223,21 +280,11 @@ public class Test extends Activity {
         dbhelper = new UPCDatabaseHelper(getApplicationContext());
         
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-		Cursor c = db.query("upctable", new String[]{"upc", "item"}, "1 = 1", null, null, null, null);
+		Cursor c = db.query("upctable", new String[]{"upc"}, "1 = 1", null, null, null, null);
 		
-		if(c != null && c.getCount() > 0) {
-			c.moveToFirst();
-			String res = "";
-			do {
-				res += "{ " + c.getString(0) + ", " + c.getString(1) + " }\n";
-			} while(c.moveToNext());
-			
-			setTextViewText(R.id.error, res);
-		} else {
-			setTextViewText(R.id.error, "DB is empty");
-		}
+		setTextViewText(R.id.error, "Items in DB: " + c.getCount());
 		
-		db.close();
 		c.close();
+		db.close();
     }
 }

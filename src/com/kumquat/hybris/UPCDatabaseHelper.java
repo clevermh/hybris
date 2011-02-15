@@ -7,8 +7,8 @@ import android.util.Log;
 
 public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase database;
-	private final Context context;
-	public static final int VERSION = 2;
+	//private final Context context;
+	public static final int VERSION = 3;
 	
 	private static final String createDB = "CREATE TABLE upctable (" +
 											"upc			varchar(12) primary key" +
@@ -19,7 +19,7 @@ public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	
 	public UPCDatabaseHelper(Context context) {
 		super(context, "UPCDatabase", null, VERSION);
-		this.context = context;
+		//this.context = context;
 	}
 
 	@Override
