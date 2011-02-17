@@ -8,10 +8,10 @@ public class UPCObject {
     private String ean_code;
     
     private String description;
-    private String product_type;
     private String amount;
-    private String company;
-    private String country_issued;
+    private String product_type;
+    private String sub_type;
+    private String specific_type;
     
 
     public UPCObject(String upc_code) {
@@ -19,10 +19,10 @@ public class UPCObject {
         this.upc_e = "-";
         this.ean_code = "-";
         this.description = "-";
-        this.product_type = "-";
         this.amount = "-";
-        this.company = "-";
-        this.country_issued = "-";
+        this.product_type = "-";
+        this.sub_type = "-";
+        this.specific_type = "-";
     }
 
     public void addUPCInformation(HashMap<String, String> upc_info) {
@@ -41,10 +41,6 @@ public class UPCObject {
         
         if (upc_info.get("amount") != null) {
         	this.amount = upc_info.get("amount");
-        }
-        
-        if (upc_info.get("country") != null) {
-        	this.country_issued = upc_info.get("country_issued");
         }
         
         return;
@@ -66,23 +62,23 @@ public class UPCObject {
     	return this.description;
     }
     
-    public String getProductType() {
-    	return this.product_type;
-    }
-    
     public String getAmount() {
     	return this.amount;
     }
     
-    public String getCountry() {
-    	return this.country_issued;
+    public String getProductType() {
+    	return this.product_type;
     }
     
-    public String getCompany() {
-    	return this.company;
+    public String getSubType() {
+    	return this.sub_type;
+    }
+    
+    public String getSpecificType() {
+    	return this.specific_type;
     }
     
     public void printUPCInformation() {
-        System.out.printf("%s %s %s %s %s %s", this.upc_code, this.upc_e, this.ean_code, this.description, this.amount, this.country_issued); 
+        System.out.printf("%s %s %s %s %s", this.upc_code, this.upc_e, this.ean_code, this.description, this.amount); 
     }
 }

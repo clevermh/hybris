@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase upc_database;
-	public static final int VERSION = 3;
+	public static final int VERSION = 4;
 	
 	private static final String upc_table = "CREATE TABLE IF NOT EXISTS upctable (" +
 											"upc_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -15,12 +15,13 @@ public class UPCDatabaseHelper extends SQLiteOpenHelper {
 											"upc_e varchar(8) NOT NULL default ''," +
 											"ean_code varchar(13) NOT NULL default ''," +
 											"description varchar(2000) NOT NULL default ''," +
-											"product_type varchar(30) NOT NULL default ''," +
 											"amount varchar(200) NOT NULL default ''," +
-											"company varchar(200) NOT NULL default ''," +
-											"country_issued varchar(200) NOT NULL default ''" +
+											"product_type varchar(30) NOT NULL default ''," +
+											"sub_type varchar(200) NOT NULL default ''," +
+											"specific_type varchar(200) NOT NULL default ''" +
 											");";
 	private static final String upc_idx = "CREATE INDEX IF NOT EXISTS upc_idx_01 ON upctable(upc_code);";
+	private static final String type_idx = "CREATE INDEX IF NOT EXISTS type_idx_01 ON upctable(product_type, sub_type, specific_type);";
 	
 	
 	public UPCDatabaseHelper(Context context) {
@@ -32,6 +33,9 @@ public class UPCDatabaseHelper extends SQLiteOpenHelper {
 		upc_database = db;
 		upc_database.execSQL(upc_table);
 		upc_database.execSQL(upc_idx);
+		upc_database.execSQL(type_idx);
+		
+		// populate();
 	}
 
 	@Override
