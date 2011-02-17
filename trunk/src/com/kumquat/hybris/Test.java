@@ -113,7 +113,8 @@ public class Test extends Activity {
 				String st = Environment.getExternalStorageState();
 				if(Environment.MEDIA_MOUNTED.equals(st)) {
 					File esd = Environment.getExternalStorageDirectory();
-					File wrt = new File(esd, "Android/data/com.kumquat.hybris/files/upcdb_dump.txt");
+					//File wrt = new File(esd, "Android/data/com.kumquat.hybris/files/upcdb_dump.txt");
+					File wrt = new File(esd, "upcdb_dump.txt");
 					try {
 						wrt.mkdirs();
 						wrt.createNewFile();
@@ -149,8 +150,8 @@ public class Test extends Activity {
 			cv.put("description", upc_object.getDescription());
 			cv.put("product_type", upc_object.getProductType());
 			cv.put("amount", upc_object.getAmount());
-			cv.put("company", upc_object.getCompany());
-			cv.put("country_issued", upc_object.getCountry());
+			cv.put("sub_type", upc_object.getSubType());
+			cv.put("specific_type", upc_object.getSpecificType());
 			
 			try {
 				long ret = db.insertOrThrow("upctable", null, cv);
@@ -173,11 +174,11 @@ public class Test extends Activity {
 	
 	private UPCObject getItemByDatabase(String code) {
 		SQLiteDatabase db = dbhelper.getReadableDatabase();
-		String sql_statement = "SELECT upc_code, upc_e, ean_code, description, amount, country_issued FROM upctable " +
+		String sql_statement = "SELECT upc_code, upc_e, ean_code, description, amount FROM upctable " +
 								"WHERE upc_code = ?";
 		Cursor c = db.rawQuery(sql_statement, new String[]{code});
 		
-		if(c == null || c.getCount() == 0) { return null; }
+		if(c == null || c.getCount() == 0) { if(c != null) { c.close(); } return null; }
 		
 		HashMap <String, String> upc_info = new HashMap<String, String>();
 		c.moveToFirst();
@@ -186,7 +187,6 @@ public class Test extends Activity {
 		upc_info.put("ean_code", c.getString(2));
 		upc_info.put("description", c.getString(3));
 		upc_info.put("amount", c.getString(4));
-		upc_info.put("country_issued", c.getString(5));
 		
 		UPCObject upc_object = new UPCObject(upc_info.get("upc_code"));
         upc_object.addUPCInformation(upc_info);
@@ -253,9 +253,6 @@ public class Test extends Activity {
             } else if (val.indexOf("size/weight") != -1) {
                 i += 1;
                 upc_info.put("amount", new_info[i]);
-            } else if (val.indexOf("issuing country") != -1) {
-                i += 1;
-                upc_info.put("country_issued", new_info[i]);
             } else if (val.compareTo("last modified") == 0) {
                 break;
             }
@@ -276,6 +273,8 @@ public class Test extends Activity {
                 page += line;
                 line = br.readLine();
             }
+            
+            if(page.indexOf("UPC Database: Item Not Found") != -1) { return null; }
            
             String[] new_info = splitHtmlPage(page);
             HashMap <String, String> upc_info = populateUPCObject(new_info);
