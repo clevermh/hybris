@@ -10,7 +10,7 @@ public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	public static final int VERSION = 5;
 	
 	private static final String upc_table = "CREATE TABLE IF NOT EXISTS Upc_Table (" +
-											"upc_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"upc_code varchar(12) NOT NULL default ''," +
 											"upc_e varchar(8) NOT NULL default ''," +
 											"ean_code varchar(13) NOT NULL default ''," +
