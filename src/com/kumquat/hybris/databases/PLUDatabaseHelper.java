@@ -10,7 +10,7 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
 	public static final int VERSION = 1;
 	
 	private static final String plu_table = "CREATE TABLE IF NOT EXISTS Plu_Table (" +
-											"plu_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"item_id INTEGER NOT NULL," +
 											"plu_code varchar(5) default '0'," +
 											"FOREIGN KEY (item_id) REFERENCES Items(id)" +
