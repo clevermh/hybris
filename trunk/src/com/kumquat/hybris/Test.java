@@ -14,6 +14,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kumquat.hybris.databases.UPCDatabaseHelper;
+import com.kumquat.hybris.databases.UPCObject;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
