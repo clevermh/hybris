@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.kumquat.hybris.databases.UPCObject;
 
-public static class ItemLookup {
-	private int getItemByDatabase(String code, SQLiteDatabase db) {
+public class ItemLookup {
+	private static int getItemByDatabase(String code, SQLiteDatabase db) {
 		String sql_statement = "SELECT upc_code, upc_e, ean_code, description, amount FROM upctable " +
 								"WHERE upc_code = ?";
 		Cursor c = db.rawQuery(sql_statement, new String[]{code});
