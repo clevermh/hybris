@@ -1,4 +1,4 @@
-package com.kumquat.hybris;
+package com.kumquat.hybris.databases;
 
 import java.util.HashMap;
 
