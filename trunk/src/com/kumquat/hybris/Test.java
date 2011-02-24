@@ -14,8 +14,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kumquat.hybris.databases.ItemDatabaseHelper;
+import com.kumquat.hybris.databases.PLUDatabaseHelper;
 import com.kumquat.hybris.databases.UPCDatabaseHelper;
-import com.kumquat.hybris.databases.UPCObject;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -52,14 +53,14 @@ public class Test extends Activity {
 	public static boolean isIntentAvailable(Context context, String action) {
 	    final PackageManager packageManager = context.getPackageManager();
 	    final Intent intent = new Intent(action);
-	    List<ResolveInfo> list =
-	            packageManager.queryIntentActivities(intent,
-	                    PackageManager.MATCH_DEFAULT_ONLY);
+	    List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 	    return list.size() > 0;
 	}
 	
 	private boolean scanAvailable;
-	private UPCDatabaseHelper dbhelper;
+	private UPCDatabaseHelper udbhelper;
+	private PLUDatabaseHelper pdbhelper;
+	private ItemDatabaseHelper idbhelper;
 	
 	private OnClickListener scanClick = new OnClickListener() {
 		@Override
@@ -98,7 +99,7 @@ public class Test extends Activity {
 		@Override
 		public void onClick(View v) {
 			toaster("Dumping DB to file").show();
-			SQLiteDatabase db = dbhelper.getWritableDatabase();
+			SQLiteDatabase db = udbhelper.getWritableDatabase();
 			
 			String sql_statement = "SELECT * FROM upctable";
 	        Cursor c = db.rawQuery(sql_statement, null);
@@ -212,7 +213,7 @@ public class Test extends Activity {
         return upc_info;
 	}
 	
-	private UPCObject getItemByInternet(String code) {
+	/*private UPCObject getItemByInternet(String code) {
 		try {
 			URL url = new URL("http://www.upcdatabase.com/item/" + code);
             HttpURLConnection urlconnect = (HttpURLConnection)url.openConnection();
@@ -242,7 +243,7 @@ public class Test extends Activity {
 		}
 		
 		return null;
-	}
+	}*/
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
@@ -290,15 +291,45 @@ public class Test extends Activity {
         toaster(bsavail).show();
         
         if(!scanAvailable) { sc.setEnabled(false); }
-        dbhelper = new UPCDatabaseHelper(getApplicationContext());
         
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        udbhelper = new UPCDatabaseHelper(getApplicationContext());
+        pdbhelper = new PLUDatabaseHelper(getApplicationContext());
+        idbhelper = new ItemDatabaseHelper(getApplicationContext());
+        
+        int upcitems = 0;
+        int pluitems = 0;
+        int items = 0;
+        
+        SQLiteDatabase db = udbhelper.getReadableDatabase();
         String sql_statement = "SELECT COUNT(*) FROM Upc_Table";
         Cursor c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
-        setTextViewText(R.id.error, "Items in DB: " + c.getString(0));
-		c.close();
+        upcitems = c.getInt(0);
+        
+        c.close();
 		db.close();
+		
+		db = pdbhelper.getReadableDatabase();
+        sql_statement = "SELECT COUNT(*) FROM Plu_Table";
+        c = db.rawQuery(sql_statement, null);
+        c.moveToFirst();
+        
+        pluitems = c.getInt(0);
+        
+        c.close();
+		db.close();
+		
+		db = idbhelper.getReadableDatabase();
+        sql_statement = "SELECT COUNT(*) FROM Items";
+        c = db.rawQuery(sql_statement, null);
+        c.moveToFirst();
+        
+        items = c.getInt(0);
+        
+        c.close();
+		db.close();
+		
+		setTextViewText(R.id.error, "UPC: " + upcitems + "\nPLU: " + pluitems + "\nItems: " + items);
     }
 }
