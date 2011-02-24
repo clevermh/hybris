@@ -85,10 +85,11 @@ public class Test extends Activity {
 			
 			String code = txt.getText().toString();
 			setTextViewText(R.id.code, "Code: " + code);
-			UPCObject upc_object = getItemFromBarcode(code);
-            if(upc_object != null) {
-            	setTextViewText(R.id.item, "Item: " + upc_object.getDescription());
-            	setTextViewText(R.id.other, "Amt: " + upc_object.getAmount() + "\nType: " + upc_object.getProductType());
+			Item item = getItemFromBarcode(code);
+            
+            if(item != null) {
+            	setTextViewText(R.id.item, "Item: " + item.getID());
+            	setTextViewText(R.id.other, "Type: " + item.getType() + " | " + item.getSubType() + " | " + item.getSpecificType());
             }
 		}
 	};
@@ -136,68 +137,15 @@ public class Test extends Activity {
 		}
 	};
 	
-	private UPCObject getItemFromBarcode(String code) {
-		UPCObject upc_object = getItemByDatabase(code);
-		setTextViewText(R.id.error, "In DB :D");
-		if(upc_object != null) { return upc_object; }
+	private Item getItemFromBarcode(String code) {
+		int id = ItemLookup.getItemIDByDatabase(getApplicationContext(), code);
 		
-		setTextViewText(R.id.error, "Not in DB :(");
-		upc_object = getItemByInternet(code);
-		if(upc_object != null) {
-			SQLiteDatabase db = dbhelper.getWritableDatabase();
-			
-			ContentValues cv = new ContentValues();
-			cv.put("upc_code", upc_object.getUPCCode());
-			cv.put("upc_e", upc_object.getUPCECode());
-			cv.put("ean_code", upc_object.getEANCode());
-			cv.put("description", upc_object.getDescription());
-			cv.put("product_type", upc_object.getProductType());
-			cv.put("amount", upc_object.getAmount());
-			cv.put("sub_type", upc_object.getSubType());
-			cv.put("specific_type", upc_object.getSpecificType());
-			
-			try {
-				long ret = db.insertOrThrow("upctable", null, cv);
-				
-				if(ret == -1) {
-					toaster("Error adding " + code).show();
-					Log.e("DB", "Error adding new item");
-					setTextViewText(R.id.error, "Error adding item");
-				} 
-			} catch (SQLException e) {
-				setTextViewText(R.id.error, e.toString());
-			}
-			db.close();
-			
-			return upc_object;
+		if(id == -1) {
+			setTextViewText(R.id.error, "Does not exist");
+			return null;
 		}
 		
-		return null;
-	}
-	
-	private UPCObject getItemByDatabase(String code) {
-		SQLiteDatabase db = dbhelper.getReadableDatabase();
-		String sql_statement = "SELECT upc_code, upc_e, ean_code, description, amount FROM upctable " +
-								"WHERE upc_code = ?";
-		Cursor c = db.rawQuery(sql_statement, new String[]{code});
-		
-		if(c == null || c.getCount() == 0) { if(c != null) { c.close(); } return null; }
-		
-		HashMap <String, String> upc_info = new HashMap<String, String>();
-		c.moveToFirst();
-		upc_info.put("upc_code", c.getString(0));
-		upc_info.put("upc_e", c.getString(1));
-		upc_info.put("ean_code", c.getString(2));
-		upc_info.put("description", c.getString(3));
-		upc_info.put("amount", c.getString(4));
-		
-		UPCObject upc_object = new UPCObject(upc_info.get("upc_code"));
-        upc_object.addUPCInformation(upc_info);
-		
-		c.close();
-		db.close();
-		
-		return upc_object;
+		return Item.getFromDatabase(getApplicationContext(), id);
 	}
 	
 	private String[] splitHtmlPage(String page) {
@@ -300,10 +248,11 @@ public class Test extends Activity {
 	    if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
-	            UPCObject upc_object = getItemFromBarcode(intent.getStringExtra("SCAN_RESULT"));
-	            if(upc_object != null) {
-	            	setTextViewText(R.id.item, "Item: " + upc_object.getDescription());
-	            	setTextViewText(R.id.other, "Amt: " + upc_object.getAmount() + "\nType: " + upc_object.getProductType());
+	            Item item = getItemFromBarcode(intent.getStringExtra("SCAN_RESULT"));
+	            
+	            if(item != null) {
+	            	setTextViewText(R.id.item, "Item: " + item.getID());
+	            	setTextViewText(R.id.other, "Type: " + item.getType() + " | " + item.getSubType() + " | " + item.getSpecificType());
 	            }
 	        } else if (resultCode == RESULT_CANCELED) {
 	            // Handle cancel
@@ -318,8 +267,7 @@ public class Test extends Activity {
 	}
 	
 	private Toast toaster(String msg) {
-		Context con = getApplicationContext();
-		return Toast.makeText(con, msg, Toast.LENGTH_SHORT);
+		return Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
 	}
 	
     /** Called when the activity is first created. */
@@ -345,12 +293,11 @@ public class Test extends Activity {
         dbhelper = new UPCDatabaseHelper(getApplicationContext());
         
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql_statement = "SELECT COUNT(*) FROM upctable";
+        String sql_statement = "SELECT COUNT(*) FROM Upc_Table";
         Cursor c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
-        //Log.v("error", "size of upctable = " + c.getString(0)); 
-		setTextViewText(R.id.error, "Items in DB: " + c.getString(0));
+        setTextViewText(R.id.error, "Items in DB: " + c.getString(0));
 		c.close();
 		db.close();
     }
