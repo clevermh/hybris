@@ -7,13 +7,14 @@ import android.util.Log;
 
 public class PLUDatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase plu_database;
-	public static final int VERSION = 1;
+	public static final int VERSION = 2;
 	
 	private static final String plu_table = "CREATE TABLE IF NOT EXISTS Plu_Table (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"item_id INTEGER NOT NULL," +
 											"plu_code varchar(5) default '0'," +
-											"FOREIGN KEY (item_id) REFERENCES Items(id)" +
+											"FOREIGN KEY (item_id) REFERENCES Items(id)," +
+											"UNIQUE (plu_code)" +
 											");";
 	
 	public PLUDatabaseHelper(Context context) {
@@ -31,7 +32,7 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w("PLUDatabase", "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXISTS upctable");
+		db.execSQL("DROP TABLE IF EXISTS Plu_Table");
         onCreate(db);
 	}
 	

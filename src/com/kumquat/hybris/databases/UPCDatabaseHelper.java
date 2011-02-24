@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	private SQLiteDatabase upc_database;
-	public static final int VERSION = 5;
+	public static final int VERSION = 2;
 	
 	private static final String upc_table = "CREATE TABLE IF NOT EXISTS Upc_Table (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -34,7 +34,7 @@ public class UPCDatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w("UPCDatabase", "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXISTS upctable");
+		db.execSQL("DROP TABLE IF EXISTS Upc_Table");
         onCreate(db);
 	}
 	
