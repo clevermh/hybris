@@ -1,0 +1,13 @@
+#Type	Sub_Type	Specific_Type
+Fat	Oil	Virgin Olive Oil
+Fat	Oil	Canola Oil
+Fat	Sweet	Dark Chocolate Bar
+Fat	Butter 	Stick
+Protein	Chicken	Cutlet
+Dairy	Milk	2%
+Dairy	Cheese	Swiss
+Fruit	Apple	Granny Smith
+Vegetable	Carrot	Danvers
+Carbohydrate	Bread	Wheat
+Carbohydrate	Pasta	Shells
+Carbohydrate	Pasta	Ziti
