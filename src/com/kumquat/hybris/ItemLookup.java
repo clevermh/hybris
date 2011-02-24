@@ -7,9 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ItemLookup {
-	public static int getItemIDByDatabase(Context con, String code) {
-		String sql_statement = "SELECT item_id FROM Upc_Table " +
-								"WHERE upc_code = ?";
+	public static int getItemIDByDatabase(Context con, String code, String sql_statement) {
+		//String sql_statement = "SELECT item_id FROM Upc_Table " + "WHERE upc_code = ?";
 		
 		UPCDatabaseHelper udbh = new UPCDatabaseHelper(con);
 		SQLiteDatabase udb = udbh.getReadableDatabase();
