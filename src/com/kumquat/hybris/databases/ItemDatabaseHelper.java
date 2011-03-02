@@ -17,13 +17,14 @@ import android.util.Log;
 public class ItemDatabaseHelper extends SQLiteOpenHelper {
 	private Context context;
 	private SQLiteDatabase item_database;
-	public static final int VERSION = 2;
+	public static final int VERSION = 3;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"type varchar(100) NOT NULL default ''," +
 											"sub_type varchar(100) NOT NULL default ''," +
 											"specific_type varchar(100) NOT NULL default ''" +
+											"user_added INTEGER default 0," +
 											");";
 	
 	private static final String item_idx = "CREATE INDEX IF NOT EXISTS item_idx_01 ON Items(type, sub_type, specific_type, id);";
