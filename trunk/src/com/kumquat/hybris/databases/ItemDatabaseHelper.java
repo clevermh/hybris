@@ -23,8 +23,8 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"type varchar(100) NOT NULL default ''," +
 											"sub_type varchar(100) NOT NULL default ''," +
-											"specific_type varchar(100) NOT NULL default ''" +
-											"user_added INTEGER default 0," +
+											"specific_type varchar(100) NOT NULL default ''," +
+											"user_added INTEGER default 0" +
 											");";
 	
 	private static final String item_idx = "CREATE INDEX IF NOT EXISTS item_idx_01 ON Items(type, sub_type, specific_type, id);";
@@ -44,7 +44,7 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	private void populate() {
-		/*new Thread(new Runnable() {
+		new Thread(new Runnable() {
             public void run() {
                 try {
                     loadItems();
@@ -52,13 +52,7 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();*/
-		
-		try {
-            loadItems();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        }).start();
 	}
 	
 	private void loadItems() throws IOException {
@@ -76,14 +70,7 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
         		String[] split = line.split("\t");
         		if(split.length != 3) { continue; }
         		
-        		ContentValues item = new ContentValues();
-        		item.put("type", split[0].trim());
-        		item.put("sub_type", split[1].trim());
-        		item.put("specific_type", split[2].trim());
-        		
-        		long id = item_database.insertOrThrow("Items", null, item);
-        		
-        		if(id == -1) {
+        		if(!addItem(split[0].trim(), split[1].trim(), split[2].trim(), false)) {
         			Log.e("ItemDatabase", "Unable to add: " + line.trim());
         		}
         	}
@@ -103,4 +90,15 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
 	}
 	
+	public boolean addItem(String type, String sub, String spec, boolean user) {
+		ContentValues item = new ContentValues();
+		item.put("type", type);
+		item.put("sub_type", sub);
+		item.put("specific_type", spec);
+		item.put("user_added", (user ? 1 : 0));
+		
+		long id = item_database.insertOrThrow("Items", null, item);
+		
+		return id != -1;
+	}
 }

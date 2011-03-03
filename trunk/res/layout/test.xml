@@ -7,11 +7,10 @@
     <Button android:layout_height="wrap_content" android:id="@+id/scan" android:text="Scan Item" android:layout_width="wrap_content"></Button>
     <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent">
         <Button android:layout_height="wrap_content" android:id="@+id/manual" android:text="Manual Entry" android:layout_width="wrap_content"></Button>
-        <EditText android:text="300054451705" android:layout_height="wrap_content" android:id="@+id/manualentry" android:layout_width="fill_parent"></EditText>
+        <EditText android:text="" android:layout_height="wrap_content" android:id="@+id/manualentry" android:layout_width="fill_parent"></EditText>
     </LinearLayout>
-    <Button android:text="'Secret'" android:id="@+id/creds" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
     <TextView android:text="Code:" android:id="@+id/code" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
     <TextView android:text="Item:" android:id="@+id/item" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <TextView android:text="Other info" android:id="@+id/other" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <TextView android:text="Type:" android:id="@+id/other" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
     <TextView android:text="Error info area" android:id="@+id/error" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 </LinearLayout>
