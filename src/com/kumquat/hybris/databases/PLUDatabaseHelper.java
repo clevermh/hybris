@@ -43,7 +43,7 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	private void populate() {
-		/*new Thread(new Runnable() {
+		new Thread(new Runnable() {
             public void run() {
                 try {
                     loadItems();
@@ -51,13 +51,7 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
                     throw new RuntimeException(e);
                 }
             }
-        }).start();*/
-		
-		try {
-            loadItems();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        }).start();
 	}
 	
 	private void loadItems() throws IOException {
@@ -75,13 +69,7 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
         		String[] split = line.split("\t");
         		if(split.length != 2) { continue; }
         		
-        		ContentValues item = new ContentValues();
-        		item.put("plu_code", split[0].trim());
-        		item.put("item_id", split[1].trim());
-        		
-        		long id = plu_database.insertOrThrow("Plu_Table", null, item);
-        		
-        		if(id == -1) {
+        		if(!addPLU(split[0].trim(), Integer.parseInt(split[1].trim()), false)) {
         			Log.e("PLUDatabase", "Unable to add: " + line.trim());
         		}
         	}
@@ -100,4 +88,14 @@ public class PLUDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
 	}
 	
+	public boolean addPLU(String code, int iid, boolean user) {
+		ContentValues item = new ContentValues();
+		item.put("plu_code", code);
+		item.put("item_id", iid);
+		item.put("user_added", (user ? 1 : 0));
+		
+		long id = plu_database.insertOrThrow("Plu_Table", null, item);
+		
+		return id != -1;
+	}
 }

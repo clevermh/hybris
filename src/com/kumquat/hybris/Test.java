@@ -1,17 +1,5 @@
 package com.kumquat.hybris;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 
 import com.kumquat.hybris.databases.ItemDatabaseHelper;
@@ -19,17 +7,13 @@ import com.kumquat.hybris.databases.PLUDatabaseHelper;
 import com.kumquat.hybris.databases.UPCDatabaseHelper;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -95,7 +79,7 @@ public class Test extends Activity {
 		}
 	};
 	
-	private OnClickListener aboutClick = new OnClickListener() {
+	/*private OnClickListener aboutClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			toaster("Dumping DB to file").show();
@@ -136,7 +120,7 @@ public class Test extends Activity {
 			db.close();
 			c.close();
 		}
-	};
+	};*/
 	
 	private Item getItemFromBarcode(String code) {
 		int id = ItemLookup.getItemIDByDatabase(getApplicationContext(), code);
@@ -149,7 +133,7 @@ public class Test extends Activity {
 		return Item.getFromDatabase(getApplicationContext(), id);
 	}
 	
-	private String[] splitHtmlPage(String page) {
+	/*private String[] splitHtmlPage(String page) {
 		String[] info = page.split("[<>]+");
 
         int counter = 0;
@@ -213,7 +197,7 @@ public class Test extends Activity {
         return upc_info;
 	}
 	
-	/*private UPCObject getItemByInternet(String code) {
+	private UPCObject getItemByInternet(String code) {
 		try {
 			URL url = new URL("http://www.upcdatabase.com/item/" + code);
             HttpURLConnection urlconnect = (HttpURLConnection)url.openConnection();
@@ -283,9 +267,6 @@ public class Test extends Activity {
         Button ma = (Button)findViewById(R.id.manual);
         ma.setOnClickListener(manualClick);
         
-        Button ab = (Button)findViewById(R.id.creds);
-        ab.setOnClickListener(aboutClick);
-        
         scanAvailable = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
         String bsavail = scanAvailable ? "Barcode scanner installed" : "Barcode scanner not installed";
         toaster(bsavail).show();
@@ -301,7 +282,7 @@ public class Test extends Activity {
         int items = 0;
         
         SQLiteDatabase db = udbhelper.getReadableDatabase();
-        String sql_statement = "SELECT COUNT(*) FROM Upc_Table";
+        String sql_statement = "SELECT COUNT(id) FROM Upc_Table";
         Cursor c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
@@ -311,7 +292,7 @@ public class Test extends Activity {
 		db.close();
 		
 		db = pdbhelper.getReadableDatabase();
-        sql_statement = "SELECT COUNT(*) FROM Plu_Table";
+        sql_statement = "SELECT COUNT(id) FROM Plu_Table";
         c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
@@ -321,7 +302,7 @@ public class Test extends Activity {
 		db.close();
 		
 		db = idbhelper.getReadableDatabase();
-        sql_statement = "SELECT COUNT(*) FROM Items";
+        sql_statement = "SELECT COUNT(id) FROM Items";
         c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
