@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:stretchColumns="1">
-	<TableLayout
-	  xmlns:android="http://schemas.android.com/apk/res/android"
-	  android:layout_width="fill_parent"
-	  android:layout_height="fill_parent">
-	  	<TextView android:text="by Kumquat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="10.0sp" android:gravity="right" android:padding="3dip" android:textStyle="bold"></TextView>
-            
-		<TableRow android:gravity="center"> 
-			<Button android:layout_height="wrap_content" android:id="@+id/front_add" android:text="Add Item" android:layout_width="wrap_content" android:gravity="center" />
-	    </TableRow>
-	    <TableRow android:gravity="center">
-	        <Button android:layout_height="wrap_content" android:id="@+id/front_remove" android:text="Remove Item" android:layout_width="wrap_content" android:gravity="center" />
-	        </TableRow>
-	    <TableRow android:gravity="center">
-	        
-	        <Button android:id="@+id/front_recipes" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Look Up Recipes"></Button>
-	        
-	        
-	    </TableRow>
-	    <TableRow android:gravity="center">
-	        <Button android:singleLine="false" android:layout_height="wrap_content" android:id="@+id/front_recipe" android:text= "Manage Cooking Devices" android:layout_width="wrap_content" android:gravity="center" />
-	    
-	    </TableRow>
-	    <TableRow android:gravity="center">
-	        
-	        <Button android:id="@+id/front_manualremove" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Octopus"></Button>
-	        
-	    </TableRow>
-	    
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:stretchColumns="1">
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<TableRow android:gravity="center">
+			<Button android:layout_height="wrap_content" android:id="@+id/front_add"
+				android:text="Add Item" android:layout_width="wrap_content"
+				android:gravity="center" />
+		</TableRow>
+		<TableRow android:gravity="center">
+			<Button android:layout_height="wrap_content" android:id="@+id/front_remove"
+				android:text="Remove Item" android:layout_width="wrap_content"
+				android:gravity="center" />
+		</TableRow>
+		<TableRow android:gravity="center">
+			<Button android:id="@+id/front_recipes" android:gravity="center"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Look Up Recipes" />
+		</TableRow>
+		<TableRow android:gravity="center">
+			<Button android:singleLine="false" android:layout_height="wrap_content"
+				android:id="@+id/front_devices" android:text="Manage Cooking Devices"
+				android:layout_width="wrap_content" android:gravity="center" />
+		</TableRow>
 	</TableLayout>
-	
 </ScrollView>

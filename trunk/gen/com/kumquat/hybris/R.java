@@ -14,19 +14,18 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int add=0x7f060004;
-        public static final int code=0x7f06000d;
-        public static final int error=0x7f060010;
-        public static final int item=0x7f06000e;
-        public static final int linearLayout1=0x7f06000a;
-        public static final int manual=0x7f06000b;
-        public static final int manualentry=0x7f06000c;
-        public static final int manualremove=0x7f060008;
-        public static final int other=0x7f06000f;
-        public static final int recipe=0x7f060007;
-        public static final int recipes=0x7f060006;
-        public static final int remove=0x7f060005;
-        public static final int scan=0x7f060009;
+        public static final int code=0x7f06000c;
+        public static final int error=0x7f06000f;
+        public static final int front_add=0x7f060004;
+        public static final int front_devices=0x7f060007;
+        public static final int front_recipes=0x7f060006;
+        public static final int front_remove=0x7f060005;
+        public static final int item=0x7f06000d;
+        public static final int linearLayout1=0x7f060009;
+        public static final int manual=0x7f06000a;
+        public static final int manualentry=0x7f06000b;
+        public static final int other=0x7f06000e;
+        public static final int scan=0x7f060008;
         public static final int textView1=0x7f060000;
         public static final int textView2=0x7f060001;
         public static final int textView3=0x7f060002;
@@ -36,7 +35,7 @@ public final class R {
         public static final int credits=0x7f030000;
         public static final int front=0x7f030001;
         public static final int list=0x7f030002;
-        public static final int main=0x7f030003;
+        public static final int splashscreen=0x7f030003;
         public static final int test=0x7f030004;
     }
     public static final class raw {
