@@ -3,4 +3,19 @@
     <string name="hello">Hello World, Test!</string>
     <string name="app_name">Hybris</string>
     <string name="Test">This is awesome!</string>
+    <string name="MA_Type_1">Type</string>
+    <string name="MA_Type_2">Subtype</string>
+    <string name="MA_Type_3">Specific Type</string>
+    <string-array name="MA_Type_1_array">
+    	<item>MA 1</item>
+    	<item>MA 2</item>
+    </string-array>
+    <string-array name="MA_Type_2_array">
+    	<item>MA 3</item>
+    	<item>MA 4</item>
+    </string-array>
+    <string-array name="MA_Type_3_array">
+    	<item>MA 5</item>
+    	<item>MA 6</item>
+    </string-array>
 </resources>
