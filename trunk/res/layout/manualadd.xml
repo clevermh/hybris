@@ -12,7 +12,7 @@
 		android:textStyle="bold" 
 		android:id="@+id/manualadd_text"
 	/>
-	<TextView android:text="Type 1"
+	<TextView android:text="@string/MA_Type_1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textSize="14.0sp"
@@ -26,10 +26,10 @@
         android:id="@+id/manualadd_type1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:prompt="@string/planet_prompt"
+        android:prompt="@string/MA_Type_1"
         android:layout_below="@id/manualadd_type1text"
     />
-	<TextView android:text="Type 2"
+	<TextView android:text="@string/MA_Type_2"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textSize="14.0sp"
@@ -43,10 +43,10 @@
         android:id="@+id/manualadd_type2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:prompt="@string/planet_prompt"
+        android:prompt="@string/MA_Type_2"
         android:layout_below="@id/manualadd_type2text"
     />
-    <TextView android:text="Type 3"
+    <TextView android:text="@string/MA_Type_3"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textSize="14.0sp"
@@ -57,10 +57,10 @@
 		android:layout_below="@id/manualadd_type2"
 	/>
 	<Spinner 
-        android:id="@+id/type 3"
+        android:id="@+id/manualadd_type3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:prompt="@string/planet_prompt"
+        android:prompt="@string/MA_Type_3"
         android:layout_below="@id/manualadd_type3text"
     />
 </RelativeLayout>
