@@ -1,15 +1,15 @@
 #Type	Sub_Type	Specific_Type
-Fat	Oil	Virgin Olive
-Fat	Oil	Canola
+Fat	Oil	Virgin Olive Oil
+Fat	Oil	Canola Oil
 Fat	Sweet	Dark Chocolate Bar
-Fat	Butter 	Stick
-Protein	Chicken	Cutlet
-Dairy	Milk	2%
-Dairy	Cheese	Swiss
-Fruit	Apple	Granny Smith
-Vegetable	Carrot	Danvers
-Grain	Bread	Wheat
-Grain	Bread	White
+Fat	Butter 	Butter
+Protein	Chicken	Chicken Cutlet
+Dairy	Milk	2% Milk
+Dairy	Cheese	Swiss Cheese
+Fruit	Apple	Granny Smith Apple
+Vegetable	Carrot	Carrot
+Grain	Bread	Wheat Bread
+Grain	Bread	White Bread
 Grain	Pasta	Rotini
 Grain	Pasta	Medium Shells
 Grain	Pasta	Spaghetti
@@ -18,7 +18,7 @@ Grain	Pasta	Ziti
 Dessert	Mix	Oreo Instant Pudding
 Dessert	Mix	Lemon Instant Pudding
 Dessert	Mix	Butterscotch Pudding
-Dairy	Milk	Whole
+Dairy	Milk	Whole Milk
 Dessert	Mix	Chocolate Pudding
 Dessert	Mix	Brownies
 Dessert	Mix	Banana Bread
