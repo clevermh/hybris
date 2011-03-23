@@ -63,4 +63,22 @@
         android:prompt="@string/MA_Type_3"
         android:layout_below="@id/manualadd_type3text"
     />
+    <Button
+        android:id="@+id/manualadd_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/manualadd_type3"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dip"
+        android:text="Cancel"
+    />
+    <Button
+    	android:id="@+id/manualadd_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/manualadd_cancel"
+        android:layout_alignTop="@id/manualadd_cancel"
+        android:text="   OK   "
+    />
+    	
 </RelativeLayout>
