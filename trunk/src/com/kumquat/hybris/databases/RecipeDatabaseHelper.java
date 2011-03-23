@@ -21,9 +21,7 @@ public class RecipeDatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final String recipe_table = "CREATE TABLE IF NOT EXISTS Recipes (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-											"name varchar(20) NOT NULL default ''," +
-											"oven INTEGER NOT NULL default 0," +
-											"microwave INTEGER NOT NULL default 0," +
+											"name varchar(20) NOT NULL default ''" +
 											");";
 	
 	private static final String igredient_table = "CREATE TABLE IF NOT EXISTS Ingredients (" +
