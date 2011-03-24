@@ -2,13 +2,12 @@ package com.kumquat.hybris;
 
 import java.util.List;
 
-import com.kumquat.hybris.databases.*;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -22,6 +21,9 @@ public class MainPageActivity extends Activity {
 	private boolean hasScannerApp;
 	static final int DIALOG_ADD = 0;
 	static final int DIALOG_DEVICES = 1;
+	final CharSequence[] cookingDevices = {"Oven", "Microwave", "Cheese Machine"};
+	boolean[] checkedDevices = {false,false,false};
+	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
 	
 	protected Dialog onCreateDialog(int id) {
 	    Dialog dialog = null;
@@ -45,7 +47,44 @@ public class MainPageActivity extends Activity {
 	    		
 	        break;
 	    case DIALOG_DEVICES:
-	        // do the work to define the game over Dialog
+	    	for(int i = 0; i < checkedDevices.length; i++){
+	    		checkedDevicesBackup[i] = checkedDevices[i];
+	    	}
+	    	AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+	    	builder2.setTitle("Select Cooking Devices");
+	    	builder2.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which,
+						boolean isChecked) {
+					
+				}
+
+				
+	    	});
+	    	builder2.setPositiveButton( "OK", new android.content.DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {
+					switch( which ) {
+					case DialogInterface.BUTTON_POSITIVE:
+						toaster("Ok!").show();
+						break;
+					}	
+				}
+	    	});
+	    	builder2.setNegativeButton( "Cancel", new android.content.DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {
+					switch( which ) {
+					case DialogInterface.BUTTON_NEGATIVE:
+						toaster("Cancel!").show();
+						for(int i = 0; i < checkedDevices.length; i++){
+							checkedDevices[i] = checkedDevicesBackup[i];
+				    	}
+						break;
+					}	
+				}
+	    	});
+
+	    	dialog = builder2.create();
 	        break;
 	    default:
 	        dialog = null;
@@ -114,7 +153,7 @@ public class MainPageActivity extends Activity {
 		devices.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the devices page
-				toaster("Devices button").show();
+				showDialog(DIALOG_DEVICES);
 			}
 		});
 		
