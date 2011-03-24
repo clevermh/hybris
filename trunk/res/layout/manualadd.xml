@@ -63,11 +63,35 @@
         android:prompt="@string/MA_Type_3"
         android:layout_below="@id/manualadd_type3text"
     />
+    <TextView android:text="@string/MA_Quantity"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="14.0sp"
+		android:gravity="left"
+		android:padding="3dip"
+		android:textStyle="bold" 
+		android:id="@+id/manualadd_quantitytext"
+		android:layout_below="@id/manualadd_type3"
+	/>
+    <Spinner
+    	android:id="@+id/manualadd_qtype"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/MA_Type_3"
+        android:layout_below="@id/manualadd_quantitytext"
+    />
+    <EditText
+    	android:id="@+id/manualadd_quantity"
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/manualadd_type3"
+        android:layout_toLeftOf="@id/manualadd_qtype"
+    />
     <Button
         android:id="@+id/manualadd_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/manualadd_type3"
+        android:layout_below="@id/manualadd_qtype"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dip"
         android:text="Cancel"
