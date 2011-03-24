@@ -57,7 +57,7 @@ public class MainPageActivity extends Activity {
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		
+		// Not sure if we need this yet
 	}
 	
 	private Toast toaster(String msg) {
@@ -68,10 +68,12 @@ public class MainPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.front);
 		
-		if(savedInstanceState.getBoolean("scanchecked")) {
-			hasScannerApp = savedInstanceState.getBoolean("hasscanner");
-		} else {
-			hasScannerApp = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
+		if(savedInstanceState != null) {
+			if(savedInstanceState.getBoolean("scanchecked")) {
+				hasScannerApp = savedInstanceState.getBoolean("hasscanner");
+			} else {
+				hasScannerApp = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
+			}
 		}
 		
 		Button add = (Button)findViewById(R.id.front_add);
@@ -79,6 +81,10 @@ public class MainPageActivity extends Activity {
 			public void onClick(View v) {
 				// Go to the add page
 				toaster("Add button").show();
+				
+				// For now just go to the manual page
+				Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
+				startActivity(manualadd);
 			}
 		});
 		
