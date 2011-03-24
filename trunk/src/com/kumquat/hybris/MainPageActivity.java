@@ -2,6 +2,8 @@ package com.kumquat.hybris;
 
 import java.util.List;
 
+import com.kumquat.hybris.databases.*;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -117,7 +119,7 @@ public class MainPageActivity extends Activity {
 		});
 		
 		Intent splash = new Intent(this, SplashscreenActivity.class);
-		startActivity(splash);
+		//startActivity(splash);
 	}
 	
 	public void onSaveInstanceState(Bundle outState) {
