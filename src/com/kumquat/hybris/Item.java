@@ -49,4 +49,74 @@ public class Item {
 		
 		return item;
 	}
+	
+	public static String[] getAllTypes(SQLiteDatabase db) {
+		if(db == null) { return null; }
+		String sql = "SELECT DISTINCT type FROM Items WHERE 1 = 1 ORDER BY type";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
+	}
+	
+	public static String[] getAllSubTypes(SQLiteDatabase db, String type) {
+		String sql = "SELECT DISTINCT sub_type FROM Items WHERE type = " + type + " ORDER BY type";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
+	}
+	
+	public static String[] getAllSpecificTypes(SQLiteDatabase db, String type, String subtype) {
+		String sql = "SELECT DISTINCT specific_type FROM Items WHERE type = " + type + " AND sub_type = " + subtype + " ORDER BY type";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
+	}
 }
