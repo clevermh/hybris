@@ -10,6 +10,7 @@ import com.kumquat.hybris.R;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -88,6 +89,75 @@ public class ItemDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS Items");
 		db.execSQL("DROP INDEX IF EXISTS item_idx_01;");
         onCreate(db);
+	}
+	
+	public String[] getAllTypes() {
+		String sql = "SELECT DISTINCT type FROM Items SORT BY type";
+		Cursor c = item_database.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
+	}
+	
+	public String[] getAllSubTypes(String type) {
+		String sql = "SELECT DISTINCT sub_type FROM Items WHERE type = " + type + " SORT BY type";
+		Cursor c = item_database.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
+	}
+	
+	public String[] getAllSpecificTypes(String type, String subtype) {
+		String sql = "SELECT DISTINCT specific_type FROM Items WHERE type = " + type + " AND sub_type = " + subtype + " SORT BY type";
+		Cursor c = item_database.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		} 
+		
+		return res;
 	}
 	
 	public boolean addItem(String type, String sub, String spec, boolean user) {
