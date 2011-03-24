@@ -26,19 +26,21 @@ public class MainPageActivity extends Activity {
 	    switch(id) {
 	    case DIALOG_ADD:
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    	builder.setMessage("Are you sure you want to exit?")
+	    	builder.setMessage("How would you like to add an item?")
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton("Scan Item", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   MainPageActivity.this.finish();
+	    	        	   toaster("Scan").show();
 	    	           }
 	    	       })
-	    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("Manual Add", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	                dialog.cancel();
+	    	        	   Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
+	    	        	   startActivity(manualadd);
 	    	           }
 	    	       });
 	    	dialog = builder.create();
+	    		
 	        break;
 	    case DIALOG_DEVICES:
 	        // do the work to define the game over Dialog
@@ -79,12 +81,14 @@ public class MainPageActivity extends Activity {
 		Button add = (Button)findViewById(R.id.front_add);
 		add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Go to the add page
-				toaster("Add button").show();
+				if (hasScannerApp){
+					showDialog(DIALOG_ADD);
+				}
+				else{
+					Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
+		        	startActivity(manualadd);
+				}
 				
-				// For now just go to the manual page
-				Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
-				startActivity(manualadd);
 			}
 		});
 		
