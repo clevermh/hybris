@@ -21,8 +21,8 @@ public class MainPageActivity extends Activity {
 	private boolean hasScannerApp;
 	static final int DIALOG_ADD = 0;
 	static final int DIALOG_DEVICES = 1;
-	final CharSequence[] cookingDevices = {"Oven", "Microwave", "Cheese Machine"};
-	boolean[] checkedDevices = {false,false,false};
+	final CharSequence[] cookingDevices = {"Oven", "Stove","Microwave", "Cheese Machine"};
+	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
 	
 	protected Dialog onCreateDialog(int id) {
