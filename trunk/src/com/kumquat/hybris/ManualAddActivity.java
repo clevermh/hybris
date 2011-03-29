@@ -1,6 +1,6 @@
 package com.kumquat.hybris;
 
-import com.kumquat.hybris.databases.ItemDatabaseHelper;
+import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,7 @@ public class ManualAddActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.manualadd);
 		
-		final ItemDatabaseHelper idh = new ItemDatabaseHelper(getApplicationContext());
+		final HybrisDatabaseHelper dbhelper = new HybrisDatabaseHelper(getApplicationContext());
 		final Context context = this;
 		
 		Spinner typeSpinner = (Spinner)findViewById(R.id.manualadd_type1);
@@ -41,21 +41,21 @@ public class ManualAddActivity extends Activity {
 		Button cancel = (Button)findViewById(R.id.manualadd_cancel);
 		
 		// Get the items for the top level spinner
-		SQLiteDatabase idb = idh.getReadableDatabase();
-		String[] alltypes = Item.getAllTypes(idb);
+		SQLiteDatabase db = dbhelper.getReadableDatabase();
+		String[] alltypes = Item.getAllTypes(db);
 		if(alltypes != null) {
 			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, alltypes);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			typeSpinner.setAdapter(adapter);
 		}
-		idb.close();
+		db.close();
 		
 		// When you select something in the top level it should populate the second level
 		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				selType = parent.getItemAtPosition(pos).toString();
 				Log.d("DBG_OUT", "Type selected: " + selType);
-				SQLiteDatabase db = idh.getReadableDatabase();
+				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				String[] subtypes = Item.getAllSubTypes(db, selType);
 				Spinner spin = (Spinner)findViewById(R.id.manualadd_type2);
 				if(subtypes != null) {
@@ -74,7 +74,7 @@ public class ManualAddActivity extends Activity {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				selSub = parent.getItemAtPosition(pos).toString();
 				Log.d("DBG_OUT", "Subtype selected: " + selSub);
-				SQLiteDatabase db = idh.getReadableDatabase();
+				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				String[] spectypes = Item.getAllSpecificTypes(db, selType, selSub);
 				Spinner spin = (Spinner)findViewById(R.id.manualadd_type3);
 				if(spectypes != null) {
@@ -105,7 +105,7 @@ public class ManualAddActivity extends Activity {
 		ok.setOnClickListener(new OnClickListener() {
 			public void onClick(View parent) {
 				// TODO do something here
-				SQLiteDatabase db = idh.getReadableDatabase();
+				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				selID = Item.findIDFromDatabase(db, selType, selSub, selSpec);
 				Log.d("DBG_OUT", "Selected ID: " + selID);
 				db.close();

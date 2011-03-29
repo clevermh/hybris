@@ -2,10 +2,6 @@ package com.kumquat.hybris;
 
 import java.util.List;
 
-import com.kumquat.hybris.databases.ItemDatabaseHelper;
-import com.kumquat.hybris.databases.PLUDatabaseHelper;
-import com.kumquat.hybris.databases.UPCDatabaseHelper;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +30,7 @@ public class Test extends Activity {
 	 * @return True if an Intent with the specified action can be sent and
 	 *         responded to, false otherwise.
 	 */
-	public static boolean isIntentAvailable(Context context, String action) {
+	/*public static boolean isIntentAvailable(Context context, String action) {
 	    final PackageManager packageManager = context.getPackageManager();
 	    final Intent intent = new Intent(action);
 	    List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -77,7 +73,7 @@ public class Test extends Activity {
             	setTextViewText(R.id.other, "Type: " + item.getType() + " | " + item.getSubType() + " | " + item.getSpecificType());
             }
 		}
-	};
+	};*/
 	
 	/*private OnClickListener aboutClick = new OnClickListener() {
 		@Override
@@ -122,7 +118,7 @@ public class Test extends Activity {
 		}
 	};*/
 	
-	private Item getItemFromBarcode(String code) {
+	/*private Item getItemFromBarcode(String code) {
 		int id = ItemLookup.getItemIDByDatabase(getApplicationContext(), code);
 		
 		if(id == -1) {
@@ -131,7 +127,7 @@ public class Test extends Activity {
 		}
 		
 		return Item.getFromDatabase(getApplicationContext(), id);
-	}
+	}*/
 	
 	/*private String[] splitHtmlPage(String page) {
 		String[] info = page.split("[<>]+");
@@ -229,7 +225,7 @@ public class Test extends Activity {
 		return null;
 	}*/
 	
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	/*public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 	    if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
 	            setTextViewText(R.id.code, "Code: " + intent.getStringExtra("SCAN_RESULT"));
@@ -253,10 +249,10 @@ public class Test extends Activity {
 	
 	private Toast toaster(String msg) {
 		return Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-	}
+	}*/
 	
     /** Called when the activity is first created. */
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
@@ -312,5 +308,5 @@ public class Test extends Activity {
 		db.close();
 		
 		setTextViewText(R.id.error, "UPC: " + upcitems + "\nPLU: " + pluitems + "\nItems: " + items);
-    }
+    }*/
 }
