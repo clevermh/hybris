@@ -158,7 +158,7 @@ public class MainPageActivity extends Activity {
 		});
 		
 		Intent splash = new Intent(this, SplashscreenActivity.class);
-		//startActivity(splash);
+		startActivity(splash);
 	}
 	
 	public void onSaveInstanceState(Bundle outState) {

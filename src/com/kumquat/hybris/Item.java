@@ -1,6 +1,6 @@
 package com.kumquat.hybris;
 
-import com.kumquat.hybris.databases.ItemDatabaseHelper;
+import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,13 +23,6 @@ public class Item {
 	public String getType() { return type; }
 	public String getSubType() { return sub_type; }
 	public String getSpecificType() { return specific_type; }
-	
-	public static Item getFromDatabase(Context con, int id) {
-		ItemDatabaseHelper idbh = new ItemDatabaseHelper(con);
-		SQLiteDatabase idb = idbh.getReadableDatabase();
-		
-		return getFromDatabase(idb, id);
-	}
 	
 	public static int findIDFromDatabase(SQLiteDatabase db, String type, String sub, String spec) {
 		String sql = "SELECT id FROM Items WHERE type = '" + type + "' AND sub_type = '" + sub + 

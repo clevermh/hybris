@@ -1,7 +1,5 @@
 package com.kumquat.hybris;
 
-import com.kumquat.hybris.databases.ItemDatabaseHelper;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,21 +9,24 @@ public class Ingredients {
 	private String name;
 	private String quantity;
 	private String quantity_metric;
-	private Context context;
 	private int item_id;
 	
-	public Ingredients(String name, String quantity, String quantityMetric, Context context) {
+	public Ingredients(String name, String quantity, String quantityMetric, SQLiteDatabase db) {
 		this.name = name;
 		this.quantity = quantity;
 		this.quantity_metric = quantityMetric;
-		this.context = context;
-		this.item_id = findItemId(name);
+		this.item_id = findItemId(db, name);
 	}
 	
-	private int findItemId(String name) {
-		ItemDatabaseHelper idbhelper = new ItemDatabaseHelper(context.getApplicationContext());
-		SQLiteDatabase db = idbhelper.getReadableDatabase();
-        String sql_statement = "SELECT id FROM Items WHERE specific_type = " + name;
+	public Ingredients(String name, String quantity, String quantityMetric, int item_id) {
+		this.name = name;
+		this.quantity = quantity;
+		this.quantity_metric = quantityMetric;
+		this.item_id = item_id;
+	}
+	
+	private int findItemId(SQLiteDatabase db, String name) {
+		String sql_statement = "SELECT id FROM Items WHERE specific_type = " + name;
         Cursor c = db.rawQuery(sql_statement, null);
         c.moveToFirst();
         
