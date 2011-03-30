@@ -1,6 +1,7 @@
 package com.kumquat.hybris;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.database.sqlite.*;
@@ -9,12 +10,15 @@ import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 
 public class SplashscreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
+		final ProgressDialog dialog = ProgressDialog.show(SplashscreenActivity.this, "", 
+                "Loading. Please wait...", true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashscreen);
-		
+		dialog.show();
 		// This should go away after 5 seconds
 		new Thread(new Runnable() {
 			public void run() {
+				dialog.show();
 				/*try { Thread.sleep(5000); }
 				catch(Exception e) { }*/
 				HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
@@ -27,7 +31,7 @@ public class SplashscreenActivity extends Activity {
 				}
 				db.close();
 				hdh.close();
-				
+				dialog.cancel();
 				finish();
 			}
 		}).start();
