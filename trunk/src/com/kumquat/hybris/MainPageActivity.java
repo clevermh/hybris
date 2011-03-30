@@ -21,15 +21,17 @@ public class MainPageActivity extends Activity {
 	private boolean hasScannerApp;
 	static final int DIALOG_ADD = 0;
 	static final int DIALOG_DEVICES = 1;
+	static final int DIALOG_RECIPE_VIEW = 2;
 	final CharSequence[] cookingDevices = {"Oven", "Stove","Microwave", "Cheese Machine"};
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
 	
 	protected Dialog onCreateDialog(int id) {
 	    Dialog dialog = null;
+	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    switch(id) {
 	    case DIALOG_ADD:
-	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	//AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("How would you like to add an item?")
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Scan Item", new DialogInterface.OnClickListener() {
@@ -50,9 +52,9 @@ public class MainPageActivity extends Activity {
 	    	for(int i = 0; i < checkedDevices.length; i++){
 	    		checkedDevicesBackup[i] = checkedDevices[i];
 	    	}
-	    	AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-	    	builder2.setTitle("Select Cooking Devices");
-	    	builder2.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
+	    	//AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+	    	builder.setTitle("Select Cooking Devices");
+	    	builder.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which,
@@ -62,7 +64,7 @@ public class MainPageActivity extends Activity {
 
 				
 	    	});
-	    	builder2.setPositiveButton( "OK", new android.content.DialogInterface.OnClickListener(){
+	    	builder.setPositiveButton( "OK", new android.content.DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					switch( which ) {
 					case DialogInterface.BUTTON_POSITIVE:
@@ -71,7 +73,7 @@ public class MainPageActivity extends Activity {
 					}	
 				}
 	    	});
-	    	builder2.setNegativeButton( "Cancel", new android.content.DialogInterface.OnClickListener(){
+	    	builder.setNegativeButton( "Cancel", new android.content.DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					switch( which ) {
 					case DialogInterface.BUTTON_NEGATIVE:
@@ -83,8 +85,40 @@ public class MainPageActivity extends Activity {
 					}	
 				}
 	    	});
-
-	    	dialog = builder2.create();
+	    	builder.setCancelable(true);
+	    	dialog = builder.create();
+	        break;
+	    case DIALOG_RECIPE_VIEW:
+	    	//AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	builder.setMessage("Look Up Which Recipes?")
+	    	       .setCancelable(true)
+	    	       .setPositiveButton("All", new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   // Go to the recipes page
+	    					toaster("Recipes button: All").show();
+	    					
+	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
+	    					//recipeViewer.putExtra("devices", checkedDevices);
+	    					//startActivity(recipeViewer);
+	    	           }
+	    	       })
+	    	       .setNeutralButton("Using Inventory", new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   // Go to the recipes page
+	    					toaster("Recipes button: Ones I can make right now").show();
+	    					
+	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
+	    					recipeViewer.putExtra("devices", checkedDevices);
+	    					//startActivity(recipeViewer);
+	    	           }
+	    	       });
+	    	       /*.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	        	   
+	    	           }
+	    	       });*/
+	    	dialog = builder.create();
+	    		
 	        break;
 	    default:
 	        dialog = null;
@@ -155,12 +189,7 @@ public class MainPageActivity extends Activity {
 		Button recipes = (Button)findViewById(R.id.front_recipes);
 		recipes.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Go to the recipes page
-				toaster("Recipes button").show();
-				
-				Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
-				recipeViewer.putExtra("devices", checkedDevices);
-				//startActivity(recipeViewer);
+				showDialog(DIALOG_RECIPE_VIEW);
 			}
 		});
 		
