@@ -6,7 +6,7 @@
     <string name="MA_Type_1">Type</string>
     <string name="MA_Type_2">Subtype</string>
     <string name="MA_Type_3">Specific Type</string>
-    <string name="MA_Quantity">Quantity</string>
+    <string name="MA_Quantity">QType</string>
     <string-array name="MA_Type_1_array">
     	<item>MA 1</item>
     	<item>MA 2</item>
