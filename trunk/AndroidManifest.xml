@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".SplashscreenActivity" />
         <activity android:name=".ManualAddActivity" />
+        <activity android:name=".InvectoryActivity" />
+        <activity android:name=".RecipeActivity" />
         
     </application>
 </manifest>

@@ -141,11 +141,26 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
+		Button inventory = (Button)findViewById(R.id.front_remove);
+		inventory.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// Go to the remove page
+				toaster("Inventory button").show();
+				
+				Intent invent = new Intent(getApplicationContext(), InventoryActivity.class);
+				//startActivity(invent);
+			}
+		});
+		
 		Button recipes = (Button)findViewById(R.id.front_recipes);
 		recipes.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the recipes page
 				toaster("Recipes button").show();
+				
+				Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
+				recipeViewer.putExtra("devices", checkedDevices);
+				//startActivity(recipeViewer);
 			}
 		});
 		
