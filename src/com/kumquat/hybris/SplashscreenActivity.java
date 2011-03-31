@@ -7,6 +7,7 @@ import android.util.Log;
 import android.database.sqlite.*;
 
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
+import com.kumquat.hybris.databases.InventoryDatabaseHelper;
 
 public class SplashscreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,16 @@ public class SplashscreenActivity extends Activity {
 				}
 				db.close();
 				hdh.close();
+				
+				InventoryDatabaseHelper idh = new InventoryDatabaseHelper(getApplicationContext());
+				SQLiteDatabase db2 = idh.getReadableDatabase();
+				try { Thread.sleep(100); }
+				catch(Exception e) { }
+				db2.close();
+				idh.close();
+				
+				Log.d("DBG_OUT", "Splash: Done loading items");
+				
 				dialog.cancel();
 				finish();
 			}

@@ -24,6 +24,24 @@ public class Item {
 	public String getSubType() { return sub_type; }
 	public String getSpecificType() { return specific_type; }
 	
+	public static int findIDFromDatabase(SQLiteDatabase db, String spec) {
+		String sql = "SELECT id FROM Items WHERE specific_type = '" + spec + "'";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+		if(c != null) { c.close(); }
+		
+		return -1;
+		}
+		
+		c.moveToFirst();
+		
+		int ret = c.getInt(0);
+		c.close();
+		
+		return ret;
+	}
+	
 	public static int findIDFromDatabase(SQLiteDatabase db, String type, String sub, String spec) {
 		String sql = "SELECT id FROM Items WHERE type = '" + type + "' AND sub_type = '" + sub + 
 						"' AND specific_type = '" + spec + "'";
@@ -36,7 +54,11 @@ public class Item {
 		}
 		
 		c.moveToFirst();
-		return c.getInt(0);
+
+		int ret = c.getInt(0);
+		c.close();
+		
+		return ret;
 	}
 	
 	public static Item getFromDatabase(SQLiteDatabase db, int id) {
@@ -56,6 +78,25 @@ public class Item {
 		c.close();
 		
 		return item;
+	}
+	
+	public static String getNameFromID(SQLiteDatabase db, int id) {
+		String sql_statement = "SELECT specific_type FROM Items WHERE id = " + id;
+		Cursor c = db.rawQuery(sql_statement, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String ret = c.getString(0);
+		
+		c.close();
+		
+		return ret;
 	}
 	
 	public static String[] getAllTypes(SQLiteDatabase db) {
@@ -79,6 +120,8 @@ public class Item {
 			c.moveToNext();
 		} 
 		
+		c.close();
+		
 		return res;
 	}
 	
@@ -100,7 +143,9 @@ public class Item {
 			res[n] = c.getString(0);
 			n++;
 			c.moveToNext();
-		} 
+		}
+		
+		c.close();
 		
 		return res;
 	}
@@ -125,6 +170,8 @@ public class Item {
 			n++;
 			c.moveToNext();
 		} 
+		
+		c.close();
 		
 		return res;
 	}

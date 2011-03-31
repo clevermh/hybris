@@ -25,6 +25,7 @@ public class MainPageActivity extends Activity {
 	final CharSequence[] cookingDevices = {"Oven", "Stove","Microwave", "Cheese Machine"};
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
+	Inventory userInventory;
 	
 	protected Dialog onCreateDialog(int id) {
 	    Dialog dialog = null;
@@ -175,14 +176,14 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
-		Button inventory = (Button)findViewById(R.id.front_remove);
+		Button inventory = (Button)findViewById(R.id.front_inventory);
 		inventory.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the remove page
 				toaster("Inventory button").show();
 				
 				Intent invent = new Intent(getApplicationContext(), InventoryActivity.class);
-				//startActivity(invent);
+				startActivity(invent);
 			}
 		});
 		
