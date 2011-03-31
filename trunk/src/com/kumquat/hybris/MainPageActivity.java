@@ -96,11 +96,12 @@ public class MainPageActivity extends Activity {
 	    	       .setPositiveButton("All", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   // Go to the recipes page
-	    					toaster("Recipes button: All").show();
+	    					toaster("All Recipes").show();
 	    					
-	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
-	    					//recipeViewer.putExtra("devices", checkedDevices);
-	    					//startActivity(recipeViewer);
+	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
+	    					recipeViewer.putExtra("devices", checkedDevices);
+	    					recipeViewer.putExtra("useInventory", false);
+	    					startActivity(recipeViewer);
 	    	           }
 	    	       })
 	    	       .setNeutralButton("Using Inventory", new DialogInterface.OnClickListener() {
@@ -108,16 +109,12 @@ public class MainPageActivity extends Activity {
 	    	        	   // Go to the recipes page
 	    					toaster("Recipes button: Ones I can make right now").show();
 	    					
-	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeActivity.class);
+	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
 	    					recipeViewer.putExtra("devices", checkedDevices);
-	    					//startActivity(recipeViewer);
+	    					recipeViewer.putExtra("useInventory", true);
+	    					startActivity(recipeViewer);
 	    	           }
 	    	       });
-	    	       /*.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   
-	    	           }
-	    	       });*/
 	    	dialog = builder.create();
 	    		
 	        break;
@@ -172,7 +169,8 @@ public class MainPageActivity extends Activity {
 		remove.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the remove page
-				toaster("Remove button").show();
+				Intent recipe = new Intent(getApplicationContext(), RecipeActivity.class);
+				startActivity(recipe);
 			}
 		});
 		
