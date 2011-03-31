@@ -12,7 +12,7 @@
 					android:id="@+id/scroll"
 					android:layout_above = "@+id/button_back"
 					>
-            	<TextView  android:id="@+id/text_instruct" android:text = "Food is any substance [1] that is consumed to provide nutritional support for the body, possibly to the point of excess. It is usually of plant or animal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism's cells in an effort to produce energy, maintain life, and/or stimulate growth.
+            	<TextView  android:id="@+id/text_instruct" android:padding = "20dip" android:text = "Food is any substance [1] that is consumed to provide nutritional support for the body, possibly to the point of excess. It is usually of plant or animal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism's cells in an effort to produce energy, maintain life, and/or stimulate growth.
 Historically, people secured food through two methods: hunting and gathering, and agriculture. Today, most of the food energy consumed by the world population is supplied by the food industry, which is operated by multinational corporations that use intensive farming and industrial agriculture to maximize system output." android:layout_width="wrap_content" android:layout_height="fill_parent"></TextView>
         </ScrollView>
             <Button android:id="@+id/button_back" 
