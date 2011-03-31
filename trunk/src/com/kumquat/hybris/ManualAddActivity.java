@@ -1,8 +1,10 @@
 package com.kumquat.hybris;
 
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
+import com.kumquat.hybris.databases.InventoryDatabaseHelper;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -17,10 +19,24 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class ManualAddActivity extends Activity {
+	private Inventory inventory;
 	private String selType;
 	private String selSub;
 	private String selSpec;
 	private int selID;
+	
+	private ArrayAdapter<String> makeAdapter(String[] arr) {
+		ArrayAdapter<String> adapter;
+		
+		if(arr == null) {
+			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { });
+		} else {
+			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arr);
+		}
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		return adapter;
+	}
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +44,8 @@ public class ManualAddActivity extends Activity {
 		
 		final HybrisDatabaseHelper dbhelper = new HybrisDatabaseHelper(getApplicationContext());
 		final Context context = this;
+		
+		inventory = new Inventory(getApplicationContext());
 		
 		Spinner typeSpinner = (Spinner)findViewById(R.id.manualadd_type1);
 		
@@ -43,11 +61,7 @@ public class ManualAddActivity extends Activity {
 		// Get the items for the top level spinner
 		SQLiteDatabase db = dbhelper.getReadableDatabase();
 		String[] alltypes = Item.getAllTypes(db);
-		if(alltypes != null) {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, alltypes);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			typeSpinner.setAdapter(adapter);
-		}
+		typeSpinner.setAdapter(makeAdapter(alltypes));
 		db.close();
 		
 		// When you select something in the top level it should populate the second level
@@ -58,11 +72,7 @@ public class ManualAddActivity extends Activity {
 				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				String[] subtypes = Item.getAllSubTypes(db, selType);
 				Spinner spin = (Spinner)findViewById(R.id.manualadd_type2);
-				if(subtypes != null) {
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, subtypes);
-					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					spin.setAdapter(adapter);
-				}
+				spin.setAdapter(makeAdapter(subtypes));
 				db.close();
 			}
 
@@ -77,11 +87,7 @@ public class ManualAddActivity extends Activity {
 				SQLiteDatabase db = dbhelper.getReadableDatabase();
 				String[] spectypes = Item.getAllSpecificTypes(db, selType, selSub);
 				Spinner spin = (Spinner)findViewById(R.id.manualadd_type3);
-				if(spectypes != null) {
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spectypes);
-					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					spin.setAdapter(adapter);
-				}
+				spin.setAdapter(makeAdapter(spectypes));
 				db.close();
 			}
 
@@ -109,6 +115,11 @@ public class ManualAddActivity extends Activity {
 				selID = Item.findIDFromDatabase(db, selType, selSub, selSpec);
 				Log.d("DBG_OUT", "Selected ID: " + selID);
 				db.close();
+				
+				Ingredients ni = new Ingredients(selSpec, 1, "units", selID);
+				if(inventory.addItem(ni)) {
+					Log.d("DBG_OUT", "Item added to inventory");
+				}
 			}
 		});
 		

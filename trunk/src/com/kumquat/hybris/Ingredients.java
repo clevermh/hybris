@@ -1,49 +1,34 @@
 package com.kumquat.hybris;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 
 public class Ingredients {
 	private String name;
-	private String quantity;
+	private int quantity;
 	private String quantity_metric;
 	private int item_id;
 	
-	public Ingredients(String name, String quantity, String quantityMetric, SQLiteDatabase db) {
+	public Ingredients(String name, int quantity, String quantityMetric, SQLiteDatabase db) {
 		this.name = name;
 		this.quantity = quantity;
 		this.quantity_metric = quantityMetric;
-		this.item_id = findItemId(db, name);
+		this.item_id = Item.findIDFromDatabase(db, name);
 	}
 	
-	public Ingredients(String name, String quantity, String quantityMetric, int item_id) {
+	public Ingredients(String name, int quantity, String quantityMetric, int item_id) {
 		this.name = name;
 		this.quantity = quantity;
 		this.quantity_metric = quantityMetric;
 		this.item_id = item_id;
 	}
 	
-	private int findItemId(SQLiteDatabase db, String name) {
-		String sql_statement = "SELECT id FROM Items WHERE specific_type = " + name;
-        Cursor c = db.rawQuery(sql_statement, null);
-        c.moveToFirst();
-        
-        int items = c.getInt(0);
-        
-        c.close();
-		db.close();
-		
-		return items;
-	}
-	
-	
 	public String getName() {
 		return this.name;
 	}
 	
-	public String getQuantity() {
+	public int getQuantity() {
 		return this.quantity;
 	}
 	

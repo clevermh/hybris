@@ -20,7 +20,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 20;
+	public static final int VERSION = 1;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -118,7 +118,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	public boolean isPopulating() { return populating; }
 	
 	private void loadRecipes(final Resources resources) throws IOException {
-		Log.d("HybrisDatabase", "Loading Recipess");
+		Log.d("HybrisDatabase", "Loading Recipes");
 		
 		/*Ingredients[] ing = new Ingredients[]{ new Ingredients("White Bread", "1", "Loaf", 11) };
 		String[] dir = new String[]{ "Put bread in toaster", "Toast bread" };
