@@ -36,7 +36,7 @@ public class RecipeXMLParser {
 		    while (eventType != XmlPullParser.END_DOCUMENT) {
 		        String name = null;
 		        String recipe_name = null;
-		        String qty = null;
+		        int qty = -1;
 		        String qty_metric = null;
 		        String ing_name = null;
 	        	String[] directions = new String[0];
@@ -54,7 +54,7 @@ public class RecipeXMLParser {
 		                if (name.equals("name")) {
 		                	recipe_name = parser.getText();
 		                } else if (name.equals("qty")) {
-		                	qty = parser.getText();
+		                	qty = Integer.parseInt(parser.getText());
 		                } else if (name.equals("qty_metric")) {
 		                	qty_metric = parser.getText();
 		                } else if (name.equals("ing_name")) {
