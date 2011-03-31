@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-</ScrollView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+            <Spinner android:layout_height="wrap_content" android:id="@+id/spinner_step" android:layout_width="fill_parent"></Spinner>
+        
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"
+					android:layout_below = "@+id/spinner_step"
+					android:id="@+id/scroll"
+					android:layout_above = "@+id/button_back"
+					>
+            	<TextView  android:id="@+id/text_instruct" android:text = "Food is any substance [1] that is consumed to provide nutritional support for the body, possibly to the point of excess. It is usually of plant or animal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism's cells in an effort to produce energy, maintain life, and/or stimulate growth.
+Historically, people secured food through two methods: hunting and gathering, and agriculture. Today, most of the food energy consumed by the world population is supplied by the food industry, which is operated by multinational corporations that use intensive farming and industrial agriculture to maximize system output." android:layout_width="wrap_content" android:layout_height="fill_parent"></TextView>
+        </ScrollView>
+            <Button android:id="@+id/button_back" 
+            		android:layout_height="wrap_content" 
+            		android:layout_width ="wrap_content" 
+            		android:text="Back" 
+            		android:gravity = "center"
+            		android:layout_alignParentLeft="true"
+            		android:layout_alignParentBottom="true"
+            		android:layout_toLeftOf = "@+id/button_done" 
+            		>
+            </Button>
+            <Button android:id="@+id/button_done" 
+            		android:layout_height="wrap_content" 
+            		android:layout_width ="wrap_content" 
+            		android:text="Recipe Done" 
+            		android:gravity = "center"
+            		android:layout_alignTop = "@+id/button_back"
+            		android:layout_alignParentBottom="true"
+            		android:layout_centerHorizontal = "true"
+            		
+            		>
+            </Button>
+            <Button android:id="@+id/button_next" 
+            		android:layout_width="wrap_content" 
+            		android:layout_height="wrap_content" 
+            		android:text="Next" 
+            		android:gravity="center"
+            		android:layout_alignParentRight="true"
+            		android:layout_alignParentBottom="true"
+            		android:layout_toRightOf = "@+id/button_done"
+            		>
+            		
+            </Button>
+
+</RelativeLayout>
