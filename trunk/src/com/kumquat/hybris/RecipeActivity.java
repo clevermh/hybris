@@ -57,7 +57,7 @@ public class RecipeActivity extends Activity {
 		
 		for(int a = 0; a < self.directions.length; a++) {
 			labels[a + 1] = "Directions - " + (a + 1);
-			content[a] = self.directions[a];
+			content[a + 1] = self.directions[a];
 		}
 		
 		// Page 0 is the info
