@@ -1,6 +1,9 @@
 package com.kumquat.hybris;
 
 import java.util.List;
+import java.util.Random;
+
+import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +14,7 @@ import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -184,6 +188,22 @@ public class MainPageActivity extends Activity {
 		recipes.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DIALOG_RECIPE_VIEW);
+			}
+		});
+		
+		Button random = (Button)findViewById(R.id.front_random);
+		random.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
+				SQLiteDatabase db = hdh.getReadableDatabase();
+				String[] names = Recipe.getAllRecipeNames(db);
+				db.close();
+				
+				Random r = new Random();
+				
+				Intent viewer = new Intent(getApplicationContext(), RecipeActivity.class);
+				viewer.putExtra("com.kumquat.hybris.rName", names[r.nextInt(names.length)]);
+				startActivity(viewer);
 			}
 		});
 		
