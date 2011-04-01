@@ -2,7 +2,7 @@
 Toast:
   prep: 0 minutes
   cook: 5 minutes
-  size: 1 people
+  size: 1 person
   type: Breakfast
   ingredients:
     - qty: 1
@@ -18,7 +18,7 @@ Brownies:
   prep: 10 minutes
   cook: 20 minutes
   size: many people
-  type: Desert
+  type: Dessert
   ingredients:
     - qty: 1
       qty_metric: box
@@ -28,7 +28,7 @@ Brownies:
       ing_name: Egg
     - qty: .6667
       qty_metric: cups
-      ing_name: Oil
+      ing_name: Canola Oil
     - qty: 1
       qty_metric: cups
       ing_name: Water
