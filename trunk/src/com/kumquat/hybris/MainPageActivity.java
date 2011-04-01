@@ -185,8 +185,10 @@ public class MainPageActivity extends Activity {
 			}
 			
 			showsplash = !savedInstanceState.getBoolean("splashShown");
+		} else {
+			hasScannerApp = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
 		}
-		
+
 		Button add = (Button)findViewById(R.id.front_add);
 		add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
