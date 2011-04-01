@@ -20,32 +20,38 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int code=0x7f07001a;
-        public static final int error=0x7f07001d;
+        public static final int code=0x7f070020;
+        public static final int error=0x7f070023;
         public static final int front_add=0x7f070004;
-        public static final int front_devices=0x7f070008;
-        public static final int front_inventory=0x7f070006;
-        public static final int front_recipes=0x7f070007;
-        public static final int front_remove=0x7f070005;
-        public static final int item=0x7f07001b;
-        public static final int linearLayout1=0x7f070017;
-        public static final int manual=0x7f070018;
-        public static final int manualadd_cancel=0x7f070013;
-        public static final int manualadd_ok=0x7f070014;
-        public static final int manualadd_quantity=0x7f070012;
-        public static final int manualadd_quantitytext=0x7f070010;
-        public static final int manualadd_quantitytext2=0x7f070011;
-        public static final int manualadd_text=0x7f070009;
-        public static final int manualadd_type1=0x7f07000b;
-        public static final int manualadd_type1text=0x7f07000a;
-        public static final int manualadd_type2=0x7f07000d;
-        public static final int manualadd_type2text=0x7f07000c;
-        public static final int manualadd_type3=0x7f07000f;
-        public static final int manualadd_type3text=0x7f07000e;
-        public static final int manualentry=0x7f070019;
-        public static final int other=0x7f07001c;
-        public static final int scan=0x7f070016;
-        public static final int splash_status=0x7f070015;
+        public static final int front_devices=0x7f070007;
+        public static final int front_inventory=0x7f070005;
+        public static final int front_recipes=0x7f070006;
+        public static final int item=0x7f070021;
+        public static final int linearLayout1=0x7f07001d;
+        public static final int manual=0x7f07001e;
+        public static final int manualadd_cancel=0x7f070012;
+        public static final int manualadd_ok=0x7f070013;
+        public static final int manualadd_quantity=0x7f070011;
+        public static final int manualadd_quantitytext=0x7f07000f;
+        public static final int manualadd_quantitytext2=0x7f070010;
+        public static final int manualadd_text=0x7f070008;
+        public static final int manualadd_type1=0x7f07000a;
+        public static final int manualadd_type1text=0x7f070009;
+        public static final int manualadd_type2=0x7f07000c;
+        public static final int manualadd_type2text=0x7f07000b;
+        public static final int manualadd_type3=0x7f07000e;
+        public static final int manualadd_type3text=0x7f07000d;
+        public static final int manualentry=0x7f07001f;
+        public static final int other=0x7f070022;
+        public static final int recipe_back=0x7f070018;
+        public static final int recipe_done=0x7f070019;
+        public static final int recipe_info=0x7f070017;
+        public static final int recipe_next=0x7f07001a;
+        public static final int recipe_scroll=0x7f070015;
+        public static final int recipe_step=0x7f070014;
+        public static final int recipe_zoom=0x7f070016;
+        public static final int scan=0x7f07001c;
+        public static final int splash_status=0x7f07001b;
         public static final int textView1=0x7f070000;
         public static final int textView2=0x7f070001;
         public static final int textView3=0x7f070002;
@@ -64,7 +70,8 @@ public final class R {
     public static final class raw {
         public static final int items=0x7f040000;
         public static final int plus=0x7f040001;
-        public static final int upcs=0x7f040002;
+        public static final int recipes=0x7f040002;
+        public static final int upcs=0x7f040003;
     }
     public static final class string {
         public static final int MA_Quantity=0x7f050006;

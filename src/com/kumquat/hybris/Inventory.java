@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class Inventory {
 	private Context context;
-	private Ingredients[] ingredients = new Ingredients[0];
+	private Ingredient[] ingredients = new Ingredient[0];
 	
 	public Inventory(Context con) {
 		context = con;
@@ -29,7 +29,7 @@ public class Inventory {
 		
 		if(c.getCount() < 1) { c.close(); return; }
 		
-		ingredients = new Ingredients[c.getCount()];
+		ingredients = new Ingredient[c.getCount()];
 		c.moveToFirst();
 	
 		HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(context);
@@ -40,7 +40,7 @@ public class Inventory {
 			int qty = c.getInt(1);
 			String qtymet = c.getString(2);
 			String name = Item.getNameFromID(odb, id);
-			ingredients[a] = new Ingredients(name, qty, qtymet, id);
+			ingredients[a] = new Ingredient(id, name, qty, qtymet);
 			
 			c.moveToNext();
 		}
@@ -57,7 +57,7 @@ public class Inventory {
 		return ingredients.length;
 	}
 	
-	public Ingredients getItem(int which) {
+	public Ingredient getItem(int which) {
 		if(ingredients == null) { return null; }
 		
 		if(which >= ingredients.length) { return null; }
@@ -65,14 +65,14 @@ public class Inventory {
 		return ingredients[which];
 	}
 	
-	public boolean addItem(Ingredients ni) {
+	public boolean addItem(Ingredient ni) {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
 		SQLiteDatabase db = idh.getWritableDatabase();
 		
 		for(int a = 0; a < ingredients.length; a++) {
-			Ingredients i = ingredients[a];
+			Ingredient i = ingredients[a];
 			if(i.getItemId() == ni.getItemId()) {
-				Ingredients addition = new Ingredients(i.getName(), i.getQuantity() + ni.getQuantity(), i.getQuantityMetric(), i.getItemId());
+				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), i.getQuantity() + ni.getQuantity(), i.getQuantityMetric());
 				
 				// update the DB
 				String sql = "UPDATE Inventory SET qty = " + addition.getQuantity() + " WHERE item_id = " + addition.getItemId();
@@ -104,8 +104,8 @@ public class Inventory {
 		
 		if(res > -1) {
 			//Ingredients[] newlist = new Ingredients[ingredients.length + 1];
-			Ingredients[] old = ingredients;
-			ingredients = new Ingredients[old.length + 1];
+			Ingredient[] old = ingredients;
+			ingredients = new Ingredient[old.length + 1];
 			for(int a = 0; a < old.length; a++) { ingredients[a] = old[a]; }
 			
 			ingredients[ingredients.length - 1]= ni;

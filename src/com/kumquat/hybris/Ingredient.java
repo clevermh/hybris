@@ -2,22 +2,30 @@ package com.kumquat.hybris;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
-public class Ingredients {
+public class Ingredient {
 	private String name;
-	private int quantity;
+	private double quantity;
 	private String quantity_metric;
 	private int item_id;
 	
-	public Ingredients(String name, int quantity, String quantityMetric, SQLiteDatabase db) {
+	public Ingredient(String name, double quantity, String quantityMetric, SQLiteDatabase db) {
 		this.name = name;
 		this.quantity = quantity;
 		this.quantity_metric = quantityMetric;
 		this.item_id = Item.findIDFromDatabase(db, name);
 	}
 	
-	public Ingredients(String name, int quantity, String quantityMetric, int item_id) {
+	public Ingredient(int item_id, double quantity, String quantityMetric, SQLiteDatabase db) {
+		this.name = Item.findNameFromID(db, item_id);
+		this.quantity = quantity;
+		this.quantity_metric = quantityMetric;
+		this.item_id = item_id;
+	}
+	
+	public Ingredient(int item_id, String name, double quantity, String quantityMetric) {
 		this.name = name;
 		this.quantity = quantity;
 		this.quantity_metric = quantityMetric;
@@ -28,7 +36,7 @@ public class Ingredients {
 		return this.name;
 	}
 	
-	public int getQuantity() {
+	public double getQuantity() {
 		return this.quantity;
 	}
 	
@@ -40,4 +48,8 @@ public class Ingredients {
 		return this.item_id;
 	}
 	
+	public void printToDebug() {
+		Log.d("DBG_OUT", name + "(" + item_id + ")");
+		Log.d("DBG_OUT", quantity + " " + quantity_metric);
+	}
 }

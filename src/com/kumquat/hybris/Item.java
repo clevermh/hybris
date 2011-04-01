@@ -61,6 +61,21 @@ public class Item {
 		return ret;
 	}
 	
+	public static String findNameFromID(SQLiteDatabase db, int id) {
+		String sql = "SELECT specific_type FROM Items WHERE id = " + id;
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null) { return ""; }
+		if(c.getCount() != 1) { c.close(); return ""; }
+		
+		c.moveToFirst();
+		
+		String ret = c.getString(0);
+		c.close();
+		
+		return ret;
+	}
+	
 	public static Item getFromDatabase(SQLiteDatabase db, int id) {
 		String sql_statement = "SELECT type, sub_type, specific_type FROM Items WHERE id = " + id;
 		Cursor c = db.rawQuery(sql_statement, null);

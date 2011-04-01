@@ -116,7 +116,7 @@ public class ManualAddActivity extends Activity {
 				Log.d("DBG_OUT", "Selected ID: " + selID);
 				db.close();
 				
-				Ingredients ni = new Ingredients(selSpec, 1, "units", selID);
+				Ingredient ni = new Ingredient(selID, selSpec, 1, "units");
 				if(inventory.addItem(ni)) {
 					Log.d("DBG_OUT", "Item added to inventory");
 				}

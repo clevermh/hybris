@@ -99,8 +99,8 @@ public class MainPageActivity extends Activity {
 	    					toaster("All Recipes").show();
 	    					
 	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
-	    					recipeViewer.putExtra("devices", checkedDevices);
-	    					recipeViewer.putExtra("useInventory", false);
+	    					recipeViewer.putExtra("com.kumquat.hybris.devices", checkedDevices);
+	    					recipeViewer.putExtra("com.kumquat.hybris.useInventory", false);
 	    					startActivity(recipeViewer);
 	    	           }
 	    	       })
@@ -110,8 +110,8 @@ public class MainPageActivity extends Activity {
 	    					toaster("Recipes button: Ones I can make right now").show();
 	    					
 	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
-	    					recipeViewer.putExtra("devices", checkedDevices);
-	    					recipeViewer.putExtra("useInventory", true);
+	    					recipeViewer.putExtra("com.kumquat.hybris.devices", checkedDevices);
+	    					recipeViewer.putExtra("com.kumquat.hybris.useInventory", true);
 	    					startActivity(recipeViewer);
 	    	           }
 	    	       });
@@ -143,12 +143,16 @@ public class MainPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.front);
 		
+		boolean showsplash = true;
+		
 		if(savedInstanceState != null) {
 			if(savedInstanceState.getBoolean("scanchecked")) {
 				hasScannerApp = savedInstanceState.getBoolean("hasscanner");
 			} else {
 				hasScannerApp = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
 			}
+			
+			showsplash = !savedInstanceState.getBoolean("splashShown");
 		}
 		
 		Button add = (Button)findViewById(R.id.front_add);
@@ -162,15 +166,6 @@ public class MainPageActivity extends Activity {
 		        	startActivity(manualadd);
 				}
 				
-			}
-		});
-		
-		Button remove = (Button)findViewById(R.id.front_remove);
-		remove.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// Go to the remove page
-				Intent recipe = new Intent(getApplicationContext(), RecipeActivity.class);
-				startActivity(recipe);
 			}
 		});
 		
@@ -200,13 +195,16 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
-		Intent splash = new Intent(this, SplashscreenActivity.class);
-		startActivity(splash);
+		if(showsplash) {
+			Intent splash = new Intent(this, SplashscreenActivity.class);
+			startActivity(splash);
+		}
 	}
 	
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean("scanchecked", true);
 		outState.putBoolean("hasscanner", hasScannerApp);
+		outState.putBoolean("splashShown", true);
 	}
 	
 	public void onPause() {

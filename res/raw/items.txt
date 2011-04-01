@@ -20,6 +20,8 @@ Dessert	Mix	Lemon Instant Pudding
 Dessert	Mix	Butterscotch Pudding
 Dairy	Milk	Whole Milk
 Dessert	Mix	Chocolate Pudding
-Dessert	Mix	Brownies
+Dessert	Mix	Brownie Mix
 Dessert	Mix	Banana Bread
 Breakfast	Mix	Buttermilk Pancake
+Eggs	Eggs	Egg
+Water	Water	Water

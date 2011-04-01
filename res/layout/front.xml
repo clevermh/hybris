@@ -10,11 +10,6 @@
 				android:gravity="center" />
 		</TableRow>
 		<TableRow android:gravity="center">
-			<Button android:layout_height="wrap_content" android:id="@+id/front_remove"
-				android:text="Remove Item" android:layout_width="wrap_content"
-				android:gravity="center" />
-		</TableRow>
-		<TableRow android:gravity="center">
 			<Button android:layout_height="wrap_content" android:id="@+id/front_inventory"
 				android:text="View Inventory" android:layout_width="wrap_content"
 				android:gravity="center" />

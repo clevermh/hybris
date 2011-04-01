@@ -18,8 +18,8 @@ public class InventoryActivity extends ListActivity {
 		
 		String[] items = new String[inventory.getCount()];
 		for(int a = 0; a < items.length; a++) {
-			Ingredients i = inventory.getItem(a);
-			items[a] = i.getName() + "\t" + i.getQuantity();
+			Ingredient i = inventory.getItem(a);
+			items[a] = i.getName() + "\t(" + i.getQuantity() + " " + i.getQuantityMetric() + ")";
 		}
 		
 		adapter = new ArrayAdapter<String>(this, R.layout.list_item, items);
