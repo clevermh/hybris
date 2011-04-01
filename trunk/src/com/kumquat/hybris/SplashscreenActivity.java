@@ -11,17 +11,17 @@ import com.kumquat.hybris.databases.InventoryDatabaseHelper;
 
 public class SplashscreenActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
-		final ProgressDialog dialog = ProgressDialog.show(SplashscreenActivity.this, "", 
-                "Loading. Please wait...", true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashscreen);
+		
+		final ProgressDialog dialog = ProgressDialog.show(SplashscreenActivity.this, "", 
+                "Loading. Please wait...", true);
 		dialog.show();
-		// This should go away after 5 seconds
+		
 		new Thread(new Runnable() {
 			public void run() {
-				dialog.show();
-				/*try { Thread.sleep(5000); }
-				catch(Exception e) { }*/
+				//dialog.show();
+				
 				HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 				SQLiteDatabase db = hdh.getReadableDatabase();
 				Log.d("DBG_OUT", "Splash: Loading items");
@@ -42,7 +42,8 @@ public class SplashscreenActivity extends Activity {
 				
 				Log.d("DBG_OUT", "Splash: Done loading items");
 				
-				dialog.cancel();
+				//dialog.cancel();
+				
 				finish();
 			}
 		}).start();

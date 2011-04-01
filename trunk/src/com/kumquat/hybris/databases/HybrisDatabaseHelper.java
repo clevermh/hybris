@@ -12,15 +12,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.kumquat.hybris.Ingredients;
+import com.kumquat.hybris.Ingredient;
 import com.kumquat.hybris.R;
+import com.kumquat.hybris.Recipe;
 
 public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private Context context;
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 1;
+	public static final int VERSION = 9001;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -69,6 +70,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 
 	private static final String direction_table = "CREATE TABLE IF NOT EXISTS Directions (" +
 												  "recipe_id INTEGER NOT NULL," +
+												  "dir_number INTEGER NOT NULL," +
 												  "direction VARCHAR(1000) NOT NULL," +
 												  "FOREIGN KEY (recipe_id) REFERENCES Recipes(id)" +
 												  ");";
@@ -120,27 +122,13 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private void loadRecipes(final Resources resources) throws IOException {
 		Log.d("HybrisDatabase", "Loading Recipes");
 		
-		/*Ingredients[] ing = new Ingredients[]{ new Ingredients("White Bread", "1", "Loaf", 11) };
-		String[] dir = new String[]{ "Put bread in toaster", "Toast bread" };
-		addRecipe("Toast", ing, dir, "0m", "2m", "1", "delicious");*/
-        /*InputStream inputStream = resources.openRawResource(R.raw.upcs);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        
-        try {
-        	String line;
-        	while((line = reader.readLine()) != null) {
-        		if(line.startsWith("#")) { continue; }
-        		
-        		String[] split = line.split("\t");
-        		if(split.length != 2) { continue; }
-        		
-        		if(!addUPC(split[0].trim(), Integer.parseInt(split[1].trim()), false)) {
-        			Log.e("HybrisDatabase", "Unable to add: " + line.trim());
-        		}
-        	}
-        } finally {
-        	reader.close();
-        }*/
+		Recipe[] recipes = RecipeYAMLParser.parseRecipesFromRes(resources, R.raw.recipes, database);
+		
+		for(Recipe r : recipes) {
+			if(!addRecipe(r.name, r.ingredients, r.directions, r.prep_time, r.cook_time, r.serving_size, r.type)) {
+				Log.e("HybrisDatabase", "Unable to add: " + r.name);
+			}
+		}
 		
 		Log.d("HybrisDatabase", "Done loading Recipes");
 	}
@@ -273,7 +261,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		return id != -1;
 	}
 	
-	public boolean addRecipe(String name, Ingredients[] ingredients, String[] directions, String prepTime, 
+	public boolean addRecipe(String name, Ingredient[] ingredients, String[] directions, String prepTime, 
 			String cookTime, String servingSize, String type) {
 		ContentValues recipe_value = new ContentValues();
 		ContentValues ingredient_value = new ContentValues();
@@ -284,29 +272,30 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		recipe_value.put("cook_time", cookTime);
 		recipe_value.put("serving_size", servingSize);
 		recipe_value.put("type", type);
-		int recipe_id = recipe_value.getAsInteger("id");
+		
+		long id = database.insertOrThrow("Recipes", null, recipe_value);
+		if (id == -1) { return false; }
+		int recipe_id = (int)id;
 		
 		for (int i = 0; i < ingredients.length; i++) {
-			Ingredients ing = ingredients[i];
+			Ingredient ing = ingredients[i];
 			ingredient_value.put("recipe_id", recipe_id);
 			ingredient_value.put("item_id", ing.getItemId());
 			ingredient_value.put("qty", ing.getQuantity());
 			ingredient_value.put("qty_metric", ing.getQuantityMetric());
+			
+			id = database.insertOrThrow("Ingredients", null, ingredient_value);
+			if (id == -1) { return false; }
 		}
 		
 		for (int i = 0; i < directions.length; i++) {
 			direction_value.put("recipe_id", recipe_id);
+			direction_value.put("dir_number", i);
 			direction_value.put("direction", directions[i]);
+			
+			id = database.insertOrThrow("Directions", null, direction_value);
+			if (id == -1) { return false; }
 		}
-		
-		long id = database.insertOrThrow("Recipes", null, recipe_value);
-		if (id == -1) { return false; }
-
-		id = database.insertOrThrow("Ingredients", null, ingredient_value);
-		if (id == -1) { return false; }
-		
-		id = database.insertOrThrow("Directions", null, direction_value);
-		if (id == -1) { return false; }
 		
 		return true;
 	}

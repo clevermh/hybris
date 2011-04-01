@@ -1,0 +1,42 @@
+---
+Toast:
+  prep: 0 minutes
+  cook: 5 minutes
+  size: 1 people
+  type: Breakfast
+  ingredients:
+    - qty: 1
+      qty_metric: piece
+      ing_name: White Bread
+  directions:
+    - Put bread into toaster
+    - Turn on toaster
+    - When toaster is done, remove bread
+    - Enjoy
+    
+Brownies:
+  prep: 10 minutes
+  cook: 20 minutes
+  size: many people
+  type: Desert
+  ingredients:
+    - qty: 1
+      qty_metric: box
+      ing_name: Brownie Mix
+    - qty: 2
+      qty_metric: whole
+      ing_name: Egg
+    - qty: .6667
+      qty_metric: cups
+      ing_name: Oil
+    - qty: 1
+      qty_metric: cups
+      ing_name: Water
+  directions:
+    - Preheat oven to 350
+    - Mix everything together
+    - Grease a pan
+    - Pour that mixed stuff in the pan
+    - Bake for a while
+    - Cool for a really long time
+    - Eat
