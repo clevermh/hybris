@@ -1,11 +1,8 @@
 package com.kumquat.hybris;
 
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
-import com.kumquat.hybris.databases.InventoryDatabaseHelper;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +13,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class ManualAddActivity extends Activity {
 	private Inventory inventory;
@@ -43,7 +39,6 @@ public class ManualAddActivity extends Activity {
 		setContentView(R.layout.manualadd);
 		
 		final HybrisDatabaseHelper dbhelper = new HybrisDatabaseHelper(getApplicationContext());
-		final Context context = this;
 		
 		inventory = new Inventory(getApplicationContext());
 		
