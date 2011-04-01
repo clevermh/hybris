@@ -42,6 +42,10 @@ public class MainPageActivity extends Activity {
 	    	       .setPositiveButton("Scan Item", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   toaster("Scan").show();
+	    	        	   Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+	    			       intent.setPackage("com.google.zxing.client.android");
+	    			       intent.putExtra("SCAN_MODE", "UPC_A");
+	    			       startActivityForResult(intent, 0);
 	    	           }
 	    	       })
 	    	       .setNegativeButton("Manual Add", new DialogInterface.OnClickListener() {
@@ -136,7 +140,31 @@ public class MainPageActivity extends Activity {
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		// Not sure if we need this yet
+		if (requestCode == 0) {
+	        if (resultCode == RESULT_OK) {
+	        	String upc = intent.getStringExtra("SCAN_RESULT");
+	        	
+	        	HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
+	        	SQLiteDatabase db = hdh.getReadableDatabase();
+	        	
+	        	Item item = Item.findItemFromUPC(db, upc);
+	        	
+	        	if(item != null) {
+	            	Inventory invent = new Inventory(getApplicationContext());
+	            	Ingredient ing = new Ingredient(item.getID(), item.getSpecificType(), 1, " units");
+	            	if(invent.addItem(ing)) {
+	            		toaster(item.getSpecificType() + " added").show();
+	            	} else {
+	            		toaster("Error adding " + item.getSpecificType()).show();
+	            	}
+	            } else {
+	            	toaster("No item with that barcode found").show();
+	            }
+	        } else if (resultCode == RESULT_CANCELED) {
+	            // Handle cancel
+	        	// Do nothing
+	        }
+	    }
 	}
 	
 	private Toast toaster(String msg) {
