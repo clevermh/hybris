@@ -1,9 +1,9 @@
 package com.kumquat.hybris;
 
-import java.util.List;
+//import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
+/*import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Toast;*/
 
 public class Test extends Activity {
 	/**

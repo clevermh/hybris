@@ -27,7 +27,7 @@ public class SplashscreenActivity extends Activity {
 				Log.d("DBG_OUT", "Splash: Loading items");
 				while(hdh.isPopulating()) {
 					Log.d("DBG_OUT", "Splash: Poll");
-					try { Thread.sleep(100); }
+					try { Thread.sleep(500); }
 					catch(Exception e) { }
 				}
 				db.close();

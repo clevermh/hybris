@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class InventoryDatabaseHelper extends SQLiteOpenHelper {
+	@SuppressWarnings("unused")
 	private Context context;
 	private SQLiteDatabase database;
 	
@@ -26,7 +27,6 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO make this
 		database = db;
 		database.execSQL(inventory_table);
 	}
@@ -45,11 +45,6 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 		cv.put("item_id", id);
 		cv.put("qty", qty);
 		cv.put("qty_metric", qtymet);
-		
-		if(database == null) {
-			Log.e("DBG_OUT", "HOW IS THIS NULL");
-			throw new RuntimeException("FFFFFFFFFFFF");
-		}
 		
 		long row = database.insertOrThrow("Inventory", null, cv);
 		

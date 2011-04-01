@@ -1,24 +1,17 @@
 package com.kumquat.hybris;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
-import com.kumquat.hybris.databases.RecipeYAMLParser;
 
 public class RecipeListActivity extends ListActivity {
 	Recipe[] recipes;

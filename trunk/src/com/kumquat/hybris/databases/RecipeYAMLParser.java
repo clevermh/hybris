@@ -1,7 +1,6 @@
 package com.kumquat.hybris.databases;
 
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -9,13 +8,13 @@ import org.yaml.snakeyaml.Yaml;
 
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.kumquat.hybris.Ingredient;
-import com.kumquat.hybris.R;
+import com.kumquat.hybris.Item;
 import com.kumquat.hybris.Recipe;
 
 public class RecipeYAMLParser {
+	@SuppressWarnings("unchecked")
 	public static Recipe[] parseRecipesFromRes(final Resources resources, int resid, SQLiteDatabase db) {
 		Yaml yaml = new Yaml();
 		InputStream inputStream = resources.openRawResource(resid);
@@ -54,5 +53,10 @@ public class RecipeYAMLParser {
 		}
 		
 		return recipes;
+	}
+	
+	public static Item[] parseItemsFromRes(final Resources resources, int resid) {
+		
+		return null;
 	}
 }

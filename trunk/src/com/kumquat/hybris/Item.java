@@ -1,8 +1,5 @@
 package com.kumquat.hybris;
 
-import com.kumquat.hybris.databases.HybrisDatabaseHelper;
-
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
