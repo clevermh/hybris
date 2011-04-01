@@ -21,6 +21,20 @@ public class Item {
 	public String getSubType() { return sub_type; }
 	public String getSpecificType() { return specific_type; }
 	
+	public static Item findItemFromUPC(SQLiteDatabase db, String upc) {
+		String sql = "SELECT item_id FROM Upc WHERE upc_code = '" + upc + "'";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null) { return null; }
+		if(c.getCount() != 1) { c.close(); return null; }
+		
+		c.moveToFirst();
+		int id = c.getInt(0);
+		c.close();
+		
+		return getFromDatabase(db, id);
+	}
+	
 	public static int findIDFromDatabase(SQLiteDatabase db, String spec) {
 		String sql = "SELECT id FROM Items WHERE specific_type = '" + spec + "'";
 		Cursor c = db.rawQuery(sql, null);
