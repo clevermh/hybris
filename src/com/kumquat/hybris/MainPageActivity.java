@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -39,16 +40,15 @@ public class MainPageActivity extends Activity {
 	    	//AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("How would you like to add an item?")
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Scan Item", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton("Barcode Scanner", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   toaster("Scan").show();
 	    	        	   Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 	    			       intent.setPackage("com.google.zxing.client.android");
 	    			       intent.putExtra("SCAN_MODE", "UPC_A");
 	    			       startActivityForResult(intent, 0);
 	    	           }
 	    	       })
-	    	       .setNegativeButton("Manual Add", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("Manually", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
 	    	        	   startActivity(manualadd);
@@ -58,42 +58,45 @@ public class MainPageActivity extends Activity {
 	    		
 	        break;
 	    case DIALOG_DEVICES:
-	    	for(int i = 0; i < checkedDevices.length; i++){
-	    		checkedDevicesBackup[i] = checkedDevices[i];
-	    	}
+	    	
 	    	//AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
 	    	builder.setTitle("Select Cooking Devices");
 	    	builder.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which,
-						boolean isChecked) {
+	    		@Override
+				public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 					
 				}
-
-				
 	    	});
+	    	
 	    	builder.setPositiveButton( "OK", new android.content.DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					switch( which ) {
 					case DialogInterface.BUTTON_POSITIVE:
-						toaster("Ok!").show();
 						break;
 					}	
 				}
 	    	});
+	    	
 	    	builder.setNegativeButton( "Cancel", new android.content.DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					switch( which ) {
 					case DialogInterface.BUTTON_NEGATIVE:
-						toaster("Cancel!").show();
-						for(int i = 0; i < checkedDevices.length; i++){
-							checkedDevices[i] = checkedDevicesBackup[i];
-				    	}
+						dialog.cancel();
 						break;
 					}	
 				}
 	    	});
+	    	
+	    	builder.setOnCancelListener(new OnCancelListener() {
+	    		@Override
+				public void onCancel(DialogInterface arg0) {
+					// TODO Auto-generated method stub
+	    			for(int i = 0; i < checkedDevices.length; i++){
+						checkedDevices[i] = checkedDevicesBackup[i];
+			    	}
+				}
+	    	});
+	    	
 	    	builder.setCancelable(true);
 	    	dialog = builder.create();
 	        break;
@@ -241,6 +244,9 @@ public class MainPageActivity extends Activity {
 		devices.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the devices page
+				for(int i = 0; i < checkedDevices.length; i++){
+		    		checkedDevicesBackup[i] = checkedDevices[i];
+		    	}
 				showDialog(DIALOG_DEVICES);
 			}
 		});
