@@ -40,3 +40,211 @@ Brownies:
     - Bake for a while
     - Cool for a really long time
     - Eat
+  
+Florida Strawberry Muffins:
+  prep: 10 minutes
+  cook: 20 minutes
+  size: 12 muffins
+  type: Breakfast
+  ingredients:
+    - qty: 1.5
+      qty_metric: cups
+      ing_name: Strawberries
+    - qty: 0.75
+      qty_metric: cup
+      ing_name: Sugar
+    - qty: 0.25
+      qty_metric: cup
+      ing_name: Butter
+    - qty: 1
+      qty_metric: teaspoon
+      ing_name: Vanilla Extract
+    - qty: 1.75
+      qyt_metric: cups
+      ing_name: Flour
+    - qty: 0.5
+      qty_metric: teaspoon
+      ing_name: Baking Soda
+    - qty: 0.25
+      qty_metric: teaspoon
+      ing_name: Salt
+    - qty: 0.25
+      qty_metric: teaspoon
+      ing_name: Ground Nutmeg      
+  directions:
+    - In a small bowl, combine the sliced strawberries and 1/2 cup sugar
+    - Set aside for 1 hour. Drain, reserving liquid and berries separately 
+    - Preheat the oven to 425 degrees F (220 degrees C) 
+    - Grease a 12 cup muffin tin, or line with paper liners
+    - In a medium bowl, cream together the butter and 1/4 cup sugar until light and fluffy
+    - Beat in the eggs one at a time
+    - Stir in the vanilla
+    - Combine the flour, baking soda, salt and nutmeg
+    - Stir into the creamed mixture alternately with the juice from the berries
+    - Gently stir in the berries
+    - Spoon batter into the prepared muffin cups. 
+    - Pour that mixed stuff in the pan
+    - Bake for 18 to 20 minutes or until the tops spring back when lightly touched
+    - Cool in the pan on a wire rack
+    - Eat
+  
+Chicken Pot Pie:
+  prep: 20 minutes
+  cook: 50 minutes
+  size: 8 servings
+  type: Dinner
+  ingredients:
+    - qty: 1
+      qty_metric: pound
+      ing_name: Chicken Breast
+    - qty: 1
+      qty_metric: cup
+      ing_name: Carrots
+    - qty: 1
+      qty_metric: cup
+      ing_name: Green Peas
+    - qty: 0.5
+      qty_metric: cup
+      ing_name: Celery
+    - qty: 0.33
+      qyt_metric: cup
+      ing_name: Butter
+    - qty: 0.33
+      qty_metric: cup
+      ing_name: onion
+    - qty: 0.33
+      qty_metric: cup
+      ing_name: Flour
+    - qty: 0.5
+      qty_metric: teaspoon
+      ing_name: Salt
+    - qty: 0.25
+      qty_metric: teaspoon
+      ing_name: Pepper
+    - qty: 0.5
+      qty_metric: teaspoon
+      ing_name: Celery Seed
+    - qty: 1.75
+      qty_metric: cups
+      ing_name: Chicken Broth    
+    - qty: 0.66
+      qty_metric: cups
+      ing_name: Milk                 
+  directions:
+    - Preheat the oven to 425 degrees F (220 degrees C) 
+    - In a saucepan, combine chicken, carrots, peas, and celery
+    - Add water to cover and boil for 15 minutes
+    - Remove from heat, drain and set aside
+    - In the saucepan over medium heat, cook onions in butter until soft and translucent
+    - Stir in flour, salt, pepper, and celery seed
+    - Slowly stir in chicken broth and milk
+    - Simmer over medium-low heat until thick
+    - Remove from heat and set aside
+    - Place the chicken mixture in bottom pie crust
+    - Pour hot liquid mixture over
+    - Cover with top crust, seal edges, and cut away excess dough
+    - Make several small slits in the top to allow steam to escape
+    - Bake for 30 to 35 minutes, or until pastry is golden brown and filling is bubbly
+    - Cool for 10 minutes before serving
+    - Enjoy
+  
+Jonny's Trailer Trash Chili:
+  prep: 1 hour
+  cook: 5 hours
+  size: 20 servings
+  type: Dinner
+  ingredients:
+    - qty: 2
+      qty_metric: pounds
+      ing_name: Ground Pork
+    - qty: 2
+      qty_metric: whole
+      ing_name: Onions
+    - qty: 0.5
+      qtymetric: whole
+      ing_name: Red Bell Pepper 
+    - qty: 1.5
+      qty_metric: cups
+      ing_name: Corn Mesa Flour
+    - qty: 1
+      qty_metric: tablespoon
+      ing_name: Oregano
+    - qty: 3
+      qty_metric: tablespoons 
+      ing_name: Ground Cumin
+    - qty: 0.33
+      qty_metric: cup
+      ing_name: Chili Powder
+    - qty: 2
+      qty_metric: tablespoons 
+      ing_name: Garlic Powder
+    - qty: 2
+      qty_metric: tablespoons 
+      ing_name: Salt
+    - qty: 1
+      qty_metric: tablespoon 
+      ing_name: Pepper
+    - qty: 8
+      qty_metric: cups 
+      ing_name: Water
+    - qty: 1
+      qty_metric: cup 
+      ing_name: Coffee
+    - qty: 28
+      qty_metric: ounces 
+      ing_name: Tomato Juice
+    - qty: 16
+      qty_metric:ounces 
+      ing_name: Tomato Sauce
+    - qty: 28
+      qty_metric: ounces 
+      ing_name: Chili Beans
+    - qty: 1
+      qty_metric:pound 
+      ing_name: Smoked Sausage
+    - qty: 1/2
+      qty_metric: cup 
+      ing_name: Brown Sugar
+  directions:
+  	- Chop up red bell pepper and onion
+    - Cook ground pork with onions, red bell pepper, add just a little salt. Drain off fat
+    - Mix masa flour, oregano, cumin, chili powder, garlic powder, salt, and black pepper into the cold water and day old coffee
+    - Mix well until there are no lumps
+    - Add tomato juice, tomato sauce and chili beans
+    - Dice the smoked sausage
+    - Bring to boil
+    - Add the smoked sausage, brown sugar and cover, reduce heat to a simmer for 4 hours, stir often
+    - Add more masa flour according to your desired thickness
+    - Consume
+    
+Simple Lemon Herb Chicken:
+  prep: 10 minutes
+  cook: 15 minutes
+  size: 2 servings
+  type: Dinner
+  ingredients:
+    - qty: 2
+      qty_metric: pieces
+      ing_name: Chicken Breast
+    - qty: 1
+      qty_metric: whole
+      ing_name: Lemon
+    - qty: 1
+      qty_metric: tablespoon
+      ing_name: Olive Oil
+    - qty: 1
+      qty_metric: pinch
+      ing_name: Oregano
+    - qty: 2
+      qty_metric: whole
+      ing_name: Parsley
+  directions:
+    - Cut lemon in half, and squeeze juice from 1/2 lemon on chicken
+    - Season with salt to taste
+    - Let sit while you heat oil in a small skillet over medium low heat
+    - When oil is hot, put chicken in skillet
+    - As you saute chicken, add juice from other 1/2 lemon, pepper to taste, and oregano
+    - Saute for 5 to 10 minutes each side, or until juices run clear
+    - Serve with parsley for garnish
+
+    
