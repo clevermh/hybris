@@ -1,5 +1,5 @@
----
-Toast:
+--- # Don't use tabs in this. Also make sure you spell stuff right
+- name: Toast
   prep: 0 minutes
   cook: 5 minutes
   size: 1 person
@@ -14,7 +14,7 @@ Toast:
     - When toaster is done, remove bread
     - Enjoy
     
-Brownies:
+- name: Brownies
   prep: 10 minutes
   cook: 20 minutes
   size: many people
@@ -41,7 +41,7 @@ Brownies:
     - Cool for a really long time
     - Eat
   
-Florida Strawberry Muffins:
+- name: Florida Strawberry Muffins
   prep: 10 minutes
   cook: 20 minutes
   size: 12 muffins
@@ -60,7 +60,7 @@ Florida Strawberry Muffins:
       qty_metric: teaspoon
       ing_name: Vanilla Extract
     - qty: 1.75
-      qyt_metric: cups
+      qty_metric: cups
       ing_name: Flour
     - qty: 0.5
       qty_metric: teaspoon
@@ -87,8 +87,8 @@ Florida Strawberry Muffins:
     - Bake for 18 to 20 minutes or until the tops spring back when lightly touched
     - Cool in the pan on a wire rack
     - Eat
-  
-Chicken Pot Pie:
+
+- name: Chicken Pot Pie
   prep: 20 minutes
   cook: 50 minutes
   size: 8 servings
@@ -107,7 +107,7 @@ Chicken Pot Pie:
       qty_metric: cup
       ing_name: Celery
     - qty: 0.33
-      qyt_metric: cup
+      qty_metric: cup
       ing_name: Butter
     - qty: 0.33
       qty_metric: cup
@@ -147,8 +147,8 @@ Chicken Pot Pie:
     - Bake for 30 to 35 minutes, or until pastry is golden brown and filling is bubbly
     - Cool for 10 minutes before serving
     - Enjoy
-  
-Jonny's Trailer Trash Chili:
+
+- name: Jonny's Trailer Trash Chili
   prep: 1 hour
   cook: 5 hours
   size: 20 servings
@@ -161,7 +161,7 @@ Jonny's Trailer Trash Chili:
       qty_metric: whole
       ing_name: Onions
     - qty: 0.5
-      qtymetric: whole
+      qty_metric: whole
       ing_name: Red Bell Pepper 
     - qty: 1.5
       qty_metric: cups
@@ -194,19 +194,19 @@ Jonny's Trailer Trash Chili:
       qty_metric: ounces 
       ing_name: Tomato Juice
     - qty: 16
-      qty_metric:ounces 
+      qty_metric: ounces 
       ing_name: Tomato Sauce
     - qty: 28
       qty_metric: ounces 
       ing_name: Chili Beans
     - qty: 1
-      qty_metric:pound 
+      qty_metric: pound 
       ing_name: Smoked Sausage
-    - qty: 1/2
+    - qty: 0.5
       qty_metric: cup 
       ing_name: Brown Sugar
   directions:
-  	- Chop up red bell pepper and onion
+    - Chop up red bell pepper and onion
     - Cook ground pork with onions, red bell pepper, add just a little salt. Drain off fat
     - Mix masa flour, oregano, cumin, chili powder, garlic powder, salt, and black pepper into the cold water and day old coffee
     - Mix well until there are no lumps
@@ -217,7 +217,7 @@ Jonny's Trailer Trash Chili:
     - Add more masa flour according to your desired thickness
     - Consume
     
-Simple Lemon Herb Chicken:
+- name: Simple Lemon Herb Chicken
   prep: 10 minutes
   cook: 15 minutes
   size: 2 servings
@@ -246,5 +246,4 @@ Simple Lemon Herb Chicken:
     - As you saute chicken, add juice from other 1/2 lemon, pepper to taste, and oregano
     - Saute for 5 to 10 minutes each side, or until juices run clear
     - Serve with parsley for garnish
-
-    
+ 

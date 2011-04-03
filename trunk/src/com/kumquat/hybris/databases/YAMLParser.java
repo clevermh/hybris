@@ -13,20 +13,21 @@ import com.kumquat.hybris.Ingredient;
 import com.kumquat.hybris.Item;
 import com.kumquat.hybris.Recipe;
 
-public class RecipeYAMLParser {
+public class YAMLParser {
 	@SuppressWarnings("unchecked")
 	public static Recipe[] parseRecipesFromRes(final Resources resources, int resid, SQLiteDatabase db) {
 		Yaml yaml = new Yaml();
 		InputStream inputStream = resources.openRawResource(resid);
-		Map<String, Object> result = (Map<String, Object>)yaml.load(inputStream);
+		List<Object> result = (List<Object>)yaml.load(inputStream);
 		Recipe[] recipes = new Recipe[result.size()];
 		int count = 0;
 		
-		for(String k : result.keySet()) {
-			Map<String, Object> data = (Map<String, Object>)result.get(k);
+		for(Object o : result) {
+			//Map<String, Object> data = (Map<String, Object>)result.get(k);
+			Map<String, Object> data = (Map<String, Object>)o;
 
 			// Basic info
-			String name = k;
+			String name = data.get("name").toString();
 			String prep = data.get("prep").toString();
 			String cook = data.get("cook").toString();
 			String size = data.get("size").toString();
