@@ -26,20 +26,20 @@ var NAVTREE =
       [ "com.kumquat.hybris.databases", "namespacecom_1_1kumquat_1_1hybris_1_1databases.html", null ]
     ] ],
     [ "File List", "files.html", [
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/Ingredient.java", "_ingredient_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/Inventory.java", "_inventory_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/InventoryActivity.java", "_inventory_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/Item.java", "_item_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/MainPageActivity.java", "_main_page_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/ManualAddActivity.java", "_manual_add_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/Recipe.java", "_recipe_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/RecipeActivity.java", "_recipe_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/RecipeListActivity.java", "_recipe_list_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/SplashscreenActivity.java", "_splashscreen_activity_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/Test.java", "_test_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/databases/HybrisDatabaseHelper.java", "_hybris_database_helper_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/databases/InventoryDatabaseHelper.java", "_inventory_database_helper_8java.html", null ],
-      [ "C:/Users/KesshoRyu/workspace/hybris/src/com/kumquat/hybris/databases/RecipeYAMLParser.java", "_recipe_y_a_m_l_parser_8java.html", null ]
+      [ "src/com/kumquat/hybris/Ingredient.java", "_ingredient_8java.html", null ],
+      [ "src/com/kumquat/hybris/Inventory.java", "_inventory_8java.html", null ],
+      [ "src/com/kumquat/hybris/InventoryActivity.java", "_inventory_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/Item.java", "_item_8java.html", null ],
+      [ "src/com/kumquat/hybris/MainPageActivity.java", "_main_page_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/ManualAddActivity.java", "_manual_add_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/Recipe.java", "_recipe_8java.html", null ],
+      [ "src/com/kumquat/hybris/RecipeActivity.java", "_recipe_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/RecipeListActivity.java", "_recipe_list_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/SplashscreenActivity.java", "_splashscreen_activity_8java.html", null ],
+      [ "src/com/kumquat/hybris/Test.java", "_test_8java.html", null ],
+      [ "src/com/kumquat/hybris/databases/HybrisDatabaseHelper.java", "_hybris_database_helper_8java.html", null ],
+      [ "src/com/kumquat/hybris/databases/InventoryDatabaseHelper.java", "_inventory_database_helper_8java.html", null ],
+      [ "src/com/kumquat/hybris/databases/RecipeYAMLParser.java", "_recipe_y_a_m_l_parser_8java.html", null ]
     ] ]
   ] ]
 ];
