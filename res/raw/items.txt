@@ -25,3 +25,33 @@ Dessert	Mix	Banana Bread
 Breakfast	Mix	Buttermilk Pancake
 Eggs	Eggs	Egg
 Water	Water	Water
+Fruit	Strawberry	Strawberry
+Sweet	Sugar	Sugar
+Flavors	Extract	Vanilla Extract
+Flour	Flour	Flour
+Baking Soda	Baking Soda	Baking Soda
+Spice	Nutmeg	Ground Nutmeg
+Meat	Chicken	Chicken Breast
+Vegetable	Pea	Green Pea
+Vegetable	Celery	Celery
+Spice	Salt	Salt
+Spice	Pepper	Pepper
+Spice	Celery Seed	Celery Seed
+Broth	Chicken Broth	Chicken Broth
+Dairy	Milk	Milk
+Meat	Pork	Ground Pork
+Vegetable	Onion	Onion
+Vegetable	Pepper	Red Bell Pepper
+Flour	Flour	Corn Mesa Flour
+Spice	Oregano	Oregano
+Spice	Cumin	Ground Cumin
+Spice	Chili Powder	Chili Powder
+Spice	Garlic Powder	Garlic Powder
+Coffee	Coffee	Coffee
+Juice	Tomato	Tomato Juice
+Sauce	Tomato	Tomato Sauce
+Beans	Chili Beans	Chili Beans
+Meat	Sausage	Smoked Sausage
+Sweet	Sugar	Brown Sugar
+Fruit	Lemon	Lemon
+Vegetable	Parsley	Parsley
