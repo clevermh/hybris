@@ -21,7 +21,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 1029;
+	public static final int VERSION = 1033;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -56,7 +56,8 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 											   "prep_time varchar(20) not NULL default ''," +
 											   "cook_time varchar(20) not NULL default ''," +
 											   "serving_size varchar(20) not NULL default ''," +
-											   "type varchar(20) not NULL default ''" +
+											   "type varchar(20) not NULL default ''," +
+											   "num_ing INTEGER NOT NULL" +
 											   ");";
 
 	private static final String ingredient_table = "CREATE TABLE IF NOT EXISTS Ingredients (" +
@@ -272,6 +273,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		recipe_value.put("cook_time", cookTime);
 		recipe_value.put("serving_size", servingSize);
 		recipe_value.put("type", type);
+		recipe_value.put("num_ing", ingredients.length);
 		
 		long id = database.insertOrThrow("Recipes", null, recipe_value);
 		if (id == -1) { return false; }

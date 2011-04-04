@@ -25,9 +25,9 @@ public class Inventory {
 		String sql = "SELECT item_id, qty, qty_metric FROM Inventory ORDER BY item_id";
 		
 		Cursor c = db.rawQuery(sql, null);
-		if(c == null) { return; }
+		if(c == null) { db.close(); return; }
 		
-		if(c.getCount() < 1) { c.close(); return; }
+		if(c.getCount() < 1) { c.close(); db.close(); return; }
 		
 		ingredients = new Ingredient[c.getCount()];
 		c.moveToFirst();
@@ -55,6 +55,16 @@ public class Inventory {
 		if(ingredients == null) { return 0; }
 		
 		return ingredients.length;
+	}
+	
+	public int[] getAllItemIDs() {
+		int[] res = new int[ingredients.length];
+		
+		for(int a = 0; a < ingredients.length; a++) {
+			res[a] = ingredients[a].getItemId();
+		}
+		
+		return res;
 	}
 	
 	public Ingredient getItem(int which) {

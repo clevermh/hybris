@@ -17,11 +17,16 @@ public class RecipeListActivity extends ListActivity {
 	Recipe[] recipes;
 	String[] recipeNames;
 	
-	private ArrayAdapter<String> makeAdapter() {
+	private ArrayAdapter<String> makeAdapter(boolean useInvent) {
 		HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 		SQLiteDatabase db = hdh.getReadableDatabase();
 		
-		recipeNames = Recipe.getAllRecipeNames(db);
+		if(useInvent) {
+			Inventory inv = new Inventory(getApplicationContext());
+			recipeNames = Recipe.getAllRecipeNamesWithIngredients(inv.getAllItemIDs(), db);
+		} else {
+			recipeNames = Recipe.getAllRecipeNames(db);
+		}
 		db.close();
 
 		return new ArrayAdapter<String>(this, R.layout.list_item, recipeNames);
@@ -31,8 +36,9 @@ public class RecipeListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		
 		final Context context = this;
+		Intent self = getIntent();
 
-		setListAdapter(makeAdapter());
+		setListAdapter(makeAdapter(self.getBooleanExtra("com.kumquat.hybris.useInventory", false)));
 
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
