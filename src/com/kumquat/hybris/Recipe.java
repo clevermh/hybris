@@ -56,6 +56,39 @@ public class Recipe {
 		return res;
 	}
 	
+	public static String[] getAllRecipeNamesWithIngredients(int[] ingredients, SQLiteDatabase db) {
+		String ing = "(";
+		for(int a = 0; a < ingredients.length; a++) {
+			if(a != 0) { ing += ","; }
+			ing += ingredients[a];
+		}
+		ing += ")";
+		
+		String sql = "SELECT r.name, i.recipe_id " +
+					"FROM Recipes r, Ingredients i " +
+					"WHERE r.id = i.recipe_id " +
+					"AND i.item_id IN " + ing +
+					"GROUP BY r.name " +
+					"HAVING COUNT(i.recipe_id) = r.num_ing " +
+					"ORDER BY r.name";
+		
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null) { return null; }
+		
+		String[] res = new String[c.getCount()];
+		c.moveToFirst();
+		
+		for(int a = 0; a < res.length; a++) {
+			res[a] = c.getString(0);
+			c.moveToNext();
+		}
+		
+		c.close();
+		
+		return res;
+	}
+	
 	public static Recipe getFromDatabase(String name, SQLiteDatabase db) {
 		String rinfosql = "SELECT id, prep_time, cook_time, serving_size, type FROM Recipes WHERE name = \"" + name + "\"";
 		Cursor rinfoc = db.rawQuery(rinfosql, null);
