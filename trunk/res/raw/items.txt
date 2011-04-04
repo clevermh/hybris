@@ -32,7 +32,7 @@ Flour	Flour	Flour
 Baking Soda	Baking Soda	Baking Soda
 Spice	Nutmeg	Ground Nutmeg
 Meat	Chicken	Chicken Breast
-Vegetable	Pea	Green Pea
+Vegetable	Pea	Green Peas
 Vegetable	Celery	Celery
 Spice	Salt	Salt
 Spice	Pepper	Pepper
