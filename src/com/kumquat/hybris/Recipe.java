@@ -57,7 +57,7 @@ public class Recipe {
 	}
 	
 	public static Recipe getFromDatabase(String name, SQLiteDatabase db) {
-		String rinfosql = "SELECT id, prep_time, cook_time, serving_size, type FROM Recipes WHERE name = '" + name + "'";
+		String rinfosql = "SELECT id, prep_time, cook_time, serving_size, type FROM Recipes WHERE name = \"" + name + "\"";
 		Cursor rinfoc = db.rawQuery(rinfosql, null);
 		
 		if(rinfoc == null) { return null; }
