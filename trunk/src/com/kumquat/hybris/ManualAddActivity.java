@@ -14,6 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+/**
+ * An object that represents the inventory and information for the item to be added
+ */
 public class ManualAddActivity extends Activity {
 	private Inventory inventory;
 	private String selType;
@@ -34,6 +37,9 @@ public class ManualAddActivity extends Activity {
 		return adapter;
 	}
 	
+	/**
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.manualadd);
