@@ -30,7 +30,6 @@ public class MainPageActivity extends Activity {
 	final CharSequence[] cookingDevices = {"Oven", "Stove","Microwave", "Cheese Machine"};
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
-	Inventory userInventory;
 	
 	protected Dialog onCreateDialog(int id) {
 	    Dialog dialog = null;

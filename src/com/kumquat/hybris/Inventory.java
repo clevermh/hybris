@@ -113,7 +113,6 @@ public class Inventory {
 		db.close();
 		
 		if(res > -1) {
-			//Ingredients[] newlist = new Ingredients[ingredients.length + 1];
 			Ingredient[] old = ingredients;
 			ingredients = new Ingredient[old.length + 1];
 			for(int a = 0; a < old.length; a++) { ingredients[a] = old[a]; }
