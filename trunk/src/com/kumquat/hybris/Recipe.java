@@ -2,17 +2,26 @@ package com.kumquat.hybris;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class Recipe {
-	public Ingredient[] ingredients;
-	public String[] directions;
-	public String prep_time;
-	public String cook_time;
-	public String serving_size;
-	public String type;
-	public String name;
+	private Ingredient[] ingredients;
+	private String[] directions;
+	private String prep_time;
+	private String cook_time;
+	private String serving_size;
+	private String type;
+	private String name;
 	
+	/**
+	 * Create a new recipe with the given information
+	 * @param name the name of the recipe
+	 * @param ingredients the ingredients in the recipe
+	 * @param directions the directions for the recipe
+	 * @param prep_time the prep time for the recipe
+	 * @param cook_time the cook time for the recipe
+	 * @param serving_size the serving size of the recipe
+	 * @param type the type of the recipe
+	 */
 	public Recipe(String name, Ingredient[] ingredients, String[] directions, String prep_time, String cook_time, String serving_size, String type) {
 		this.ingredients = ingredients;
 		this.directions = directions;
@@ -23,20 +32,90 @@ public class Recipe {
 		this.name = name;
 	}
 	
-	public void printToDebug() {
-		Log.d("DBG_OUT", "******************************");
-		Log.d("DBG_OUT", "Name: " + name);
-		Log.d("DBG_OUT", "PTime: " + prep_time);
-		Log.d("DBG_OUT", "CTime: " + cook_time);
-		for(int a = 0; a < ingredients.length; a++) {
-			ingredients[a].printToDebug();
-		}
-		for(int a = 0; a < directions.length; a++) {
-			Log.d("DBG_OUT", a + ") " + directions[a]);
-		}
-		
+	/**
+	 * @return the number of ingredients
+	 */
+	public int numIngredients() {
+		return ingredients.length;
 	}
 	
+	/**
+	 * @param which the location in the ingredients array to return
+	 * @return the requested ingredient
+	 */
+	public Ingredient getIngredient(int which) {
+		return ingredients[which];
+	}
+	
+	/**
+	 * @return the ingredients
+	 */
+	public Ingredient[] getIngredients() {
+		return ingredients;
+	}
+
+	/**
+	 * @return the number of directions
+	 */
+	public int numDirections() {
+		return directions.length;
+	}
+	
+	/**
+	 * @param which the location in the directions array to return
+	 * @return the requested direction
+	 */
+	public String getDirection(int which) {
+		return directions[which];
+	}
+
+	/**
+	 * @return the directions
+	 */
+	public String[] getDirections() {
+		return directions;
+	}
+
+	/**
+	 * @return the prep time
+	 */
+	public String getPrepTime() {
+		return prep_time;
+	}
+
+	/**
+	 * @return the cook time
+	 */
+	public String getCookTime() {
+		return cook_time;
+	}
+
+	/**
+	 * @return the serving size
+	 */
+	public String getServingSize() {
+		return serving_size;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Gets the names of all the recipes in the given database
+	 * @param db the database to search for recipes
+	 * @return the names of all recipes found
+	 */
 	public static String[] getAllRecipeNames(SQLiteDatabase db) {
 		String sql = "SELECT name FROM Recipes ORDER BY name";
 		Cursor c = db.rawQuery(sql, null);
@@ -56,6 +135,12 @@ public class Recipe {
 		return res;
 	}
 	
+	/**
+	 * Gets the names of all the recipes in the given database that can be made with the given ingredients
+	 * @param ingredients the list of ingredients to search with
+	 * @param db the database to search for recipes
+	 * @return the names of all recipes found
+	 */
 	public static String[] getAllRecipeNamesWithIngredients(int[] ingredients, SQLiteDatabase db) {
 		String ing = "(";
 		for(int a = 0; a < ingredients.length; a++) {
@@ -89,6 +174,12 @@ public class Recipe {
 		return res;
 	}
 	
+	/**
+	 * Gets a recipe from the database by name
+	 * @param name the name of the recipe to find
+	 * @param db the database to search for the recipe
+	 * @return the recipe if found, null otherwise
+	 */
 	public static Recipe getFromDatabase(String name, SQLiteDatabase db) {
 		String rinfosql = "SELECT id, prep_time, cook_time, serving_size, type FROM Recipes WHERE name = \"" + name + "\"";
 		Cursor rinfoc = db.rawQuery(rinfosql, null);

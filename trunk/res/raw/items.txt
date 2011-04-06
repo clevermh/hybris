@@ -55,3 +55,4 @@ Meat	Sausage	Smoked Sausage
 Sweet	Sugar	Brown Sugar
 Fruit	Lemon	Lemon
 Vegetable	Parsley	Parsley
+Fat	Oil	Olive Oil

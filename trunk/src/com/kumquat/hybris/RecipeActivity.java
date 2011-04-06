@@ -52,25 +52,25 @@ public class RecipeActivity extends Activity {
 		if(self == null) { finish(); return; }
 		
 		curPage = 0;
-		labels = new String[self.directions.length + 1];
+		labels = new String[self.numDirections() + 1];
 		content = new String[labels.length];
 		
-		for(int a = 0; a < self.directions.length; a++) {
+		for(int a = 0; a < self.numDirections(); a++) {
 			labels[a + 1] = "Directions - " + (a + 1);
-			content[a + 1] = self.directions[a];
+			content[a + 1] = self.getDirection(a);
 		}
 		
 		// Page 0 is the info
 		String inf = recipename + "\n-----------\n";
-		inf += "Prep time: " + self.prep_time + "\n";
-		inf += "Cook time: " + self.cook_time + "\n";
-		inf += "Serves: " + self.serving_size + "\n";
-		inf += "Type: " + self.type + "\n";
+		inf += "Prep time: " + self.getPrepTime() + "\n";
+		inf += "Cook time: " + self.getCookTime() + "\n";
+		inf += "Serves: " + self.getServingSize() + "\n";
+		inf += "Type: " + self.getType() + "\n";
 		inf += "-----------\n";
-		for(int a = 0; a < self.ingredients.length; a++) {
-			inf += self.ingredients[a].getQuantity() + "  ";
-			inf += self.ingredients[a].getQuantityMetric() + "  ";
-			inf += self.ingredients[a].getName() + "\n";
+		for(int a = 0; a < self.numIngredients(); a++) {
+			inf += self.getIngredient(a).getQuantity() + "  ";
+			inf += self.getIngredient(a).getQuantityMetric() + "  ";
+			inf += self.getIngredient(a).getName() + "\n";
 		}
 		
 		labels[0] = "Recipe Info";

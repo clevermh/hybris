@@ -21,7 +21,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 1033;
+	public static final int VERSION = 1035;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -126,8 +126,8 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		Recipe[] recipes = YAMLParser.parseRecipesFromRes(resources, R.raw.recipes, database);
 		
 		for(Recipe r : recipes) {
-			if(!addRecipe(r.name, r.ingredients, r.directions, r.prep_time, r.cook_time, r.serving_size, r.type)) {
-				Log.e("HybrisDatabase", "Unable to add: " + r.name);
+			if(!addRecipe(r.getName(), r.getIngredients(), r.getDirections(), r.getPrepTime(), r.getCookTime(), r.getServingSize(), r.getType())) {
+				Log.e("HybrisDatabase", "Unable to add: " + r.getName());
 			}
 		}
 		
