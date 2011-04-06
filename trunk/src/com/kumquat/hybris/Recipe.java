@@ -3,6 +3,9 @@ package com.kumquat.hybris;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * An object that represents a recipe
+ */
 public class Recipe {
 	private Ingredient[] ingredients;
 	private String[] directions;
