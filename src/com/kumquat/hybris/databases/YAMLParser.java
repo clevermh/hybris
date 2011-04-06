@@ -13,7 +13,17 @@ import com.kumquat.hybris.Ingredient;
 import com.kumquat.hybris.Item;
 import com.kumquat.hybris.Recipe;
 
+/**
+ * A class that allows for YAML files to be parsed into certain things
+ */
 public class YAMLParser {
+	/**
+	 * Gets a list of Recipes that are in the given YAML resource file
+	 * @param resources the resources to get the file from
+	 * @param resid the id of the resource to load
+	 * @param db the database to find item IDs from
+	 * @return an array containing the Recipes from the file
+	 */
 	@SuppressWarnings("unchecked")
 	public static Recipe[] parseRecipesFromRes(final Resources resources, int resid, SQLiteDatabase db) {
 		Yaml yaml = new Yaml();
@@ -56,6 +66,12 @@ public class YAMLParser {
 		return recipes;
 	}
 	
+	/**
+	 * Get a list of Items that are in the given YAML resource file
+	 * @param resources the resources to get the file from
+	 * @param resid the id of the resource to load
+	 * @return an array containing the Items from the file
+	 */
 	public static Item[] parseItemsFromRes(final Resources resources, int resid) {
 		
 		return null;
