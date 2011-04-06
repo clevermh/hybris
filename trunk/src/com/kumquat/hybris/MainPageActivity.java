@@ -1,10 +1,9 @@
 package com.kumquat.hybris;
 
 import java.util.List;
+
 import java.util.Random;
-
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,6 +21,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * An object that handles user input and controls actions on the main page
+ * Extends the android Activity class
+ */
+
 public class MainPageActivity extends Activity {
 	private boolean hasScannerApp;
 	static final int DIALOG_ADD = 0;
@@ -31,12 +35,14 @@ public class MainPageActivity extends Activity {
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
 	
+	/**
+	 * @see android.app.Activity#onCreateDialog(int)
+	 */
 	protected Dialog onCreateDialog(int id) {
 	    Dialog dialog = null;
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    switch(id) {
 	    case DIALOG_ADD:
-	    	//AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("How would you like to add an item?")
 	    	       .setCancelable(false)
 	    	       .setPositiveButton("Barcode Scanner", new DialogInterface.OnClickListener() {
@@ -57,8 +63,6 @@ public class MainPageActivity extends Activity {
 	    		
 	        break;
 	    case DIALOG_DEVICES:
-	    	
-	    	//AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
 	    	builder.setTitle("Select Cooking Devices");
 	    	builder.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
 	    		@Override
@@ -89,7 +93,6 @@ public class MainPageActivity extends Activity {
 	    	builder.setOnCancelListener(new OnCancelListener() {
 	    		@Override
 				public void onCancel(DialogInterface arg0) {
-					// TODO Auto-generated method stub
 	    			for(int i = 0; i < checkedDevices.length; i++){
 						checkedDevices[i] = checkedDevicesBackup[i];
 			    	}
@@ -100,7 +103,6 @@ public class MainPageActivity extends Activity {
 	    	dialog = builder.create();
 	        break;
 	    case DIALOG_RECIPE_VIEW:
-	    	//AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    	builder.setMessage("Look Up Which Recipes?")
 	    	       .setCancelable(true)
 	    	       .setPositiveButton("All", new DialogInterface.OnClickListener() {
@@ -141,6 +143,9 @@ public class MainPageActivity extends Activity {
 	    return list.size() > 0;
 	}
 	
+	/**
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
@@ -173,6 +178,9 @@ public class MainPageActivity extends Activity {
 		return Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
 	}
 	
+	/**
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.front);
@@ -256,12 +264,18 @@ public class MainPageActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+	 */
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean("scanchecked", true);
 		outState.putBoolean("hasscanner", hasScannerApp);
 		outState.putBoolean("splashShown", true);
 	}
 	
+	/**
+	 * @see android.app.Activity#onPause()
+	 */
 	public void onPause() {
 		super.onPause();
 	}
