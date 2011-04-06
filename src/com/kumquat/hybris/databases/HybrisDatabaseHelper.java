@@ -16,6 +16,9 @@ import com.kumquat.hybris.Ingredient;
 import com.kumquat.hybris.R;
 import com.kumquat.hybris.Recipe;
 
+/**
+ * A helper that returns back a reference to the Hybris Database.
+ */
 public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private Context context;
 	private SQLiteDatabase database;
@@ -228,6 +231,15 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
         onCreate(db);
 	}
 	
+	/**
+	 * Adds an item to the Items table.
+	 * @param type Type of the item
+	 * @param sub Subtype of the item
+	 * @param spec Specific type of the item
+	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
+	 * using the application.
+	 * @return
+	 */
 	public boolean addItem(String type, String sub, String spec, boolean user) {
 		ContentValues item = new ContentValues();
 		item.put("type", type);
@@ -240,6 +252,14 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		return id != -1;
 	}
 	
+	/**
+	 * Adds a PLU code to the PLU table
+	 * @param code PLU code
+	 * @param iid Item id
+	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
+	 * using the application.
+	 * @return
+	 */
 	public boolean addPLU(String code, int iid, boolean user) {
 		ContentValues item = new ContentValues();
 		item.put("plu_code", code);
@@ -251,6 +271,14 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		return id != -1;
 	}
 	
+	/**
+	 * Adds a UPC code to the UPC table
+	 * @param code UPC code
+	 * @param iid Item id
+	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
+	 * using the application.
+	 * @return
+	 */
 	public boolean addUPC(String code, int iid, boolean user) {
 		ContentValues item = new ContentValues();
 		item.put("upc_code", code);
@@ -262,6 +290,17 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		return id != -1;
 	}
 	
+	/**
+	 * Adds a recipe into the Recipes table
+	 * @param name Name of the recipe
+	 * @param ingredients List of ingredients in the recipe
+	 * @param directions List of directions for the recipe
+	 * @param prepTime The preparation time  
+	 * @param cookTime The cooking time
+	 * @param servingSize The serving size
+	 * @param type The recipe type
+	 * @return
+	 */
 	public boolean addRecipe(String name, Ingredient[] ingredients, String[] directions, String prepTime, 
 			String cookTime, String servingSize, String type) {
 		ContentValues recipe_value = new ContentValues();
