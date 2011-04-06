@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Controls access to the inventory database
+ */
 public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 	@SuppressWarnings("unused")
 	private Context context;
@@ -39,7 +42,14 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS Inventory");
         onCreate(db);
 	}
-	
+
+	/**
+	 * Adds an item to the database given the parameters and returns true if successful
+	 * @param id
+	 * @param qty
+	 * @param qtymet
+	 * @return
+	 */
 	public boolean addItem(int id, int qty, String qtymet) {
 		ContentValues cv = new ContentValues();
 		cv.put("item_id", id);
