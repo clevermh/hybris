@@ -46,7 +46,7 @@ public class Inventory {
 			int id = c.getInt(0);
 			int qty = c.getInt(1);
 			String qtymet = c.getString(2);
-			String name = Item.getNameFromID(odb, id);
+			String name = Item.findNameFromID(odb, id);
 			ingredients[a] = new Ingredient(id, name, qty, qtymet);
 			
 			c.moveToNext();
