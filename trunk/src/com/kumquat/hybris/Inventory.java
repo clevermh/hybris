@@ -9,10 +9,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+/**
+ * An object that represents the user's inventory
+ */
 public class Inventory {
 	private Context context;
 	private Ingredient[] ingredients = new Ingredient[0];
 	
+	/**
+	 * Make a new inventory object and load the items from a database accessible by the given Context.
+	 * @param con the context with which to get the database
+	 */
 	public Inventory(Context con) {
 		context = con;
 		
@@ -51,12 +58,18 @@ public class Inventory {
 		db.close();
 	}
 	
+	/**
+	 * @return how many items are in the inventory
+	 */
 	public int getCount() {
 		if(ingredients == null) { return 0; }
 		
 		return ingredients.length;
 	}
 	
+	/**
+	 * @return an array containing the ID of every item in the inventory
+	 */
 	public int[] getAllItemIDs() {
 		int[] res = new int[ingredients.length];
 		
@@ -67,6 +80,10 @@ public class Inventory {
 		return res;
 	}
 	
+	/**
+	 * @param which which item in the array to return
+	 * @return the specified item
+	 */
 	public Ingredient getItem(int which) {
 		if(ingredients == null) { return null; }
 		
@@ -75,6 +92,11 @@ public class Inventory {
 		return ingredients[which];
 	}
 	
+	/**
+	 * Adds an item to the inventory and the database
+	 * @param ni the item to add
+	 * @return whether or not the add was successful
+	 */
 	public boolean addItem(Ingredient ni) {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
 		SQLiteDatabase db = idh.getWritableDatabase();
