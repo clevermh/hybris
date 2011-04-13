@@ -3,6 +3,6 @@
 
 == Welcome to Hybris ==
 ----
-Hybris advises users recipes to whomever is in the need for food. The project was started as an idea from our Software Design and Documentation class.
+Kumquat is a culinary android application that holds an inventory that can be used to generate recipes with the items within your inventory. 
 
-
+The project was started as an idea from our Software Design and Documentation class.
