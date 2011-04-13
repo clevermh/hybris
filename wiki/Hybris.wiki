@@ -6,11 +6,11 @@
 Kumquat is a culinary android application. The project was started as an idea from our Software Design and Documentation class.
 
 The features of Kumquat are:
- ▫ Store an inventory of items currently available
- ▫ Display a list of recipes based off a specific item
- ▫ Generate a random recipe
- ▫ Add items to the shopping list based off a recipe ingredients and the inventory
- ▫ Generate cookable recipes based of the inventory
+ ▫ Store an inventory of items currently available\n
+ ▫ Display a list of recipes based off a specific item\n
+ ▫ Generate a random recipe\n
+ ▫ Add items to the shopping list based off a recipe ingredients and the inventory\n
+ ▫ Generate cookable recipes based of the inventory\n
 
 
 
