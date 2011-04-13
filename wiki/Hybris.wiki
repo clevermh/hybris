@@ -3,6 +3,16 @@
 
 == Welcome to Hybris ==
 ----
-Kumquat is a culinary android application that holds an inventory that can be used to generate recipes with the items within your inventory. 
+Kumquat is a culinary android application. The project was started as an idea from our Software Design and Documentation class.
 
-The project was started as an idea from our Software Design and Documentation class.
+The features of Kumquat are:
+ ▫ Store an inventory of items currently available
+ ▫ Display a list of recipes based off a specific item
+ ▫ Generate a random recipe
+ ▫ Add items to the shopping list based off a recipe ingredients and the inventory
+ ▫ Generate cookable recipes based of the inventory
+
+
+
+▫
+ that  that can be used to generate recipes with the items within your inventory. Kumquat can also be used to find recipes and find what you need to buy in order to make a certain recipe. Lastly Kumquat
