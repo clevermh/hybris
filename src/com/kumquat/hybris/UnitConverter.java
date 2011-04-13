@@ -62,16 +62,39 @@ public class UnitConverter {
 	}
 	
 	/**
+	 * Check whether a specific conversions is known
+	 * @param unit1 Unit to convert from
+	 * @param unit2 Unit to convert to
+	 * @return True if a conversion exists for this, false otherwise
+	 */
+	public static boolean knownConversion(String unit1, String unit2) {
+		if(!conversions.containsKey(unit1)) { return false; }
+		return conversions.get(unit1).containsKey(unit2);
+	}
+	
+	/**
 	 * Gets the conversion factor from unit1 to unit2.
 	 * @param unit1 Unit to convert from
 	 * @param unit2 Unit to convert to
 	 * @return Conversion factor
 	 */
-	public static double getConversion(String unit1, String unit2) {
+	public static double getConversionFactor(String unit1, String unit2) {
 		if(conversions.containsKey(unit1)) {
 			HashMap<String, Double> cm = conversions.get(unit1);
 			if(cm.containsKey(unit2)) { return cm.get(unit2); }
 		}
+		
+		return 0;
+	}
+	
+	/**
+	 * Converts the given amount of unit1 to unit2.
+	 * @param unit1 Unit to convert from
+	 * @param unit2 Unit to convert to
+	 * @param amount The starting amount
+	 * @return The converted amount
+	 */
+	public static double getConvertedAmount(String unit1, String unit2, double amount) {
 		
 		return 0;
 	}
