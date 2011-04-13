@@ -1,13 +1,8 @@
-Hybris is a culinary app 
-
-= Introduction =
-
-Add your content here.
+= Main Page =
 
 
-= Details =
+== Welcome to Hybris ==
+----
+Hybris advises users recipes to whomever is in the need for food. The project was started as an idea from our Software Design and Documentation class.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+
