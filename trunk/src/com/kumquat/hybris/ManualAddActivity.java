@@ -119,7 +119,7 @@ public class ManualAddActivity extends Activity {
 				db.close();
 				
 				Ingredient ni = new Ingredient(selID, selSpec, 1, "units");
-				if(inventory.addItem(ni)) {
+				if(inventory.updateItem(ni)) {
 					Log.d("DBG_OUT", "Item added to inventory");
 					Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_LONG).show();
 				}

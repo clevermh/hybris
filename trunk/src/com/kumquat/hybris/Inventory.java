@@ -29,7 +29,7 @@ public class Inventory {
 	private void loadInventory() {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
 		SQLiteDatabase db = idh.getReadableDatabase();
-		String sql = "SELECT item_id, qty, qty_metric FROM Inventory ORDER BY item_id";
+		String sql = "SELECT item_id, qty, qty_metric FROM Inventory WHERE qty > 0 ORDER BY item_id";
 		
 		Cursor c = db.rawQuery(sql, null);
 		if(c == null) { db.close(); return; }
@@ -93,18 +93,47 @@ public class Inventory {
 	}
 	
 	/**
+	 * Checks whether the inventory contains at least the given ingredient
+	 * @param i The ingredient to check
+	 * @return True if there is a greater or equal quantity of the given ingredient, false otherwise.
+	 */
+	public boolean containsAtLeast(Ingredient i) {
+		for(int a = 0; a < ingredients.length; a++) {
+			if(ingredients[a].getItemId() == i.getItemId()) {
+				double amt = UnitConverter.getConvertedAmount(i.getQuantityMetric(), ingredients[a].getQuantityMetric(), i.getQuantity());
+				return amt <= ingredients[a].getQuantity();
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if the given recipe can be made from this inventory
+	 * @param r The recipe to check
+	 * @return True if the recipe can be made, false otherwise
+	 */
+	public boolean canMake(Recipe r) {
+		for(int a = 0; a < r.numIngredients(); a++) {
+			if(!containsAtLeast(r.getIngredient(a))) { return false; }
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Adds an item to the inventory and the database
 	 * @param ni the item to add
 	 * @return whether or not the add was successful
 	 */
-	public boolean addItem(Ingredient ni) {
+	public boolean updateItem(Ingredient ni) {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
 		SQLiteDatabase db = idh.getWritableDatabase();
 		
 		for(int a = 0; a < ingredients.length; a++) {
 			Ingredient i = ingredients[a];
 			if(i.getItemId() == ni.getItemId()) {
-				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), i.getQuantity() + ni.getQuantity(), i.getQuantityMetric());
+				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), Math.max(0, i.getQuantity() + ni.getQuantity()), i.getQuantityMetric());
 				
 				// update the DB
 				String sql = "UPDATE Inventory SET qty = " + addition.getQuantity() + " WHERE item_id = " + addition.getItemId();
@@ -120,7 +149,19 @@ public class Inventory {
 				Log.d("DBG_OUT", "Item already exists, updating (" + res + ")");
 				
 				if(res == 0) {
-					ingredients[a] = addition;
+					if(addition.getQuantity() == 0) {
+						// This should be removed from the inventory so it doesn't show up
+						Ingredient[] old = ingredients;
+						ingredients = new Ingredient[old.length - 1];
+						for(int b = 0; b < old.length; b++) {
+							if(b == a) { continue; }
+							else if(b < a) { ingredients[b] = old[b]; }
+							else { ingredients[b - 1] = old[b]; }
+						}
+					} else {
+						ingredients[a] = addition;
+					}
+					
 					return true;
 				} else { return false; }
 			}
