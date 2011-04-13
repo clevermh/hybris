@@ -1,4 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node10" href="$classcom_1_1kumquat_1_1hybris_1_1_ingredient.html" title="{com.kumquat.hybris.Ingredient\n|&#45; name\l&#45; quantity\l&#45; quantity_metric\l&#45; item_id\l|+ Ingredient()\l+ Ingredient()\l+ Ingredient()\l+ getName()\l+ getQuantity()\l+ getQuantityMetric()\l+ getItemId()\l}" alt="" coords="144,174,344,415"/>
-<area shape="rect" id="node8" href="$classcom_1_1kumquat_1_1hybris_1_1_inventory.html" title="{com.kumquat.hybris.Inventory\n|&#45; context\l&#45; ingredients\l|+ Inventory()\l+ getCount()\l+ getAllItemIDs()\l+ getItem()\l+ addItem()\l&#45; loadInventory()\l}" alt="" coords="147,517,341,707"/>
-</map>
