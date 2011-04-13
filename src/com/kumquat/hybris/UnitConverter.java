@@ -6,6 +6,7 @@ public class UnitConverter {
 
 	private static HashMap<String, HashMap<String, Double>> conversions;
 	
+	// This is so horrible but we are doing it anyways.
 	static {
 		conversions = new HashMap<String, HashMap<String, Double>>();
 		addConversion("", "", 1);
@@ -18,7 +19,7 @@ public class UnitConverter {
 	}
 	
 	/**
-	 * Adds a conversion factor to the map. Also adds the reverse conversion
+	 * Adds a conversion factor to the map. Also adds the reverse conversion. This overrides whatever may already be there.
 	 * @param unit1 Unit to convert from
 	 * @param unit2 Unit to convert to
 	 * @param conversion Conversion factor
@@ -44,7 +45,7 @@ public class UnitConverter {
 	}
 	
 	/**
-	 * Check whether or not a specific unit is known
+	 * Check whether or not a specific unit is known.
 	 * @param unit The unit to check
 	 * @return True if the unit is know, false otherwise
 	 */
@@ -53,7 +54,7 @@ public class UnitConverter {
 	}
 	
 	/**
-	 * Gets the conversion factor from unit1 to unit2
+	 * Gets the conversion factor from unit1 to unit2.
 	 * @param unit1 Unit to convert from
 	 * @param unit2 Unit to convert to
 	 * @return Conversion factor
