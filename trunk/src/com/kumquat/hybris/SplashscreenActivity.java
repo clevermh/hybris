@@ -40,9 +40,12 @@ public class SplashscreenActivity extends Activity {
 				UnitConverter.addConversion("whole", "third", 3);
 				UnitConverter.addConversion("eighth", "whole", 0.125);
 				
-				UnitConverter.addConversion("milliliter", "fluid ounce", 0.03381);
 				UnitConverter.addConversion("liter", "fluid ounce", 33.81);
-				UnitConverter.addConversion("liter", "fluid ounce", 33.81);
+				UnitConverter.addConversion("cubic centimeter", "fluid ounce", 0.03381);
+				UnitConverter.addConversion("cubic centimeter", "fluid ounce", 0.03381);
+				UnitConverter.addConversion("pinch", "fluid ounce", 0.01042);
+				UnitConverter.addConversion("dash", "fluid ounce", 0.012);
+				UnitConverter.addConversion("smidgen", "fluid ounce", 0.005208);
 				
 				
 				// Force the databases to populate now
