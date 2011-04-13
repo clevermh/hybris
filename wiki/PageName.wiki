@@ -2,18 +2,6 @@
 _which to use_
 
 == Item one ==
-
-  * sit on toilet
-  * push hard
-  * harder
-
-
-*Item two*
-  * lol
-  * wtf
-
-
- ITEM TWO 
-
-  * ICED TEA
-  * MTN DEW VOLTAGE
+  * bulleted stuffz
+  * bulleted 2
+  * bulleted tree
