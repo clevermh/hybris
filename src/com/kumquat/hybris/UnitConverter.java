@@ -4,41 +4,7 @@ import java.util.HashMap;
 
 public class UnitConverter {
 
-	private static HashMap<String, HashMap<String, Double>> conversions;
-	
-	// This is so horrible but we are doing it anyways.
-	static {
-		conversions = new HashMap<String, HashMap<String, Double>>();
-		addConversion("", "", 1);
-		addConversion("cup", "cup", 1);
-		addConversion("teaspoon", "teaspoon", 1);
-		addConversion("tablespoon", "tablespoon", 1);
-		addConversion("pound", "pound", 1);
-		addConversion("whole", "whole", 1);
-		addConversion("pinch", "pinch", 1);
-		
-		addConversion("gallon", "fluid ounce", 128);
-		addConversion("quart", "fluid ounce", 32);
-		addConversion("pint", "fluid ounce", 16);
-		addConversion("cup", "fluid ounce", 8);
-		addConversion("gill", "fluid ounce", 4);
-		addConversion("fluid ounce", "tablespoon", 2);
-		addConversion("fluid ounce", "teaspoon", 6);
-		
-		addConversion("ounce", "pound", 0.0625);
-		addConversion("stone", "pound", 14);
-		addConversion("pound", "gram", 453.6);
-		addConversion("pound", "kilogram", 0.454);
-		addConversion("half", "whole", 0.5);
-		addConversion("quarter", "whole", 0.25);
-		addConversion("whole", "third", 3);
-		addConversion("eighth", "whole", 0.125);
-		
-		addConversion("milliliter", "fluid ounce", 0.03381);
-		addConversion("liter", "fluid ounce", 33.81);
-		addConversion("liter", "fluid ounce", 33.81);
-		
-	}
+	private static HashMap<String, HashMap<String, Double>> conversions = new HashMap<String, HashMap<String, Double>>();
 	
 	/**
 	 * Adds a conversion factor to the map. Also adds the reverse conversion. This overrides whatever may already be there.
@@ -46,7 +12,7 @@ public class UnitConverter {
 	 * @param unit2 Unit to convert to
 	 * @param conversion Conversion factor
 	 */
-	private static void addConversion(String unit1, String unit2, double conversion) {
+	public static void addConversion(String unit1, String unit2, double conversion) {
 		if(conversions.containsKey(unit1)) {
 			HashMap<String, Double> cm = conversions.get(unit1);
 			cm.put(unit2, conversion);

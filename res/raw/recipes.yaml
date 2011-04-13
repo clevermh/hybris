@@ -1,19 +1,4 @@
 --- # Don't use tabs in this. Also make sure you spell stuff right
-- name: Toast
-  prep: 0 minutes
-  cook: 5 minutes
-  size: 1 person
-  type: Breakfast
-  ingredients:
-    - qty: 1
-      qty_metric: piece
-      ing_name: White Bread
-  directions:
-    - Put bread into toaster
-    - Turn on toaster
-    - When toaster is done, remove bread
-    - Enjoy
-    
 - name: Brownies
   prep: 10 minutes
   cook: 20 minutes

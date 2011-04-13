@@ -13,6 +13,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 
+import java.util.Vector;
+
 public class RecipeListActivity extends ListActivity {
 	Recipe[] recipes;
 	String[] recipeNames;
@@ -23,7 +25,13 @@ public class RecipeListActivity extends ListActivity {
 		
 		if(useInvent) {
 			Inventory inv = new Inventory(getApplicationContext());
-			recipeNames = Recipe.getAllRecipeNamesWithIngredients(inv.getAllItemIDs(), db);
+			String[] allMaybePossible = Recipe.getAllRecipeNamesWithIngredients(inv.getAllItemIDs(), db);
+			Vector<String> recipes = new Vector<String>();
+			for(int a = 0; a < allMaybePossible.length; a++) {
+				Recipe r = Recipe.getFromDatabase(allMaybePossible[a], db);
+				if(inv.canMake(r)) { recipes.add(allMaybePossible[a]); }
+			}
+			recipeNames = recipes.toArray(null);
 		} else {
 			recipeNames = Recipe.getAllRecipeNames(db);
 		}

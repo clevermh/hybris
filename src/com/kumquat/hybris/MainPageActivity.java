@@ -159,7 +159,7 @@ public class MainPageActivity extends Activity {
 	        	if(item != null) {
 	            	Inventory invent = new Inventory(getApplicationContext());
 	            	Ingredient ing = new Ingredient(item.getID(), item.getSpecificType(), 1, " units");
-	            	if(invent.addItem(ing)) {
+	            	if(invent.updateItem(ing)) {
 	            		toaster(item.getSpecificType() + " added").show();
 	            	} else {
 	            		toaster("Error adding " + item.getSpecificType()).show();
