@@ -24,6 +24,20 @@ public class UnitConverter {
 		addConversion("gill", "fluid ounce", 4);
 		addConversion("fluid ounce", "tablespoon", 2);
 		addConversion("fluid ounce", "teaspoon", 6);
+		
+		addConversion("ounce", "pound", 0.0625);
+		addConversion("stone", "pound", 14);
+		addConversion("pound", "gram", 453.6);
+		addConversion("pound", "kilogram", 0.454);
+		addConversion("half", "whole", 0.5);
+		addConversion("quarter", "whole", 0.25);
+		addConversion("whole", "third", 3);
+		addConversion("eighth", "whole", 0.125);
+		
+		addConversion("milliliter", "fluid ounce", 0.03381);
+		addConversion("liter", "fluid ounce", 33.81);
+		addConversion("liter", "fluid ounce", 33.81);
+		
 	}
 	
 	/**
