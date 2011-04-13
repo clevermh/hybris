@@ -1,7 +1,5 @@
-= How to =
-
-HOW TO KUMQUAT
-
+= How to Kumquat =
+_which to use_
 
 == Item one ==
 
@@ -9,7 +7,13 @@ HOW TO KUMQUAT
   * push hard
   * harder
 
-== Item two ==
+
+*Item two*
+  * lol
+  * wtf
+
+
+ ITEM TWO 
 
   * ICED TEA
   * MTN DEW VOLTAGE
