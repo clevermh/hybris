@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * An object that represents the inventory and information for the item to be added
@@ -120,6 +121,7 @@ public class ManualAddActivity extends Activity {
 				Ingredient ni = new Ingredient(selID, selSpec, 1, "units");
 				if(inventory.addItem(ni)) {
 					Log.d("DBG_OUT", "Item added to inventory");
+					Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
