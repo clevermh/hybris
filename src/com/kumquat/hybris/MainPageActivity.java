@@ -31,7 +31,7 @@ public class MainPageActivity extends Activity {
 	static final int DIALOG_ADD = 0;
 	static final int DIALOG_DEVICES = 1;
 	static final int DIALOG_RECIPE_VIEW = 2;
-	final CharSequence[] cookingDevices = {"Oven", "Stove","Microwave", "Cheese Machine"};
+	final CharSequence[] cookingDevices = {"Oven", "Stove", "Microwave", "Cheese Machine"};
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
 	

@@ -132,6 +132,7 @@ public class RecipeActivity extends Activity {
 			public void onClick(View v) {
 				// Go to the remove page
 				info.setTextSize(info.getTextSize());
+				
 			}
 		});
 		zoomer.setOnZoomOutClickListener(new OnClickListener() {
