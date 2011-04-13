@@ -16,6 +16,14 @@ public class UnitConverter {
 		addConversion("pound", "pound", 1);
 		addConversion("whole", "whole", 1);
 		addConversion("pinch", "pinch", 1);
+		
+		addConversion("gallon", "fluid ounce", 128);
+		addConversion("quart", "fluid ounce", 32);
+		addConversion("pint", "fluid ounce", 16);
+		addConversion("cup", "fluid ounce", 8);
+		addConversion("gill", "fluid ounce", 4);
+		addConversion("fluid ounce", "tablespoon", 2);
+		addConversion("fluid ounce", "teaspoon", 6);
 	}
 	
 	/**
