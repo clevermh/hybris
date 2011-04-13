@@ -18,12 +18,11 @@ public class ManualAddListActivity extends ListActivity {
 		ArrayAdapter<String> adapter;
 		
 		if(arr == null) {
-			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[] { });
+			adapter = new ArrayAdapter<String>(this, R.layout.list_item, new String[] { });
 		} else {
-			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arr);
+			adapter = new ArrayAdapter<String>(this, R.layout.list_item, arr);
 		}
 		
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		return adapter;
 	}
 	
