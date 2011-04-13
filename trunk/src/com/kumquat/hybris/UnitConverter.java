@@ -75,7 +75,9 @@ public class UnitConverter {
 	 * @return The converted amount
 	 */
 	public static double getConvertedAmount(String unit1, String unit2, double amount) {
-		
-		return 0;
+		if (UnitConverter.knownConversion(unit1,unit2)){
+			return UnitConverter.getConversionFactor(unit1, unit2);
+		}
+		return Double.POSITIVE_INFINITY;
 	}
 }
