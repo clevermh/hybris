@@ -172,7 +172,7 @@ public class Item {
 	 */
 	public static String[] getAllTypes(SQLiteDatabase db) {
 		if(db == null) { return null; }
-		String sql = "SELECT DISTINCT type FROM Items ORDER BY type";
+		String sql = "SELECT type FROM Items ORDER BY type";
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c == null || c.getCount() == 0) {
@@ -203,7 +203,7 @@ public class Item {
 	 * @return all medium level categories that belong to this category
 	 */
 	public static String[] getAllSubTypes(SQLiteDatabase db, String type) {
-		String sql = "SELECT DISTINCT sub_type FROM Items WHERE type = '" + type + "' ORDER BY sub_type";
+		String sql = "SELECT sub_type FROM Items WHERE type = '" + type + "' ORDER BY sub_type";
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c == null || c.getCount() == 0) {
@@ -235,8 +235,38 @@ public class Item {
 	 * @return array of all specific ingredient names belonging to this medium level type
 	 */
 	public static String[] getAllSpecificTypes(SQLiteDatabase db, String type, String subtype) {
-		String sql = "SELECT DISTINCT specific_type FROM Items WHERE type = '" + type + "' AND sub_type = '" + subtype +
+		String sql = "SELECT specific_type FROM Items WHERE type = '" + type + "' AND sub_type = '" + subtype +
 						"' ORDER BY specific_type";
+		Cursor c = db.rawQuery(sql, null);
+		
+		if(c == null || c.getCount() == 0) {
+			if(c != null) { c.close(); }
+			
+			return null;
+		}
+		
+		c.moveToFirst();
+		
+		String[] res = new String[c.getCount()];
+		int n = 0;
+		while(!c.isAfterLast()) {
+			res[n] = c.getString(0);
+			n++;
+			c.moveToNext();
+		}
+		
+		c.close();
+		
+		return res;
+	}
+	
+	/**
+	 * 
+	 * @param db SQLite database containing item information
+	 * @return array of all specific ingredient names
+	 */
+	public static String[] getAllSpecificTypes(SQLiteDatabase db) {
+		String sql = "SELECT specific_type FROM Items ORDER BY specific_type";
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c == null || c.getCount() == 0) {

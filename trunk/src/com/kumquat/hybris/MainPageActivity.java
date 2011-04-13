@@ -206,7 +206,7 @@ public class MainPageActivity extends Activity {
 					showDialog(DIALOG_ADD);
 				}
 				else{
-					Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
+					Intent manualadd = new Intent(getApplicationContext(), ManualAddListActivity.class);
 		        	startActivity(manualadd);
 				}
 				
