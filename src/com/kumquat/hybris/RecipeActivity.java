@@ -131,14 +131,13 @@ public class RecipeActivity extends Activity {
 		zoomer.setOnZoomInClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the remove page
-				info.setTextSize(info.getTextSize());
-				
+				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() * (float)1.5);
 			}
 		});
 		zoomer.setOnZoomOutClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the remove page
-				info.setTextSize(info.getTextSize() * 0.5f);
+				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() / (float)1.5);
 			}
 		});
 	}
