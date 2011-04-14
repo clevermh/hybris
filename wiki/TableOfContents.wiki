@@ -5,6 +5,6 @@
 
 === Navigation ===
 ==== Hybris ====
-==== HowTo ====
+==== How To ====
 ==== Help ====
 ==== FAQs ====
