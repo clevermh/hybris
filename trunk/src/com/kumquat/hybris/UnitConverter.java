@@ -1,5 +1,6 @@
 package com.kumquat.hybris;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UnitConverter {
@@ -75,9 +76,22 @@ public class UnitConverter {
 	 * @return The converted amount
 	 */
 	public static double getConvertedAmount(String unit1, String unit2, double amount) {
-		if (UnitConverter.knownConversion(unit1,unit2)){
-			return UnitConverter.getConversionFactor(unit1, unit2);
+		if (knownConversion(unit1,unit2)){
+			double factor = UnitConverter.getConversionFactor(unit1, unit2);
+			return (amount * factor);
 		}
+		ArrayList<String> standards = new ArrayList<String>();
+		standards.add("pound");
+		standards.add("fluid ounce");
+		standards.add("whole");
+		for (String sUnit: standards){
+			if (knownConversion(unit1,sUnit) && knownConversion(sUnit,unit2)){
+				double factor1 = UnitConverter.getConversionFactor(unit1, sUnit);
+				double factor2 = UnitConverter.getConversionFactor(sUnit, unit2);
+				return (amount * factor1 * factor2);
+			}
+		}
+			
 		return Double.POSITIVE_INFINITY;
 	}
 }
