@@ -6,5 +6,5 @@
 === Navigation ===
 ==== [http://code.google.com/p/hybris/wiki/Hybris Main Page] ====
 ==== [http://code.google.com/p/hybris/wiki/HowTo How To] ====
-==== [http://code.google.com/p/hybris/wiki/Hybris Help] ====
-==== [http://code.google.com/p/hybris/wiki/Hybris FAQs] ====
+==== [http://code.google.com/p/hybris/wiki/Help Help] ====
+==== [http://code.google.com/p/hybris/wiki/FAQs FAQs] ====
