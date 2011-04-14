@@ -1,7 +1,0 @@
-= How to Kumquat =
-_which to use_
-
-== Item one ==
-  * bulleted stuffz
-  * bulleted 2
-  * bulleted tree
