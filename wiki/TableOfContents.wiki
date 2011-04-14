@@ -1,7 +1,7 @@
 #summary Content on sidebar
 
 === Recent Changes ===
-==== Recent Changes ====
+==== Recent Changes will soon be updated ====
 
 === Navigation ===
 ==== [http://code.google.com/p/hybris/wiki/Hybris Main Page] ====
