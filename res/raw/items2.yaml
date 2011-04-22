@@ -5,39 +5,39 @@
 - name: Butter
 - name: Chicken Cutlet
 - name: 2% Milk
-  upcs: [075457177001]
+  upcs: ["075457177001"]
 - name: Swiss Cheese
 - name: Granny Smith Apple
 - name: Carrot
 - name: White Bread
-  upcs: [071330023168]
+  upcs: ["071330023168"]
 - name: Wheat Bread
 - name: Rotini
-  upcs: [071300000755]
+  upcs: ["071300000755"]
 - name: Medium Shells
-  upcs: [071300000229]
+  upcs: ["071300000229"]
 - name: Spaghetti
-  upcs: [688267070082]
+  upcs: ["688267070082"]
 - name: Fettuchine
-  upcs: [041735045096]
+  upcs: ["041735045096"]
 - name: Ziti
-  upcs: [071300000021]
+  upcs: ["071300000021"]
 - name: Oreo Instant Pudding Mix
-  upcs: [043000967263]
+  upcs: ["043000967263"]
 - name: Lemon Instant Pudding Mix
-  upcs: [043000204405]
+  upcs: ["043000204405"]
 - name: Butterscotch Pudding Mix
-  upcs: [043000206539]
+  upcs: ["043000206539"]
 - name: Whole Milk
-  upcs: [078742351865]
+  upcs: ["078742351865"]
 - name: Chocolate Pudding Mix
-  upcs: [043000206911]
+  upcs: ["043000206911"]
 - name: Brownie Mix
-  upcs: [016000197268]
+  upcs: ["016000197268"]
 - name: Banana Bread Mix
-  upcs: [051500794807]
+  upcs: ["051500794807"]
 - name: Buttermilk Pancake Mix
-  upcs: [051500794807]
+  upcs: ["051500794807"]
 - name: Egg
 - name: Water
 - name: Strawberry
