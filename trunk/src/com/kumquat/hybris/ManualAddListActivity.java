@@ -71,19 +71,41 @@ public class ManualAddListActivity extends ListActivity {
 	    switch(id) {
 	    case DIALOG_ADD_ITEM:
 
+	    	final String initial_text1 = "Quantity";
+	    	final String initial_text2 = "Unit";
 	    	LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 	    	View layout = inflater.inflate(R.layout.twoinputdialog,
 	    	                               (ViewGroup) findViewById(R.id.layout_root));
 	    	
 	    	final EditText inputbox1 = (EditText) layout.findViewById(R.id.dialog_input_one);
-	    	inputbox1.setText("");
+	    	inputbox1.setText(initial_text1);
 	    	final EditText inputbox2 = (EditText) layout.findViewById(R.id.dialog_input_two);
-	    	inputbox2.setText("");
+	    	inputbox2.setText(initial_text2);
+	    	
+	    	inputbox1.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					String nowtext = inputbox1.getText().toString();
+					if (nowtext.equals(initial_text1)){
+						inputbox1.setText("");
+					}
+				}});
+	    	
+	    	inputbox2.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					String nowtext = inputbox2.getText().toString();
+					if (nowtext.equals(initial_text2)){
+						inputbox2.setText("");
+					}
+				}});
 	    	
 	    	TextView label1 = (TextView) layout.findViewById(R.id.dialog_label_one);
-	    	label1.setText("Quantity");
+	    	label1.setText("");
 	    	TextView label2 = (TextView) layout.findViewById(R.id.dialog_label_two);
-	    	label2.setText("Units");
+	    	label2.setText("");
 	    	
 	    	Button dialogOK = (Button) layout.findViewById(R.id.dialog_ok_button);
 	    	
@@ -99,7 +121,7 @@ public class ManualAddListActivity extends ListActivity {
 				}});
 	    	
 	    	
-	    	builder.setMessage("Add It!")
+	    	builder.setMessage("Amount of Item")
 	    	       .setView(layout)
 	    	       .setCancelable(true);
 	    	dialog = builder.create();
