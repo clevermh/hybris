@@ -10,6 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.text.method.NumberKeyListener;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -81,6 +85,20 @@ public class ManualAddListActivity extends ListActivity {
 	    	inputbox1.setText(initial_text1);
 	    	final EditText inputbox2 = (EditText) layout.findViewById(R.id.dialog_input_two);
 	    	inputbox2.setText(initial_text2);
+	    	
+	    	inputbox1.setKeyListener(new NumberKeyListener(){
+
+				@Override
+				public int getInputType() {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+
+				@Override
+				protected char[] getAcceptedChars() {
+					char[] numberChars = {'1','2','3','4','5','6','7','8','9','0','.'};
+				    return numberChars;
+				}});
 	    	
 	    	inputbox1.setOnClickListener(new OnClickListener(){
 
