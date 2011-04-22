@@ -5,6 +5,7 @@
 We recommend you go to the Main page. Click on the link in the Navigation pane
 
 
+
 *Why doesn't the bar code scanner appear when I try to add an item?*
 
 The reason the bar code scanner doesn't appear is that our application has determined that you do not have the Barcode Scanner application installed.
