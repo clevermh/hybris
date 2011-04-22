@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/layout_root"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:padding="10dp"
               >
+       <TextView android:id="@+id/dialog_label_one"
+			android:padding="3dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop = "true"
+			android:layout_alignParentLeft = "true"
+			/>       
     <EditText android:id="@+id/dialog_input_one"
 			android:padding="3dip"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:layout_toRightOf= "@+id/dialog_label_one"
 			/>
+			
+			<TextView android:id="@+id/dialog_label_two"
+			android:padding="3dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/dialog_input_one"
+			/> 
 			
 	<EditText android:id="@+id/dialog_input_two"
 			android:padding="3dip"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			/>          
-</LinearLayout>
+			android:layout_below="@+id/dialog_input_one"
+			android:layout_toRightOf= "@+id/dialog_label_two"
+			/>
+	<Button android:id="@+id/dialog_ok_button"
+			android:layout_centerHorizontal = "true"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below = "@+id/dialog_input_two"
+			android:paddingLeft = "40dip"
+			android:paddingRight = "40dip"
+			android:text="OK" />
+</RelativeLayout>
