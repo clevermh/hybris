@@ -8,7 +8,12 @@ _A "hold your hand" kind of walkthrough_
   # Scan the item.
 
 === How do I add an item by name? ===
-  # do it
+  # Navigate to the main menu of out application.
+  # Select Add Item.
+  # Select By Name.
+  # Search for the item
+  # Select the item
+  # Specify the quantity and unit.
 
 === How do I find a random recipe? ===
   # Navigate to the main menu of our application.
