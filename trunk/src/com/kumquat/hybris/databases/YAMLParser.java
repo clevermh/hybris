@@ -72,8 +72,40 @@ public class YAMLParser {
 	 * @param resid the id of the resource to load
 	 * @return an array containing the Items from the file
 	 */
+	@SuppressWarnings("unchecked")
 	public static Item[] parseItemsFromRes(final Resources resources, int resid) {
+		Yaml yaml = new Yaml();
+		InputStream inputStream = resources.openRawResource(resid);
+		List<Object> result = (List<Object>)yaml.load(inputStream);
+		Item[] items = new Item[result.size()];
 		
-		return null;
+		int count = 0;
+		for(Object o : result) {
+			Map<String, Object> data = (Map<String, Object>)o;
+			String name = (String)data.get("name");
+			String[] upcs;
+			String[] plus;
+			
+			if(data.containsKey("upcs")) {
+				List<Object> upcdata = (List<Object>)data.get("upcs");
+				//upcs = new String[upcdata.size()];
+				upcs = (String[])upcdata.toArray(new String[0]);
+			} else {
+				upcs = new String[0];
+			}
+			
+			if(data.containsKey("plus")) {
+				List<Object> pludata = (List<Object>)data.get("plus");
+				//plus = new String[pludata.size()];
+				plus = (String[])pludata.toArray(new String[0]);
+			} else {
+				plus = new String[0];
+			}
+			
+			items[count] = new Item(count, name, upcs, plus);
+			count++;
+		}
+		
+		return items;
 	}
 }

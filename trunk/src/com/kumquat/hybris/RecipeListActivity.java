@@ -31,7 +31,7 @@ public class RecipeListActivity extends ListActivity {
 				Recipe r = Recipe.getFromDatabase(allMaybePossible[a], db);
 				if(inv.canMake(r)) { recipes.add(allMaybePossible[a]); }
 			}
-			recipeNames = recipes.toArray(null);
+			recipeNames = recipes.toArray(new String[0]);
 		} else {
 			recipeNames = Recipe.getAllRecipeNames(db);
 		}

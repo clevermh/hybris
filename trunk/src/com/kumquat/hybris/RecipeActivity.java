@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -52,12 +53,17 @@ public class RecipeActivity extends Activity {
 		if(self == null) { finish(); return; }
 		
 		curPage = 0;
-		labels = new String[self.numDirections() + 1];
+		labels = new String[self.numDirections() + 2];
 		content = new String[labels.length];
 		
+		labels[1] = "All Directions";
+		content[1] = "";
+		
 		for(int a = 0; a < self.numDirections(); a++) {
-			labels[a + 1] = "Directions - " + (a + 1);
-			content[a + 1] = self.getDirection(a);
+			content[1] += (a + 1) + ". " + self.getDirection(a) + "\n";
+			
+			labels[a + 2] = "Directions - " + (a + 1);
+			content[a + 2] = self.getDirection(a);
 		}
 		
 		// Page 0 is the info
@@ -123,6 +129,16 @@ public class RecipeActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO magic here to remove stuff from inventory
+				Inventory invent = new Inventory(getApplicationContext());
+				for(int a = 0; a < self.numIngredients(); a++) {
+					Ingredient ing = self.getIngredient(a);
+					Ingredient rem = new Ingredient(ing.getItemId(), ing.getName(), -ing.getQuantity(), ing.getQuantityMetric());
+					
+					if(!invent.updateItem(rem)) {
+						Log.e("RecipeActivity", "Failed to remove ingredient " + ing);
+					}
+				}
+				
 				finish();
 			}
 		});

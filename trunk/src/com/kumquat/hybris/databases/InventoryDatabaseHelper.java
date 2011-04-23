@@ -14,12 +14,12 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 	private Context context;
 	private SQLiteDatabase database;
 	
-	public static final int VERSION = 1009;
+	public static final int VERSION = 1;
 	
 	private static final String inventory_table = "CREATE TABLE IF NOT EXISTS Inventory (" +
 												  "id INTEGER PRIMARY KEY AUTOINCREMENT," +
 												  "item_id INTEGER NOT NULL," +
-												  "qty INTEGER NOT NULL," +
+												  "qty REAL NOT NULL," +
 												  "qty_metric varchar(20) NOT NULL default ''" +
 												  ");";
 	
