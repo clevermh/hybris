@@ -1,9 +1,6 @@
 package com.kumquat.hybris.databases;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.kumquat.hybris.Ingredient;
+import com.kumquat.hybris.Item;
 import com.kumquat.hybris.R;
 import com.kumquat.hybris.Recipe;
 
@@ -24,32 +22,24 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 1035;
+	public static final int VERSION = 1000005;
 	
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-											"type varchar(100) NOT NULL default ''," +
-											"sub_type varchar(100) NOT NULL default ''," +
-											"specific_type varchar(100) NOT NULL default ''," +
-											"user_added INTEGER default 0" +
+											"name varchar(100) NOT NULL default ''" +
 											");";
-	
-	private static final String item_idx = "CREATE INDEX IF NOT EXISTS item_idx_01 ON Items(type, sub_type, specific_type, id);";
 	
 	private static final String plu_table = "CREATE TABLE IF NOT EXISTS Plu (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"item_id INTEGER NOT NULL," +
 											"plu_code varchar(5) default '0'," +
-											"user_added INTEGER default 0," +
-											"FOREIGN KEY (item_id) REFERENCES Items(id)," +
-											"UNIQUE (plu_code)" +
+											"FOREIGN KEY (item_id) REFERENCES Items(id)" +
 											");";
 	
 	private static final String upc_table = "CREATE TABLE IF NOT EXISTS Upc (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"upc_code varchar(12) NOT NULL default ''," +
 											"item_id INTEGER NOT NULL," +
-											"user_added INTEGER default 0," +
 											"FOREIGN KEY (item_id) REFERENCES Items(id)" +
 											");";
 	
@@ -90,7 +80,6 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		database = db;
 		
 		database.execSQL(item_table);
-		database.execSQL(item_idx);
 		
 		database.execSQL(plu_table);
 		
@@ -110,8 +99,6 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
             	final Resources resources = context.getResources();
                 try {
                     loadItems(resources);
-                    loadUPC(resources);
-                    loadPLU(resources);
                     loadRecipes(resources);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -134,82 +121,31 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 			}
 		}
 		
-		Log.d("HybrisDatabase", "Done loading Recipes");
-	}
-	
-	private void loadUPC(final Resources resources) throws IOException {
-		Log.d("HybrisDatabase", "Loading UPCs");
-		
-        InputStream inputStream = resources.openRawResource(R.raw.upcs);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        
-        try {
-        	String line;
-        	while((line = reader.readLine()) != null) {
-        		if(line.startsWith("#")) { continue; }
-        		
-        		String[] split = line.split("\t");
-        		if(split.length != 2) { continue; }
-        		
-        		if(!addUPC(split[0].trim(), Integer.parseInt(split[1].trim()), false)) {
-        			Log.e("HybrisDatabase", "Unable to add: " + line.trim());
-        		}
-        	}
-        } finally {
-        	reader.close();
-        }
-		
-		Log.d("HybrisDatabase", "Done loading UPCs");
-	}
-	
-	private void loadPLU(final Resources resources) throws IOException {
-		Log.d("HybrisDatabase", "Loading PLUs");
-		
-		InputStream inputStream = resources.openRawResource(R.raw.plus);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        
-        try {
-        	String line;
-        	while((line = reader.readLine()) != null) {
-        		if(line.startsWith("#")) { continue; }
-        		
-        		String[] split = line.split("\t");
-        		if(split.length != 2) { continue; }
-        		
-        		if(!addPLU(split[0].trim(), Integer.parseInt(split[1].trim()), false)) {
-        			Log.e("HybrisDatabase", "Unable to add: " + line.trim());
-        		}
-        	}
-        } finally {
-        	reader.close();
-        }
-		
-		Log.d("HybrisDatabase", "Done loading PLUs");
+		Log.d("HybrisDatabase", "Done loading Recipes (" + recipes.length + ")");
 	}
 	
 	private void loadItems(final Resources resources) throws IOException {
-		Log.d("HybrisDatabase", "Loading items");
+		Log.d("HybrisDatabase", "Loading Items");
 		
-		InputStream inputStream = resources.openRawResource(R.raw.items);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        
-        try {
-        	String line;
-        	while((line = reader.readLine()) != null) {
-        		if(line.startsWith("#")) { continue; }
-        		
-        		String[] split = line.split("\t");
-        		if(split.length != 3) { continue; }
-        		
-        		if(!addItem(split[0].trim(), split[1].trim(), split[2].trim(), false)) {
-        			Log.e("HybrisDatabase", "Unable to add: " + line.trim());
-        		}
-        	}
-        } finally {
-        	reader.close();
-        }
+		Item[] items = YAMLParser.parseItemsFromRes(resources, R.raw.items);
 		
-		Log.d("HybrisDatabase", "Done loading items");
+		for(Item i : items) {
+			if(addItem(i.getID(), i.getName())) {
+				if(i.hasUPCs()) {
+					String[] upcs = i.getUPCs();
+					for(String s : upcs) { addUPC(s, i.getID()); }
+				}
+				
+				if(i.hasPLUs()) {
+					String[] plus = i.getPLUs();
+					for(String s : plus) { addPLU(s, i.getID()); }
+				}
+			} else {
+				Log.e("HybrisDatabase", "Unable to add: " + i.getName());
+			}
+		}
+		
+		Log.d("HybrisDatabase", "Done loading Items (" + items.length + ")");
 	}
 
 	@Override
@@ -218,7 +154,6 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
                 + newVersion + ", which will destroy all old data");
 		
 		db.execSQL("DROP TABLE IF EXISTS Items");
-		db.execSQL("DROP INDEX IF EXISTS item_idx_01;");
 		
 		db.execSQL("DROP TABLE IF EXISTS Plu");
 		
@@ -234,18 +169,13 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	/**
 	 * Adds an item to the Items table.
 	 * @param type Type of the item
-	 * @param sub Subtype of the item
-	 * @param spec Specific type of the item
-	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
 	 * using the application.
 	 * @return
 	 */
-	public boolean addItem(String type, String sub, String spec, boolean user) {
+	public boolean addItem(int iid, String type) {
 		ContentValues item = new ContentValues();
-		item.put("type", type);
-		item.put("sub_type", sub);
-		item.put("specific_type", spec);
-		item.put("user_added", (user ? 1 : 0));
+		item.put("id", iid);
+		item.put("name", type);
 		
 		long id = database.insertOrThrow("Items", null, item);
 		
@@ -255,16 +185,14 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	/**
 	 * Adds a PLU code to the PLU table
 	 * @param code PLU code
-	 * @param iid Item id
-	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
+	 * @param iid Item id 
 	 * using the application.
 	 * @return
 	 */
-	public boolean addPLU(String code, int iid, boolean user) {
+	public boolean addPLU(String code, int iid) {
 		ContentValues item = new ContentValues();
 		item.put("plu_code", code);
 		item.put("item_id", iid);
-		item.put("user_added", (user ? 1 : 0));
 		
 		long id = database.insertOrThrow("Plu", null, item);
 		
@@ -275,15 +203,12 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	 * Adds a UPC code to the UPC table
 	 * @param code UPC code
 	 * @param iid Item id
-	 * @param user Determines whether or not the user or the application added the item. True if it is added by the person 
-	 * using the application.
 	 * @return
 	 */
-	public boolean addUPC(String code, int iid, boolean user) {
+	public boolean addUPC(String code, int iid) {
 		ContentValues item = new ContentValues();
 		item.put("upc_code", code);
 		item.put("item_id", iid);
-		item.put("user_added", (user ? 1 : 0));
 		
 		long id = database.insertOrThrow("Upc", null, item);
 		

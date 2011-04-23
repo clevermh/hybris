@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * An object that represents the user's inventory
@@ -44,7 +43,7 @@ public class Inventory {
 		
 		for(int a = 0; a < c.getCount(); a++) {
 			int id = c.getInt(0);
-			int qty = c.getInt(1);
+			double qty = c.getDouble(1);
 			String qtymet = c.getString(2);
 			String name = Item.findNameFromID(odb, id);
 			ingredients[a] = new Ingredient(id, name, qty, qtymet);
@@ -133,7 +132,10 @@ public class Inventory {
 		for(int a = 0; a < ingredients.length; a++) {
 			Ingredient i = ingredients[a];
 			if(i.getItemId() == ni.getItemId()) {
-				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), Math.max(0, i.getQuantity() + ni.getQuantity()), i.getQuantityMetric());
+				if(!UnitConverter.knownConversion(ni.getQuantityMetric(), i.getQuantityMetric())) { return false; }
+				
+				double newqty = i.getQuantity() + UnitConverter.getConvertedAmount(ni.getQuantityMetric(), i.getQuantityMetric(), ni.getQuantity());
+				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), Math.max(0, newqty), i.getQuantityMetric());
 				
 				// update the DB
 				String sql = "UPDATE Inventory SET qty = " + addition.getQuantity() + " WHERE item_id = " + addition.getItemId();
@@ -145,8 +147,6 @@ public class Inventory {
 				if(c != null) { c.close(); }
 				
 				db.close();
-				
-				Log.d("DBG_OUT", "Item already exists, updating (" + res + ")");
 				
 				if(res == 0) {
 					if(addition.getQuantity() == 0) {
@@ -167,7 +167,6 @@ public class Inventory {
 			}
 		}
 		
-		Log.d("DBG_OUT", "Item does not exist, adding");
 		ContentValues cv = new ContentValues();
 		cv.put("item_id", ni.getItemId());
 		cv.put("qty", ni.getQuantity());

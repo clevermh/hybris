@@ -15,6 +15,10 @@ public class SplashscreenActivity extends Activity {
 		new Thread(new Runnable() {
 			public void run() {
 				// Populate the converter
+				UnitConverter.addStandard("pound");
+				UnitConverter.addStandard("fluid ounce");
+				UnitConverter.addStandard("whole");
+				
 				UnitConverter.addConversion("", "", 1);
 				UnitConverter.addConversion("cup", "cup", 1);
 				UnitConverter.addConversion("teaspoon", "teaspoon", 1);
@@ -47,8 +51,7 @@ public class SplashscreenActivity extends Activity {
 				UnitConverter.addConversion("dash", "fluid ounce", 0.012);
 				UnitConverter.addConversion("smidgen", "fluid ounce", 0.005208);
 				
-				
-				// Force the databases to populate now
+				// Force the databases to populate now (otherwise the app crashes later)
 				HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 				SQLiteDatabase db = hdh.getReadableDatabase();
 				while(hdh.isPopulating()) {

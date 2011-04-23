@@ -84,4 +84,9 @@ public class Ingredient {
 	public int getItemId() {
 		return this.item_id;
 	}
+	
+	@Override
+	public String toString() {
+		return this.name + " (" + this.quantity + " " + this.quantity_metric + ")";
+	}
 }

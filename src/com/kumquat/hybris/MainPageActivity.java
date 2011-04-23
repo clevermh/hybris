@@ -53,9 +53,9 @@ public class MainPageActivity extends Activity {
 	    			       startActivityForResult(intent, 0);
 	    	           }
 	    	       })
-	    	       .setNegativeButton("Manually", new DialogInterface.OnClickListener() {
+	    	       .setNegativeButton("By Name", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
-	    	        	   Intent manualadd = new Intent(getApplicationContext(), ManualAddActivity.class);
+	    	        	   Intent manualadd = new Intent(getApplicationContext(), ManualAddListActivity.class);
 	    	        	   startActivity(manualadd);
 	    	           }
 	    	       });
@@ -158,11 +158,11 @@ public class MainPageActivity extends Activity {
 	        	
 	        	if(item != null) {
 	            	Inventory invent = new Inventory(getApplicationContext());
-	            	Ingredient ing = new Ingredient(item.getID(), item.getSpecificType(), 1, " units");
+	            	Ingredient ing = new Ingredient(item.getID(), item.getName(), 1, " units");
 	            	if(invent.updateItem(ing)) {
-	            		toaster(item.getSpecificType() + " added").show();
+	            		toaster(item.getName() + " added").show();
 	            	} else {
-	            		toaster("Error adding " + item.getSpecificType()).show();
+	            		toaster("Error adding " + item.getName()).show();
 	            	}
 	            } else {
 	            	toaster("No item with that barcode found").show();

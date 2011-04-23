@@ -9,22 +9,46 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class Item {
 	private final int id;
-	private final String type;
-	private final String sub_type;
-	private final String specific_type;
+	private final String name;
+	private final String[] upc_codes;
+	private final String[] plu_codes;
+	
+	public Item(int i, SQLiteDatabase db) {
+		id = i;
+		name = findNameFromID(db, i);
+		upc_codes = new String[0];
+		plu_codes = new String[0];
+	}
+	
+	public Item(String n, SQLiteDatabase db) {
+		id = findIDFromDatabase(db, n);
+		name = n;
+		upc_codes = new String[0];
+		plu_codes = new String[0];
+	}
 	
 	/**
-	 * 
 	 * @param i the unique identification number for this ingredient
-	 * @param t the high level category that this item belongs to
-	 * @param su the medium level category that this item belongs to
-	 * @param sp the specific name of the ingredient
+	 * @param n the name of the ingredient
 	 */
-	public Item(int i, String t, String su, String sp) {
+	public Item(int i, String n) {
 		id = i;
-		type = t;
-		sub_type = su;
-		specific_type = sp;
+		name = n;
+		upc_codes = new String[0];
+		plu_codes = new String[0];
+	}
+	
+	/**
+	 * @param i the unique identification number for this ingredient
+	 * @param n the name of the ingredient
+	 * @param u the list of UPC codes for this item
+	 * @param p the list of PLU codes for this item
+	 */
+	public Item(int i, String n, String[] u, String[] p) {
+		id = i;
+		name = n;
+		upc_codes = u;
+		plu_codes = p;
 	}
 	
 	/**
@@ -32,21 +56,14 @@ public class Item {
 	 * @return the unique ID number of the item
 	 */
 	public int getID() { return id; }
-	/**
-	 * 
-	 * @return high level category that this item belongs to
-	 */
-	public String getType() { return type; }
-	/**
-	 * 
-	 * @return the medium level category that this item belongs to
-	 */
-	public String getSubType() { return sub_type; }
-	/**
-	 * 
-	 * @return the specific name of the ingredient
-	 */
-	public String getSpecificType() { return specific_type; }
+	
+	public String getName() { return name; }
+	
+	public boolean hasUPCs() { return upc_codes.length > 0; }
+	public String[] getUPCs() { return upc_codes; }
+	
+	public boolean hasPLUs() { return plu_codes.length > 0; }
+	public String[] getPLUs() { return plu_codes; }
 	
 	/**
 	 * 
@@ -65,7 +82,7 @@ public class Item {
 		int id = c.getInt(0);
 		c.close();
 		
-		return getFromDatabase(db, id);
+		return findItemFromID(db, id);
 	}
 	
 	/**
@@ -74,35 +91,8 @@ public class Item {
 	 * @param spec the specific name of the ingredient
 	 * @return the item ID for the item
 	 */
-	public static int findIDFromDatabase(SQLiteDatabase db, String spec) {
-		String sql = "SELECT id FROM Items WHERE specific_type = '" + spec + "'";
-		Cursor c = db.rawQuery(sql, null);
-		
-		if(c == null || c.getCount() == 0) {
-		if(c != null) { c.close(); }
-		
-		return -1;
-		}
-		
-		c.moveToFirst();
-		
-		int ret = c.getInt(0);
-		c.close();
-		
-		return ret;
-	}
-	
-	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @param type the high level category that this item belongs to
-	 * @param sub the medium level category that this item belongs to
-	 * @param spec the specific name of the ingredient
-	 * @return the item ID for the item
-	 */
-	public static int findIDFromDatabase(SQLiteDatabase db, String type, String sub, String spec) {
-		String sql = "SELECT id FROM Items WHERE type = '" + type + "' AND sub_type = '" + sub + 
-						"' AND specific_type = '" + spec + "'";
+	public static int findIDFromDatabase(SQLiteDatabase db, String n) {
+		String sql = "SELECT id FROM Items WHERE name = '" + n + "'";
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c == null || c.getCount() == 0) {
@@ -112,7 +102,7 @@ public class Item {
 		}
 		
 		c.moveToFirst();
-
+		
 		int ret = c.getInt(0);
 		c.close();
 		
@@ -126,7 +116,7 @@ public class Item {
 	 * @return the specific name of the item
 	 */
 	public static String findNameFromID(SQLiteDatabase db, int id) {
-		String sql = "SELECT specific_type FROM Items WHERE id = " + id;
+		String sql = "SELECT name FROM Items WHERE id = " + id;
 		Cursor c = db.rawQuery(sql, null);
 		
 		if(c == null) { return ""; }
@@ -144,10 +134,10 @@ public class Item {
 	 * 
 	 * @param db SQLite database containing item information
 	 * @param id the item ID of the ingredient
-	 * @return Item object represented the ingredient
+	 * @return Item object representing the ingredient
 	 */
-	public static Item getFromDatabase(SQLiteDatabase db, int id) {
-		String sql_statement = "SELECT type, sub_type, specific_type FROM Items WHERE id = " + id;
+	public static Item findItemFromID(SQLiteDatabase db, int id) {
+		String sql_statement = "SELECT name FROM Items WHERE id = " + id;
 		Cursor c = db.rawQuery(sql_statement, null);
 		
 		if(c == null || c.getCount() == 0) {
@@ -158,63 +148,22 @@ public class Item {
 		
 		c.moveToFirst();
 		
-		Item item = new Item(id, c.getString(0), c.getString(1), c.getString(2));
+		Item item = new Item(id, c.getString(0));
 		
 		c.close();
 		
 		return item;
 	}
 	
-	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @return array of all high level ingredient categories
-	 */
-	public static String[] getAllTypes(SQLiteDatabase db) {
-		if(db == null) { return null; }
-		String sql = "SELECT type FROM Items ORDER BY type";
+	public static String[] getAllItemNames(SQLiteDatabase db) {
+		String sql = "SELECT name FROM Items ORDER BY name";
 		Cursor c = db.rawQuery(sql, null);
-		
-		if(c == null || c.getCount() == 0) {
-			if(c != null) { c.close(); }
-			
-			return null;
-		}
-		
-		c.moveToFirst();
-		
-		String[] res = new String[c.getCount()];
-		int n = 0;
-		while(!c.isAfterLast()) {
-			res[n] = c.getString(0);
-			n++;
-			c.moveToNext();
-		} 
-		
-		c.close();
-		
-		return res;
-	}
 	
-	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @param type a high level ingredient category
-	 * @return all medium level categories that belong to this category
-	 */
-	public static String[] getAllSubTypes(SQLiteDatabase db, String type) {
-		String sql = "SELECT sub_type FROM Items WHERE type = '" + type + "' ORDER BY sub_type";
-		Cursor c = db.rawQuery(sql, null);
-		
-		if(c == null || c.getCount() == 0) {
-			if(c != null) { c.close(); }
-			
-			return null;
-		}
-		
-		c.moveToFirst();
+		if(c == null) { return null; }
+		if(c.getCount() == 0) { c.close(); return new String[0]; }
 		
 		String[] res = new String[c.getCount()];
+		c.moveToFirst();
 		int n = 0;
 		while(!c.isAfterLast()) {
 			res[n] = c.getString(0);
@@ -223,70 +172,6 @@ public class Item {
 		}
 		
 		c.close();
-		
-		return res;
-	}
-	
-	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @param type a high level ingredient category
-	 * @param subtype a medium level ingredient category
-	 * @return array of all specific ingredient names belonging to this medium level type
-	 */
-	public static String[] getAllSpecificTypes(SQLiteDatabase db, String type, String subtype) {
-		String sql = "SELECT specific_type FROM Items WHERE type = '" + type + "' AND sub_type = '" + subtype +
-						"' ORDER BY specific_type";
-		Cursor c = db.rawQuery(sql, null);
-		
-		if(c == null || c.getCount() == 0) {
-			if(c != null) { c.close(); }
-			
-			return null;
-		}
-		
-		c.moveToFirst();
-		
-		String[] res = new String[c.getCount()];
-		int n = 0;
-		while(!c.isAfterLast()) {
-			res[n] = c.getString(0);
-			n++;
-			c.moveToNext();
-		}
-		
-		c.close();
-		
-		return res;
-	}
-	
-	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @return array of all specific ingredient names
-	 */
-	public static String[] getAllSpecificTypes(SQLiteDatabase db) {
-		String sql = "SELECT specific_type FROM Items ORDER BY specific_type";
-		Cursor c = db.rawQuery(sql, null);
-		
-		if(c == null || c.getCount() == 0) {
-			if(c != null) { c.close(); }
-			
-			return null;
-		}
-		
-		c.moveToFirst();
-		
-		String[] res = new String[c.getCount()];
-		int n = 0;
-		while(!c.isAfterLast()) {
-			res[n] = c.getString(0);
-			n++;
-			c.moveToNext();
-		}
-		
-		c.close();
-		
 		return res;
 	}
 }

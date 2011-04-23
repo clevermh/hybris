@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SplashscreenActivity" />
-        <activity android:name=".ManualAddActivity" />
         <activity android:name=".InventoryActivity" />
         <activity android:name=".RecipeActivity" />
         <activity android:name=".RecipeListActivity" />
