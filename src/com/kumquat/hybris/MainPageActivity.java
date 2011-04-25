@@ -247,8 +247,8 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
-		Button devices = (Button)findViewById(R.id.front_devices);
-		devices.setOnClickListener(new OnClickListener() {
+		//Button devices = (Button)findViewById(R.id.front_devices);
+		/*devices.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the devices page
 				for(int i = 0; i < checkedDevices.length; i++){
@@ -256,7 +256,7 @@ public class MainPageActivity extends Activity {
 		    	}
 				showDialog(DIALOG_DEVICES);
 			}
-		});
+		});*/
 		
 		if(showsplash) {
 			Intent splash = new Intent(this, SplashscreenActivity.class);
