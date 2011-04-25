@@ -5,15 +5,9 @@ import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.method.KeyListener;
 import android.text.method.NumberKeyListener;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +23,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ManualAddListActivity extends ListActivity {
 	static final int DIALOG_ADD_ITEM = 0;
+	
+	private Inventory inventory;
+	private String selectedItem;
+	
 	private ArrayAdapter<String> makeAdapter(String[] arr) {
 		ArrayAdapter<String> adapter;
 		
@@ -47,7 +45,7 @@ public class ManualAddListActivity extends ListActivity {
 		HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 		SQLiteDatabase db = hdh.getReadableDatabase();
 		
-		String[] allitems = Item.getAllSpecificTypes(db);
+		String[] allitems = Item.getAllItemNames(db);
 		setListAdapter(makeAdapter(allitems));
 		
 		db.close();
@@ -55,12 +53,11 @@ public class ManualAddListActivity extends ListActivity {
 		ListView lv = getListView();
 		lv.setTextFilterEnabled(true);
 		
+		inventory = new Inventory(getApplicationContext());
+		
 		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// When clicked, show a toast with the TextView text
-				Toast.makeText(getApplicationContext(),
-						((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				selectedItem = (String)((TextView) view).getText();
 				showDialog(DIALOG_ADD_ITEM);
 			}
 		});
@@ -131,11 +128,28 @@ public class ManualAddListActivity extends ListActivity {
 
 				@Override
 				public void onClick(View v) {
-					String quantity = inputbox1.getText().toString();
-					String unit = inputbox2.getText().toString();
+					if(!selectedItem.equals("")) {
+						String quantity = inputbox1.getText().toString().trim();
+						String unit = inputbox2.getText().toString().trim().toLowerCase();
+
+						if(UnitConverter.knownUnit(unit)) {
+							double number = Double.parseDouble(quantity);
+							HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
+							SQLiteDatabase db = hdh.getReadableDatabase();
+							
+							Ingredient addition = new Ingredient(selectedItem, number, unit, db);
+							if(inventory.updateItem(addition)) {
+								Toast.makeText(getApplicationContext(), selectedItem + " added", Toast.LENGTH_SHORT).show();
+							} else {
+								Toast.makeText(getApplicationContext(), "Error adding " + selectedItem, Toast.LENGTH_SHORT).show();
+							}
+						} else {
+							Toast.makeText(getApplicationContext(), "Unknown unit", Toast.LENGTH_SHORT).show();
+						}
+					}
 					
-					//do what you want with quantity and unit
-					
+					selectedItem = "";
+					dismissDialog(DIALOG_ADD_ITEM);
 				}});
 	    	
 	    	
