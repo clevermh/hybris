@@ -1,0 +1,72 @@
+---
+- name: Olive Oil
+- name: Canola Oil
+- name: Dark Chocolate Bar
+- name: Butter
+- name: Chicken Cutlet
+- name: 2% Milk
+  upcs: ["075457177001"]
+- name: Swiss Cheese
+- name: Granny Smith Apple
+- name: Carrot
+- name: White Bread
+  upcs: ["071330023168"]
+- name: Wheat Bread
+- name: Rotini
+  upcs: ["071300000755"]
+- name: Medium Shells
+  upcs: ["071300000229"]
+- name: Spaghetti
+  upcs: ["688267070082"]
+- name: Fettuchine
+  upcs: ["041735045096"]
+- name: Ziti
+  upcs: ["071300000021"]
+- name: Oreo Instant Pudding Mix
+  upcs: ["043000967263"]
+- name: Lemon Instant Pudding Mix
+  upcs: ["043000204405"]
+- name: Butterscotch Pudding Mix
+  upcs: ["043000206539"]
+- name: Whole Milk
+  upcs: ["078742351865"]
+- name: Chocolate Pudding Mix
+  upcs: ["043000206911"]
+- name: Brownie Mix
+  upcs: ["016000197268"]
+- name: Banana Bread Mix
+  upcs: ["051500794807"]
+- name: Buttermilk Pancake Mix
+  upcs: ["051500794807"]
+- name: Egg
+- name: Water
+- name: Strawberry
+- name: Sugar
+- name: Vanilla Extract
+- name: Flour
+- name: Baking Soda
+- name: Ground Nutmeg
+- name: Chicken Breast
+- name: Green Peas
+- name: Celery
+- name: Salt
+- name: Pepper
+- name: Celery Seed
+- name: Chicken Broth
+- name: Milk
+- name: Ground Pork
+- name: Onion
+- name: Red Bell Pepper
+- name: Corn Mesa Flour
+- name: Oregano
+- name: Ground Cumin
+- name: Chili Powder
+- name: Garlic Powder
+- name: Coffee
+- name: Tomato Juice
+- name: Tomato Sauce
+- name: Chili Beans
+- name: Smoked Sausage
+- name: Brown Sugar
+- name: Lemon
+- name: Parsley
