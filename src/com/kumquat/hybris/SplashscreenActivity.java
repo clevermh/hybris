@@ -50,7 +50,7 @@ public class SplashscreenActivity extends Activity {
 				
 				UnitConverter.addConversion("liter", "fluid ounce", 33.81);
 				UnitConverter.addConversion("cubic centimeter", "fluid ounce", 0.03381);
-				UnitConverter.addConversion("cubic centimeter", "fluid ounce", 0.03381);
+				UnitConverter.addConversion("milliliter", "fluid ounce", 0.03381);
 				UnitConverter.addConversion("pinch", "fluid ounce", 0.01042);
 				UnitConverter.addConversion("dash", "fluid ounce", 0.012);
 				UnitConverter.addConversion("smidgen", "fluid ounce", 0.005208);
