@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.widget.ZoomControls;
 
@@ -130,13 +131,16 @@ public class RecipeActivity extends Activity {
 			public void onClick(View v) {
 				// TODO magic here to remove stuff from inventory
 				Inventory invent = new Inventory(getApplicationContext());
-				for(int a = 0; a < self.numIngredients(); a++) {
-					Ingredient ing = self.getIngredient(a);
-					Ingredient rem = new Ingredient(ing.getItemId(), ing.getName(), -ing.getQuantity(), ing.getQuantityMetric());
-					
-					if(!invent.updateItem(rem)) {
-						Log.e("RecipeActivity", "Failed to remove ingredient " + ing);
+				if(invent.canMake(self)) {
+					for(int a = 0; a < self.numIngredients(); a++) {
+						Ingredient ing = self.getIngredient(a);
+						Ingredient rem = new Ingredient(ing.getItemId(), ing.getName(), -ing.getQuantity(), ing.getQuantityMetric());
+						
+						if(!invent.updateItem(rem)) {
+							Log.e("RecipeActivity", "Failed to remove ingredient " + ing);
+						}
 					}
+					Toast.makeText(getApplicationContext(), "Ingredients removed from inventory", Toast.LENGTH_SHORT).show();
 				}
 				
 				finish();
@@ -146,13 +150,11 @@ public class RecipeActivity extends Activity {
 		
 		zoomer.setOnZoomInClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Go to the remove page
 				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() * (float)1.5);
 			}
 		});
 		zoomer.setOnZoomOutClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Go to the remove page
 				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() / (float)1.5);
 			}
 		});

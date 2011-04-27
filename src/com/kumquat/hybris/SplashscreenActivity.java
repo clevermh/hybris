@@ -18,6 +18,7 @@ public class SplashscreenActivity extends Activity {
 				UnitConverter.addStandard("pound");
 				UnitConverter.addStandard("fluid ounce");
 				UnitConverter.addStandard("whole");
+				UnitConverter.addStandard("box");
 				
 				UnitConverter.addConversion("", "", 1);
 				UnitConverter.addConversion("cup", "cup", 1);
@@ -26,6 +27,8 @@ public class SplashscreenActivity extends Activity {
 				UnitConverter.addConversion("pound", "pound", 1);
 				UnitConverter.addConversion("whole", "whole", 1);
 				UnitConverter.addConversion("pinch", "pinch", 1);
+				UnitConverter.addConversion("box", "box", 1);
+				UnitConverter.addConversion("piece", "piece", 1);
 				
 				UnitConverter.addConversion("gallon", "fluid ounce", 128);
 				UnitConverter.addConversion("quart", "fluid ounce", 32);

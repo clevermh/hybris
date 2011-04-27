@@ -6,16 +6,16 @@
   type: Dessert
   ingredients:
     - qty: 1
-      qty_metric: whole
+      qty_metric: box
       ing_name: Brownie Mix
     - qty: 2
       qty_metric: whole
       ing_name: Egg
     - qty: .6667
-      qty_metric: cups
+      qty_metric: cup
       ing_name: Canola Oil
     - qty: 1
-      qty_metric: cups
+      qty_metric: cup
       ing_name: Water
   directions:
     - Preheat oven to 350
@@ -140,7 +140,7 @@
   type: Dinner
   ingredients:
     - qty: 2
-      qty_metric: pounds
+      qty_metric: pound
       ing_name: Ground Pork
     - qty: 2
       qty_metric: whole
@@ -155,16 +155,16 @@
       qty_metric: tablespoon
       ing_name: Oregano
     - qty: 3
-      qty_metric: tablespoons 
+      qty_metric: tablespoon 
       ing_name: Ground Cumin
     - qty: 0.33
       qty_metric: cup
       ing_name: Chili Powder
     - qty: 2
-      qty_metric: tablespoons 
+      qty_metric: tablespoon
       ing_name: Garlic Powder
     - qty: 2
-      qty_metric: tablespoons 
+      qty_metric: tablespoon
       ing_name: Salt
     - qty: 1
       qty_metric: tablespoon 
@@ -209,7 +209,7 @@
   type: Dinner
   ingredients:
     - qty: 2
-      qty_metric: pieces
+      qty_metric: piece
       ing_name: Chicken Breast
     - qty: 1
       qty_metric: whole
