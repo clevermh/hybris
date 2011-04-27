@@ -41,6 +41,7 @@ public class SplashscreenActivity extends Activity {
 				UnitConverter.addConversion("ounce", "pound", 0.0625);
 				UnitConverter.addConversion("stone", "pound", 14);
 				UnitConverter.addConversion("pound", "gram", 453.6);
+				UnitConverter.addConversion("ton", "pound", 2000);
 				UnitConverter.addConversion("pound", "kilogram", 0.454);
 				UnitConverter.addConversion("half", "whole", 0.5);
 				UnitConverter.addConversion("quarter", "whole", 0.25);
