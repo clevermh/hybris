@@ -1,51 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-            <Spinner android:layout_height="wrap_content" android:id="@+id/recipe_step" android:layout_width="fill_parent"></Spinner>
-        
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-					android:layout_width="fill_parent" 
-					android:layout_height="wrap_content"
-					android:layout_below = "@+id/recipe_step"
-					android:id="@+id/recipe_scroll"
-					android:layout_above = "@+id/recipe_zoom"
-					>
-            	<TextView  android:id="@+id/recipe_info" android:text = "Blank" android:layout_width="wrap_content" android:layout_height="fill_parent"></TextView>
-        </ScrollView>
-            <Button android:id="@+id/recipe_back" 
-            		android:layout_height="wrap_content" 
-            		android:layout_width ="wrap_content" 
-            		android:text="Back" 
-            		android:gravity = "center"
-            		android:layout_alignParentLeft="true"
-            		android:layout_alignParentBottom="true"
-            		android:layout_toLeftOf = "@+id/recipe_done" 
-            		>
-            </Button>
-            <Button android:id="@+id/recipe_done" 
-            		android:layout_height="wrap_content" 
-            		android:layout_width ="wrap_content" 
-            		android:text="Recipe Done" 
-            		android:gravity = "center"
-            		android:layout_alignTop = "@+id/recipe_back"
-            		android:layout_alignParentBottom="true"
-            		android:layout_centerHorizontal = "true"
-            		
-            		>
-            </Button>
-            <ZoomControls android:layout_above="@+id/recipe_done" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/recipe_zoom" android:layout_centerHorizontal = "true"></ZoomControls>
-            <Button android:id="@+id/recipe_next" 
-            		android:layout_width="wrap_content" 
-            		android:layout_height="wrap_content" 
-            		android:text="Next" 
-            		android:gravity="center"
-            		android:layout_alignParentRight="true"
-            		android:layout_alignParentBottom="true"
-            		android:layout_toRightOf = "@+id/recipe_done"
-            		>
-            		
-            </Button>
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<Spinner android:layout_height="wrap_content" android:id="@+id/recipe_step"
+		android:layout_width="fill_parent"></Spinner>
+
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_below="@+id/recipe_step" android:id="@+id/recipe_scroll"
+		android:layout_above="@+id/recipe_zoom">
+		<TextView android:id="@+id/recipe_info" android:text="Blank"
+			android:layout_width="wrap_content" android:layout_height="fill_parent"></TextView>
+	</ScrollView>
+	<Button android:id="@+id/recipe_back" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="Back"
+		android:gravity="center" android:layout_alignParentLeft="true"
+		android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/recipe_done">
+	</Button>
+	<Button android:id="@+id/recipe_done" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="Recipe Done"
+		android:gravity="center" android:layout_alignTop="@+id/recipe_back"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true">
+	</Button>
+	<ZoomControls android:layout_above="@+id/recipe_done"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:id="@+id/recipe_zoom" android:layout_centerHorizontal="true"></ZoomControls>
+	<Button android:id="@+id/recipe_next" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Next"
+		android:gravity="center" android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/recipe_done">
+
+	</Button>
 
 </RelativeLayout>
