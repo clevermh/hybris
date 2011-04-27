@@ -19,12 +19,19 @@ import android.widget.Toast;
 
 import android.widget.ZoomControls;
 
+/**
+ * This Activity displays a specified recipe to the user
+ */
 public class RecipeActivity extends Activity {
 	private Recipe self;
 	private String[] labels;
 	private String[] content;
 	private int curPage;
 	
+	/**
+	 * @param arr The array to make the adapter out of
+	 * @return An ArrayAdapter with the given items
+	 */
 	private ArrayAdapter<String> makeAdapter(String[] arr) {
 		ArrayAdapter<String> adapter;
 		
@@ -38,21 +45,29 @@ public class RecipeActivity extends Activity {
 		return adapter;
 	}
 	
+	/**
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.recipedisplay);
 		
+		// Get the name of the recipe to display, if it does not exist then we should exit this Activity
 		Intent in = getIntent();
 		String recipename = in.getStringExtra("com.kumquat.hybris.rName");
 		if(recipename == null) { finish(); return; }
 		
+		// Get the recipe info from the database, if it does not exist then we should exit this Activity
 		HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 		SQLiteDatabase db = hdh.getReadableDatabase();
 		self = Recipe.getFromDatabase(recipename, db);
 		db.close();
-		
 		if(self == null) { finish(); return; }
 		
+		// Setup all the pages of info
+		// First page is the basic recipe info including ingredients
+		// Second page is the list of all directions
+		// The rest of the pages are each direction on a separate page
 		curPage = 0;
 		labels = new String[self.numDirections() + 2];
 		content = new String[labels.length];
@@ -67,7 +82,6 @@ public class RecipeActivity extends Activity {
 			content[a + 2] = self.getDirection(a);
 		}
 		
-		// Page 0 is the info
 		String inf = recipename + "\n-----------\n";
 		inf += "Prep time: " + self.getPrepTime() + "\n";
 		inf += "Cook time: " + self.getCookTime() + "\n";
@@ -83,6 +97,7 @@ public class RecipeActivity extends Activity {
 		labels[0] = "Recipe Info";
 		content[0] = inf;
 		
+		// Setup all the button press stuff
 		final Button back = (Button)findViewById(R.id.recipe_back);
 		final Button next = (Button)findViewById(R.id.recipe_next);
 		final Button done = (Button)findViewById(R.id.recipe_done);
@@ -90,6 +105,7 @@ public class RecipeActivity extends Activity {
 		final ZoomControls zoomer = (ZoomControls)findViewById(R.id.recipe_zoom);
 		final TextView info = (TextView)findViewById(R.id.recipe_info);
 		
+		// When a page in the Spinner is selected, display that page
 		spinner.setAdapter(makeAdapter(labels));
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -112,6 +128,7 @@ public class RecipeActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> parent) { }
 		});
 		
+		// Go back a page
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -119,6 +136,7 @@ public class RecipeActivity extends Activity {
 			}
 		});
 		
+		// Go forward a page
 		next.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -126,11 +144,12 @@ public class RecipeActivity extends Activity {
 			}
 		});
 		
+		// Try to remove the ingredients for this Recipe from the inventory
 		done.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO magic here to remove stuff from inventory
 				Inventory invent = new Inventory(getApplicationContext());
+				// If I can make this recipe, remove each ingredient from the inventory
 				if(invent.canMake(self)) {
 					for(int a = 0; a < self.numIngredients(); a++) {
 						Ingredient ing = self.getIngredient(a);
@@ -140,22 +159,26 @@ public class RecipeActivity extends Activity {
 							Log.e("RecipeActivity", "Failed to remove ingredient " + ing);
 						}
 					}
+					
+					// Let the user know things were removed from the inventory
 					Toast.makeText(getApplicationContext(), "Ingredients removed from inventory", Toast.LENGTH_SHORT).show();
+				} else {
+					// If you can't make the recipe do nothing
 				}
 				
 				finish();
 			}
 		});
 		
-		
+		// Zoom controls, now functionally correct!
 		zoomer.setOnZoomInClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() * (float)1.5);
+				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, info.getTextSize() * 1.5f);
 			}
 		});
 		zoomer.setOnZoomOutClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX,info.getTextSize() / (float)1.5);
+				info.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, info.getTextSize() / 1.5f);
 			}
 		});
 	}
