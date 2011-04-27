@@ -144,8 +144,11 @@ public class ManualAddListActivity extends ListActivity {
 								Toast.makeText(getApplicationContext(), "Error adding " + selectedItem, Toast.LENGTH_SHORT).show();
 							}
 						} else {
-							Toast.makeText(getApplicationContext(), "Unknown unit", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "Unknown unit (" + unit + ")", Toast.LENGTH_SHORT).show();
 						}
+						
+						inputbox1.setText(initial_text1);
+						inputbox2.setText(initial_text2);
 					}
 					
 					selectedItem = "";
