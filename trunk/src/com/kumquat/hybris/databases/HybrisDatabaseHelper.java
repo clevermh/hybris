@@ -22,8 +22,11 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private SQLiteDatabase database;
 	private boolean populating = false;
 	
-	public static final int VERSION = 1000009;
+	// The current version of the database structure
+	// Changing this will cause the databases to be deleted and recreated
+	public static final int VERSION = 1;
 	
+	// The CREATE TABLE statements for all the tables
 	private static final String item_table = "CREATE TABLE IF NOT EXISTS Items (" +
 											"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 											"name varchar(100) NOT NULL default ''" +
@@ -76,7 +79,6 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO make this
 		database = db;
 		
 		database.execSQL(item_table);
@@ -92,7 +94,11 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		populate();
 	}
 	
+	/**
+	 * Populate the database from the files
+	 */
 	private void populate() {
+		// Do it in a thread to avoid some dumb UI blocking
 		new Thread(new Runnable() {
             public void run() {
             	populating = true;
@@ -108,13 +114,19 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
         }).start();
 	}
 	
+	/**
+	 * Check if the database is busy populating
+	 * @return True if the database is populating, false otherwise
+	 */
 	public boolean isPopulating() { return populating; }
 	
 	private void loadRecipes(final Resources resources) throws IOException {
 		Log.d("HybrisDatabase", "Loading Recipes");
 		
+		// Get all the recipes from the YAML
 		Recipe[] recipes = YAMLParser.parseRecipesFromRes(resources, R.raw.recipes, database);
 		
+		// Add each one to the DB
 		for(Recipe r : recipes) {
 			if(!addRecipe(r.getName(), r.getIngredients(), r.getDirections(), r.getPrepTime(), r.getCookTime(), r.getServingSize(), r.getType())) {
 				Log.e("HybrisDatabase", "Unable to add: " + r.getName());
@@ -127,8 +139,10 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	private void loadItems(final Resources resources) throws IOException {
 		Log.d("HybrisDatabase", "Loading Items");
 		
+		// Get all the items from the YAML
 		Item[] items = YAMLParser.parseItemsFromRes(resources, R.raw.items);
 		
+		// Add each one to the DB
 		for(Item i : items) {
 			if(addItem(i.getID(), i.getName())) {
 				if(i.hasUPCs()) {
@@ -148,6 +162,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		Log.d("HybrisDatabase", "Done loading Items (" + items.length + ")");
 	}
 
+	// Drop all the tables and then call onCreate(..)
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w("HybrisDatabase", "Upgrading database from version " + oldVersion + " to "
@@ -167,15 +182,15 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	}
 	
 	/**
-	 * Adds an item to the Items table.
-	 * @param type Type of the item
-	 * using the application.
-	 * @return
+	 * Adds an item to the Items table
+	 * @param iid ID of the Item
+	 * @param name Name of the Item
+	 * @return True if the add worked, false otherwise
 	 */
-	public boolean addItem(int iid, String type) {
+	public boolean addItem(int iid, String name) {
 		ContentValues item = new ContentValues();
 		item.put("id", iid);
-		item.put("name", type);
+		item.put("name", name);
 		
 		long id = database.insertOrThrow("Items", null, item);
 		
@@ -185,9 +200,8 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	/**
 	 * Adds a PLU code to the PLU table
 	 * @param code PLU code
-	 * @param iid Item id 
-	 * using the application.
-	 * @return
+	 * @param iid Item ID
+	 * @return True if the add worked, false otherwise
 	 */
 	public boolean addPLU(String code, int iid) {
 		ContentValues item = new ContentValues();
@@ -202,8 +216,8 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	/**
 	 * Adds a UPC code to the UPC table
 	 * @param code UPC code
-	 * @param iid Item id
-	 * @return
+	 * @param iid Item ID
+	 * @return True if the add worked, false otherwise
 	 */
 	public boolean addUPC(String code, int iid) {
 		ContentValues item = new ContentValues();
@@ -224,7 +238,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 	 * @param cookTime The cooking time
 	 * @param servingSize The serving size
 	 * @param type The recipe type
-	 * @return
+	 * @return True if the add worked, false otherwise
 	 */
 	public boolean addRecipe(String name, Ingredient[] ingredients, String[] directions, String prepTime, 
 			String cookTime, String servingSize, String type) {
@@ -239,10 +253,12 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 		recipe_value.put("type", type);
 		recipe_value.put("num_ing", ingredients.length);
 		
+		// Add the recipe info to the DB
 		long id = database.insertOrThrow("Recipes", null, recipe_value);
 		if (id == -1) { return false; }
 		int recipe_id = (int)id;
 		
+		// Add each ingredient to the DB
 		for (int i = 0; i < ingredients.length; i++) {
 			Ingredient ing = ingredients[i];
 			ingredient_value.put("recipe_id", recipe_id);
@@ -254,6 +270,7 @@ public class HybrisDatabaseHelper extends SQLiteOpenHelper  {
 			if (id == -1) { return false; }
 		}
 		
+		// Add each direction to the DB
 		for (int i = 0; i < directions.length; i++) {
 			direction_value.put("recipe_id", recipe_id);
 			direction_value.put("dir_number", i);

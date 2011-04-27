@@ -1,6 +1,5 @@
 package com.kumquat.hybris.databases;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,8 +13,11 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 	private Context context;
 	private SQLiteDatabase database;
 	
+	// The current version of the database structure
+	// Changing this will cause the databases to be deleted and recreated
 	public static final int VERSION = 1;
 	
+	// The CREATE TABLE statements for the Inventory table
 	private static final String inventory_table = "CREATE TABLE IF NOT EXISTS Inventory (" +
 												  "id INTEGER PRIMARY KEY AUTOINCREMENT," +
 												  "item_id INTEGER NOT NULL," +
@@ -41,23 +43,5 @@ public class InventoryDatabaseHelper extends SQLiteOpenHelper {
 		
 		db.execSQL("DROP TABLE IF EXISTS Inventory");
         onCreate(db);
-	}
-
-	/**
-	 * Adds an item to the database given the parameters and returns true if successful
-	 * @param id
-	 * @param qty
-	 * @param qtymet
-	 * @return
-	 */
-	public boolean addItem(int id, int qty, String qtymet) {
-		ContentValues cv = new ContentValues();
-		cv.put("item_id", id);
-		cv.put("qty", qty);
-		cv.put("qty_metric", qtymet);
-		
-		long row = database.insertOrThrow("Inventory", null, cv);
-		
-		return row != -1;
 	}
 }
