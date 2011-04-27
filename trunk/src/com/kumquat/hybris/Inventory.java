@@ -17,7 +17,7 @@ public class Inventory {
 	
 	/**
 	 * Make a new inventory object and load the items from a database accessible by the given Context.
-	 * @param con the context with which to get the database
+	 * @param con The context with which to get the database and to be used for modifying the inventory.
 	 */
 	public Inventory(Context con) {
 		context = con;
@@ -25,40 +25,46 @@ public class Inventory {
 		loadInventory();
 	}
 	
+	/**
+	 * Used by the constructor to load the inventory from the database.
+	 */
 	private void loadInventory() {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
-		SQLiteDatabase db = idh.getReadableDatabase();
+		SQLiteDatabase inventory_db = idh.getReadableDatabase();
 		String sql = "SELECT item_id, qty, qty_metric FROM Inventory WHERE qty > 0 ORDER BY item_id";
 		
-		Cursor c = db.rawQuery(sql, null);
-		if(c == null) { db.close(); return; }
+		// Query the DB for the inventory info
+		Cursor cursor = inventory_db.rawQuery(sql, null);
 		
-		if(c.getCount() < 1) { c.close(); db.close(); return; }
+		// If the cursor is null or empty then leave the inventory empty and return
+		if(cursor == null) { inventory_db.close(); return; }
+		if(cursor.getCount() < 1) { cursor.close(); inventory_db.close(); return; }
 		
-		ingredients = new Ingredient[c.getCount()];
-		c.moveToFirst();
+		ingredients = new Ingredient[cursor.getCount()];
+		cursor.moveToFirst();
 	
+		// This is needed to get the item ID from the other database
 		HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(context);
-		SQLiteDatabase odb = hdh.getReadableDatabase();
+		SQLiteDatabase hybris_db = hdh.getReadableDatabase();
 		
-		for(int a = 0; a < c.getCount(); a++) {
-			int id = c.getInt(0);
-			double qty = c.getDouble(1);
-			String qtymet = c.getString(2);
-			String name = Item.findNameFromID(odb, id);
-			ingredients[a] = new Ingredient(id, name, qty, qtymet);
+		// Add each ingredient to the inventory
+		for(int a = 0; a < cursor.getCount(); a++) {
+			int item_id = cursor.getInt(0);
+			double qty = cursor.getDouble(1);
+			String qtymet = cursor.getString(2);
+			String name = Item.findNameFromID(hybris_db, item_id);
+			ingredients[a] = new Ingredient(item_id, name, qty, qtymet);
 			
-			c.moveToNext();
+			cursor.moveToNext();
 		}
 		
-		odb.close();
-		
-		c.close();
-		db.close();
+		hybris_db.close();
+		cursor.close();
+		inventory_db.close();
 	}
 	
 	/**
-	 * @return how many items are in the inventory
+	 * @return How many ingredients are in the inventory
 	 */
 	public int getCount() {
 		if(ingredients == null) { return 0; }
@@ -67,7 +73,7 @@ public class Inventory {
 	}
 	
 	/**
-	 * @return an array containing the ID of every item in the inventory
+	 * @return An array containing the ID of every item in the inventory
 	 */
 	public int[] getAllItemIDs() {
 		int[] res = new int[ingredients.length];
@@ -80,8 +86,8 @@ public class Inventory {
 	}
 	
 	/**
-	 * @param which which item in the array to return
-	 * @return the specified item
+	 * @param which The location in the array of the ingredient to return
+	 * @return The specified ingredient
 	 */
 	public Ingredient getItem(int which) {
 		if(ingredients == null) { return null; }
@@ -92,7 +98,7 @@ public class Inventory {
 	}
 	
 	/**
-	 * Checks whether the inventory contains at least the given ingredient
+	 * Checks whether the inventory contains at least the given quantity of the given ingredient
 	 * @param i The ingredient to check
 	 * @return True if there is a greater or equal quantity of the given ingredient, false otherwise.
 	 */
@@ -121,14 +127,15 @@ public class Inventory {
 	}
 	
 	/**
-	 * Adds an item to the inventory and the database
-	 * @param ni the item to add
-	 * @return whether or not the add was successful
+	 * Updates an item in the inventory and the database. If you try removing more than exists, the item will be removed from the database.
+	 * @param ni The ingredient to add
+	 * @return Whether or not the add was successful
 	 */
 	public boolean updateItem(Ingredient ni) {
 		InventoryDatabaseHelper idh = new InventoryDatabaseHelper(context);
 		SQLiteDatabase db = idh.getWritableDatabase();
 		
+		// Check if this ingredient already exists in the inventory and update it
 		for(int a = 0; a < ingredients.length; a++) {
 			Ingredient i = ingredients[a];
 			if(i.getItemId() == ni.getItemId()) {
@@ -137,7 +144,9 @@ public class Inventory {
 				double newqty = i.getQuantity() + UnitConverter.getConvertedAmount(ni.getQuantityMetric(), i.getQuantityMetric(), ni.getQuantity());
 				Ingredient addition = new Ingredient(i.getItemId(), i.getName(), Math.max(0, newqty), i.getQuantityMetric());
 				
-				// update the DB
+				// update the DB with the new quantity.
+				// TODO eventually make a delete statement if the quantity is <= 0
+				//		for now it just gets ignored when loading the DB.
 				String sql = "UPDATE Inventory SET qty = " + addition.getQuantity() + " WHERE item_id = " + addition.getItemId();
 				int res;
 				Cursor c = db.rawQuery(sql, null);
@@ -149,8 +158,8 @@ public class Inventory {
 				db.close();
 				
 				if(res == 0) {
-					if(addition.getQuantity() == 0) {
-						// This should be removed from the inventory so it doesn't show up
+					if(addition.getQuantity() <= 0) {
+						// If the quantity <= 0, remove it from the inventory so it doesn't show up
 						Ingredient[] old = ingredients;
 						ingredients = new Ingredient[old.length - 1];
 						for(int b = 0; b < old.length; b++) {
@@ -167,6 +176,7 @@ public class Inventory {
 			}
 		}
 		
+		// If we have gotten to this point then the ingredient is not already in the inventory and should be added
 		ContentValues cv = new ContentValues();
 		cv.put("item_id", ni.getItemId());
 		cv.put("qty", ni.getQuantity());

@@ -8,9 +8,13 @@ public class UnitConverter {
 	private static HashMap<String, HashMap<String, Double>> conversions = new HashMap<String, HashMap<String, Double>>();
 	private static ArrayList<String> standards = new ArrayList<String>();
 	
-	public static void addStandard(String bu) {
-		if(!standards.contains(bu)) {
-			standards.add(bu);
+	/**
+	 * Add a quantity metric to the list of standards
+	 * @param st The quantity metric to add
+	 */
+	public static void addStandard(String st) {
+		if(!standards.contains(st)) {
+			standards.add(st);
 		}
 	}
 	
@@ -18,7 +22,7 @@ public class UnitConverter {
 	 * Adds a conversion factor to the map. Also adds the reverse conversion. This overrides whatever may already be there.
 	 * @param unit1 Unit to convert from
 	 * @param unit2 Unit to convert to
-	 * @param conversion Conversion factor
+	 * @param conversion Conversion factor between the two units
 	 */
 	public static void addConversion(String unit1, String unit2, double conversion) {
 		if(conversions.containsKey(unit1)) {
@@ -57,6 +61,7 @@ public class UnitConverter {
 	 */
 	public static boolean knownConversion(String unit1, String unit2) {
 		if(unit1.equals(unit2)) { return true; }
+		
 		if(!conversions.containsKey(unit1)) { return false; }
 		if(conversions.get(unit1).containsKey(unit2)) { return true; }
 		
@@ -77,6 +82,7 @@ public class UnitConverter {
 	 */
 	public static double getConversionFactor(String unit1, String unit2) {
 		if(unit1.equals(unit2)) { return 1; }
+		
 		if(conversions.containsKey(unit1)) {
 			HashMap<String, Double> cm = conversions.get(unit1);
 			if(cm.containsKey(unit2)) { return cm.get(unit2); }

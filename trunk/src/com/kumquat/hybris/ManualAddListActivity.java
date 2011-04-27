@@ -71,23 +71,25 @@ public class ManualAddListActivity extends ListActivity {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    switch(id) {
 	    case DIALOG_ADD_ITEM:
-
 	    	final String initial_text1 = "Quantity";
 	    	final String initial_text2 = "Unit";
+	    	
+	    	// LayoutInflaters are awesome!
 	    	LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-	    	View layout = inflater.inflate(R.layout.twoinputdialog,
-	    	                               (ViewGroup) findViewById(R.id.layout_root));
+	    	View layout = inflater.inflate(R.layout.twoinputdialog, (ViewGroup) findViewById(R.id.layout_root));
 	    	
-	    	final EditText inputbox1 = (EditText) layout.findViewById(R.id.dialog_input_one);
-	    	inputbox1.setText(initial_text1);
-	    	final EditText inputbox2 = (EditText) layout.findViewById(R.id.dialog_input_two);
-	    	inputbox2.setText(initial_text2);
+	    	final EditText quantity_input = (EditText) layout.findViewById(R.id.dialog_input_one);
+	    	final EditText metric_input = (EditText) layout.findViewById(R.id.dialog_input_two);
+	    	Button dialogOK = (Button) layout.findViewById(R.id.dialog_ok_button);
 	    	
-	    	inputbox1.setKeyListener(new NumberKeyListener(){
-
+	    	// Set the initial text
+	    	quantity_input.setText(initial_text1);
+	    	metric_input.setText(initial_text2);
+	    	
+	    	// The quantity should be numeric only
+	    	quantity_input.setKeyListener(new NumberKeyListener(){
 				@Override
 				public int getInputType() {
-					// TODO Auto-generated method stub
 					return 0;
 				}
 
@@ -97,66 +99,61 @@ public class ManualAddListActivity extends ListActivity {
 				    return numberChars;
 				}});
 	    	
-	    	inputbox1.setOnClickListener(new OnClickListener(){
-
+	    	// On the first click into this field, clear it
+	    	quantity_input.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					String nowtext = inputbox1.getText().toString();
-					if (nowtext.equals(initial_text1)){
-						inputbox1.setText("");
+					if (quantity_input.getText().equals(initial_text1)){
+						quantity_input.setText("");
 					}
 				}});
 	    	
-	    	inputbox2.setOnClickListener(new OnClickListener(){
-
+	    	// Same as the above
+	    	metric_input.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					String nowtext = inputbox2.getText().toString();
-					if (nowtext.equals(initial_text2)){
-						inputbox2.setText("");
+					if (metric_input.getText().equals(initial_text2)){
+						metric_input.setText("");
 					}
 				}});
 	    	
-	    	TextView label1 = (TextView) layout.findViewById(R.id.dialog_label_one);
-	    	label1.setText("");
-	    	TextView label2 = (TextView) layout.findViewById(R.id.dialog_label_two);
-	    	label2.setText("");
-	    	
-	    	Button dialogOK = (Button) layout.findViewById(R.id.dialog_ok_button);
-	    	
+	    	// When the OK button is pressed, probably remove the item
 	    	dialogOK.setOnClickListener(new OnClickListener(){
-
 				@Override
 				public void onClick(View v) {
 					if(!selectedItem.equals("")) {
-						String quantity = inputbox1.getText().toString().trim();
-						String unit = inputbox2.getText().toString().trim().toLowerCase();
+						// Get the given quantity and metric
+						String quantity = quantity_input.getText().toString().trim();
+						String unit = metric_input.getText().toString().trim().toLowerCase();
 
+						// If the unit is known then try to add the item
 						if(UnitConverter.knownUnit(unit)) {
 							double number = Double.parseDouble(quantity);
 							HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 							SQLiteDatabase db = hdh.getReadableDatabase();
 							
 							Ingredient addition = new Ingredient(selectedItem, number, unit, db);
+							// Try to add the ingredient, let the user know if it works
 							if(inventory.updateItem(addition)) {
 								Toast.makeText(getApplicationContext(), selectedItem + " added", Toast.LENGTH_SHORT).show();
-							} else {
+							} else { // If it fails, let the user know
 								Toast.makeText(getApplicationContext(), "Error adding " + selectedItem, Toast.LENGTH_SHORT).show();
 							}
-						} else {
+						} else { // Otherwise, let the user know that we have no idea what metric that is
 							Toast.makeText(getApplicationContext(), "Unknown unit (" + unit + ")", Toast.LENGTH_SHORT).show();
 						}
 						
-						inputbox1.setText(initial_text1);
-						inputbox2.setText(initial_text2);
+						quantity_input.setText(initial_text1);
+						metric_input.setText(initial_text2);
 					}
 					
+					// The dialog should go away when the button is pressed
 					selectedItem = "";
 					dismissDialog(DIALOG_ADD_ITEM);
 				}});
 	    	
 	    	
-	    	builder.setMessage("Amount of Item")
+	    	builder.setMessage("Add item")
 	    	       .setView(layout)
 	    	       .setCancelable(true);
 	    	dialog = builder.create();
@@ -165,6 +162,7 @@ public class ManualAddListActivity extends ListActivity {
 	    default:
 	        dialog = null;
 	    }
+	    
 	    return dialog;
 	}
 }

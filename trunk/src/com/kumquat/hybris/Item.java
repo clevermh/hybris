@@ -13,6 +13,10 @@ public class Item {
 	private final String[] upc_codes;
 	private final String[] plu_codes;
 	
+	/**
+	 * @param i The ID of the Item
+	 * @param db The database to find the name from
+	 */
 	public Item(int i, SQLiteDatabase db) {
 		id = i;
 		name = findNameFromID(db, i);
@@ -20,6 +24,10 @@ public class Item {
 		plu_codes = new String[0];
 	}
 	
+	/**
+	 * @param n The name of the Item
+	 * @param db The database to find the ID from
+	 */
 	public Item(String n, SQLiteDatabase db) {
 		id = findIDFromDatabase(db, n);
 		name = n;
@@ -28,8 +36,8 @@ public class Item {
 	}
 	
 	/**
-	 * @param i the unique identification number for this ingredient
-	 * @param n the name of the ingredient
+	 * @param i The ID of this Item
+	 * @param n The name of the Item
 	 */
 	public Item(int i, String n) {
 		id = i;
@@ -39,10 +47,10 @@ public class Item {
 	}
 	
 	/**
-	 * @param i the unique identification number for this ingredient
-	 * @param n the name of the ingredient
-	 * @param u the list of UPC codes for this item
-	 * @param p the list of PLU codes for this item
+	 * @param i The ID of this Item
+	 * @param n The name of the Item
+	 * @param u The list of UPC codes for this Item
+	 * @param p The list of PLU codes for this Item
 	 */
 	public Item(int i, String n, String[] u, String[] p) {
 		id = i;
@@ -52,24 +60,44 @@ public class Item {
 	}
 	
 	/**
-	 * 
-	 * @return the unique ID number of the item
+	 * @return The ID of the Item
 	 */
 	public int getID() { return id; }
 	
+	/**
+	 * @return The name of the Item
+	 */
 	public String getName() { return name; }
 	
+	/**
+	 * This should only be used when loading an Item from the YAML since it is never populated otherwise
+	 * @return How many UPC codes are stored by this Item
+	 */
 	public boolean hasUPCs() { return upc_codes.length > 0; }
+	
+	/**
+	 * This should only be used when loading an Item from the YAML since it is never populated otherwise
+	 * @return An array of the UPC codes stored by this Item
+	 */
 	public String[] getUPCs() { return upc_codes; }
 	
+	/**
+	 * This should only be used when loading an Item from the YAML since it is never populated otherwise
+	 * @return How many PLU codes are stored by this Item
+	 */
 	public boolean hasPLUs() { return plu_codes.length > 0; }
+	
+	/**
+	 * This should only be used when loading an Item from the YAML since it is never populated otherwise
+	 * @return An array of the PLU codes stored by this Item
+	 */
 	public String[] getPLUs() { return plu_codes; }
 	
 	/**
-	 * 
-	 * @param db an SQLite database relating UPC codes to unique item IDs of ingredients
-	 * @param upc the UPC code of an item
-	 * @return the item ID for the item
+	 * Find an Item based on a given UPC code
+	 * @param db The database containing the UPC code and Item tables
+	 * @param upc The UPC code of an Item
+	 * @return The Item that this UPC references if the UPC is known, null otherwise
 	 */
 	public static Item findItemFromUPC(SQLiteDatabase db, String upc) {
 		String sql = "SELECT item_id FROM Upc WHERE upc_code = '" + upc + "'";
@@ -86,10 +114,10 @@ public class Item {
 	}
 	
 	/**
-	 * 
-	 * @param db SQLite database relating UPC codes to item information
-	 * @param spec the specific name of the ingredient
-	 * @return the item ID for the item
+	 * Find an Item based on a given name
+	 * @param db The database containing the Item table
+	 * @param n The name of the Item to find
+	 * @return The ID for the Item if it exists, -1 otherwise
 	 */
 	public static int findIDFromDatabase(SQLiteDatabase db, String n) {
 		String sql = "SELECT id FROM Items WHERE name = '" + n + "'";
@@ -110,10 +138,10 @@ public class Item {
 	}
 	
 	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @param id the item ID of the ingredient
-	 * @return the specific name of the item
+	 * Find the name of an Item based on a given ID
+	 * @param db The database containing the Item table
+	 * @param id The ID of an Item
+	 * @return The name of the Item if it exists, an empty String otherwise
 	 */
 	public static String findNameFromID(SQLiteDatabase db, int id) {
 		String sql = "SELECT name FROM Items WHERE id = " + id;
@@ -131,10 +159,10 @@ public class Item {
 	}
 	
 	/**
-	 * 
-	 * @param db SQLite database containing item information
-	 * @param id the item ID of the ingredient
-	 * @return Item object representing the ingredient
+	 * Find an Item based from a given ID
+	 * @param db The database containing the Item table
+	 * @param id The ID of an Item
+	 * @return An Item based on the given ID if it exists, null otherwise
 	 */
 	public static Item findItemFromID(SQLiteDatabase db, int id) {
 		String sql_statement = "SELECT name FROM Items WHERE id = " + id;
@@ -155,6 +183,11 @@ public class Item {
 		return item;
 	}
 	
+	/**
+	 * Find the name of every Item in a database
+	 * @param db The database containing the Item table
+	 * @return An array containing the name of every Item in the given database
+	 */
 	public static String[] getAllItemNames(SQLiteDatabase db) {
 		String sql = "SELECT name FROM Items ORDER BY name";
 		Cursor c = db.rawQuery(sql, null);

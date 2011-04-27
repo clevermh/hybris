@@ -8,10 +8,14 @@ import com.kumquat.hybris.databases.HybrisDatabaseHelper;
 import com.kumquat.hybris.databases.InventoryDatabaseHelper;
 
 public class SplashscreenActivity extends Activity {
+	/**
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splashscreen);
 		
+		// Do the loading on a separate thread so it doesn't block UI stuff
 		new Thread(new Runnable() {
 			public void run() {
 				// Populate the converter
@@ -72,6 +76,7 @@ public class SplashscreenActivity extends Activity {
 				db2.close();
 				idh.close();
 				
+				// Close the splash screen when the loading is done
 				finish();
 			}
 		}).start();

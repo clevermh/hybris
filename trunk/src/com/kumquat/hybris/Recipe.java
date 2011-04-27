@@ -16,14 +16,14 @@ public class Recipe {
 	private String name;
 	
 	/**
-	 * Create a new recipe with the given information
-	 * @param name the name of the recipe
-	 * @param ingredients the ingredients in the recipe
-	 * @param directions the directions for the recipe
-	 * @param prep_time the prep time for the recipe
-	 * @param cook_time the cook time for the recipe
-	 * @param serving_size the serving size of the recipe
-	 * @param type the type of the recipe
+	 * Create a new Recipe with the given information
+	 * @param name The name of the Recipe
+	 * @param ingredients The ingredients in the Recipe
+	 * @param directions The directions for the Recipe
+	 * @param prep_time The prep time for the Recipe
+	 * @param cook_time The cook time for the Recipe
+	 * @param serving_size The serving size of the Recipe
+	 * @param type The type of the Recipe (breakfast, snack, etc.)
 	 */
 	public Recipe(String name, Ingredient[] ingredients, String[] directions, String prep_time, String cook_time, String serving_size, String type) {
 		this.ingredients = ingredients;
@@ -36,79 +36,79 @@ public class Recipe {
 	}
 	
 	/**
-	 * @return the number of ingredients
+	 * @return The number of ingredients required for this Recipe
 	 */
 	public int numIngredients() {
 		return ingredients.length;
 	}
 	
 	/**
-	 * @param which the location in the ingredients array to return
-	 * @return the requested ingredient
+	 * @param which The location in the ingredients array to return
+	 * @return The requested Ingredient
 	 */
 	public Ingredient getIngredient(int which) {
 		return ingredients[which];
 	}
 	
 	/**
-	 * @return the ingredients
+	 * @return An array of the ingredients required for this Recipe
 	 */
 	public Ingredient[] getIngredients() {
 		return ingredients;
 	}
 
 	/**
-	 * @return the number of directions
+	 * @return The number of directions in this Recipe
 	 */
 	public int numDirections() {
 		return directions.length;
 	}
 	
 	/**
-	 * @param which the location in the directions array to return
-	 * @return the requested direction
+	 * @param which The location in the directions array to return
+	 * @return The requested direction
 	 */
 	public String getDirection(int which) {
 		return directions[which];
 	}
 
 	/**
-	 * @return the directions
+	 * @return An array of the directions for this Recipe
 	 */
 	public String[] getDirections() {
 		return directions;
 	}
 
 	/**
-	 * @return the prep time
+	 * @return The prep time of this Recipe
 	 */
 	public String getPrepTime() {
 		return prep_time;
 	}
 
 	/**
-	 * @return the cook time
+	 * @return The cook time of this Recipe
 	 */
 	public String getCookTime() {
 		return cook_time;
 	}
 
 	/**
-	 * @return the serving size
+	 * @return The serving size of this Recipe
 	 */
 	public String getServingSize() {
 		return serving_size;
 	}
 
 	/**
-	 * @return the type
+	 * @return The type of this Recipe
 	 */
 	public String getType() {
 		return type;
 	}
 
 	/**
-	 * @return the name
+	 * @return The name of this Recipe
 	 */
 	public String getName() {
 		return name;
@@ -116,8 +116,8 @@ public class Recipe {
 
 	/**
 	 * Gets the names of all the recipes in the given database
-	 * @param db the database to search for recipes
-	 * @return the names of all recipes found
+	 * @param db The database to search for recipes
+	 * @return An array containing the names of all recipes found in the database
 	 */
 	public static String[] getAllRecipeNames(SQLiteDatabase db) {
 		String sql = "SELECT name FROM Recipes ORDER BY name";
@@ -140,11 +140,12 @@ public class Recipe {
 	
 	/**
 	 * Gets the names of all the recipes in the given database that can be made with the given ingredients
-	 * @param ingredients the list of ingredients to search with
-	 * @param db the database to search for recipes
-	 * @return the names of all recipes found
+	 * @param ingredients The list of ingredients to search with
+	 * @param db The database to search for recipes
+	 * @return The names of all recipes found, null if none are found
 	 */
 	public static String[] getAllRecipeNamesWithIngredients(int[] ingredients, SQLiteDatabase db) {
+		// Make the set to check ingredients against
 		String ing = "(";
 		for(int a = 0; a < ingredients.length; a++) {
 			if(a != 0) { ing += ","; }
@@ -152,6 +153,7 @@ public class Recipe {
 		}
 		ing += ")";
 		
+		// Woo SQL!
 		String sql = "SELECT r.name, i.recipe_id " +
 					"FROM Recipes r, Ingredients i " +
 					"WHERE r.id = i.recipe_id " +
@@ -178,12 +180,13 @@ public class Recipe {
 	}
 	
 	/**
-	 * Gets a recipe from the database by name
-	 * @param name the name of the recipe to find
-	 * @param db the database to search for the recipe
-	 * @return the recipe if found, null otherwise
+	 * Gets a Recipe from the database by name
+	 * @param name The name of the Recipe to find
+	 * @param db The database to search for the Recipe
+	 * @return The Recipe if found, null otherwise
 	 */
 	public static Recipe getFromDatabase(String name, SQLiteDatabase db) {
+		// Find all the recipe info
 		String rinfosql = "SELECT id, prep_time, cook_time, serving_size, type FROM Recipes WHERE name = \"" + name + "\"";
 		Cursor rinfoc = db.rawQuery(rinfosql, null);
 		
@@ -193,12 +196,14 @@ public class Recipe {
 		rinfoc.moveToFirst();
 		int id = rinfoc.getInt(0);
 		
+		// Find all the ingredient info
 		String ringsql = "SELECT item_id, qty, qty_metric FROM Ingredients WHERE recipe_id = " + id;
 		Cursor ringc = db.rawQuery(ringsql, null);
 		
 		if(ringc == null) { rinfoc.close(); return null; }
 		if(ringc.getCount() < 1) { rinfoc.close(); ringc.close(); return null; }
 		
+		// Find all the directions
 		String rdirsql = "SELECT direction FROM Directions WHERE recipe_id = " + id + " ORDER BY dir_number";
 		Cursor rdirc = db.rawQuery(rdirsql, null);
 		
@@ -211,6 +216,7 @@ public class Recipe {
 		String serv = rinfoc.getString(3);
 		String type = rinfoc.getString(4);
 		
+		// Put the found directions into the Recipe
 		rdirc.moveToFirst();
 		String[] dirs = new String[rdirc.getCount()];
 		for(int a = 0; a < dirs.length; a++) {
@@ -218,6 +224,7 @@ public class Recipe {
 			rdirc.moveToNext();
 		}
 		
+		// Put the found ingredients into the Recipe
 		ringc.moveToFirst();
 		Ingredient[] ings = new Ingredient[ringc.getCount()];
 		for(int a = 0; a < ings.length; a++) {

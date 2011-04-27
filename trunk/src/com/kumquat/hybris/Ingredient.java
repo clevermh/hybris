@@ -85,6 +85,7 @@ public class Ingredient {
 		return this.item_id;
 	}
 	
+	// I don't think we ever actually use this
 	@Override
 	public String toString() {
 		return this.name + " (" + this.quantity + " " + this.quantity_metric + ")";

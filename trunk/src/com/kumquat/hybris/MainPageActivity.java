@@ -31,6 +31,7 @@ public class MainPageActivity extends Activity {
 	static final int DIALOG_ADD = 0;
 	static final int DIALOG_DEVICES = 1;
 	static final int DIALOG_RECIPE_VIEW = 2;
+	
 	final CharSequence[] cookingDevices = {"Oven", "Stove", "Microwave", "Cheese Machine"};
 	boolean[] checkedDevices = new boolean[cookingDevices.length];
 	boolean[] checkedDevicesBackup = new boolean[checkedDevices.length];
@@ -43,9 +44,11 @@ public class MainPageActivity extends Activity {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    switch(id) {
 	    case DIALOG_ADD:
+	    	// This is for if the barcode scanner is installed, the user should
+	    	// be given the choice to add things manually
 	    	builder.setMessage("How would you like to add an item?")
 	    	       .setCancelable(false)
-	    	       .setPositiveButton("Barcode Scanner", new DialogInterface.OnClickListener() {
+	    	       .setPositiveButton("Scan Bar Code", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 	    			       intent.setPackage("com.google.zxing.client.android");
@@ -63,6 +66,7 @@ public class MainPageActivity extends Activity {
 	    		
 	        break;
 	    case DIALOG_DEVICES:
+	    	// This is not used anymore, it was for a canceled feature
 	    	builder.setTitle("Select Cooking Devices");
 	    	builder.setMultiChoiceItems(cookingDevices, checkedDevices, new OnMultiChoiceClickListener() {
 	    		@Override
@@ -103,6 +107,9 @@ public class MainPageActivity extends Activity {
 	    	dialog = builder.create();
 	        break;
 	    case DIALOG_RECIPE_VIEW:
+	    	// When looking at recipes, the user should be given a choice
+	    	// as to whether they want to see all recipes or just recipes
+	    	// that they can make given the current inventory
 	    	builder.setMessage("Look Up Which Recipes?")
 	    	       .setCancelable(true)
 	    	       .setPositiveButton("All", new DialogInterface.OnClickListener() {
@@ -133,9 +140,16 @@ public class MainPageActivity extends Activity {
 	    default:
 	        dialog = null;
 	    }
+	    
 	    return dialog;
 	}
 	
+	/**
+	 * This code is from the Android Dev website. It checks if a given Intent is available
+	 * @param context The Context to check for the Intent
+	 * @param action The name of the Intent to check for
+	 * @return True if the Intent is available, false otherwise
+	 */
 	private static boolean isIntentAvailable(Context context, String action) {
 	    final PackageManager packageManager = context.getPackageManager();
 	    final Intent intent = new Intent(action);
@@ -147,18 +161,24 @@ public class MainPageActivity extends Activity {
 	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		// Code 0 is the barcode scanner (not like we have other codes used)
 		if (requestCode == 0) {
 	        if (resultCode == RESULT_OK) {
+	        	// Get the scan result
 	        	String upc = intent.getStringExtra("SCAN_RESULT");
 	        	
 	        	HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
 	        	SQLiteDatabase db = hdh.getReadableDatabase();
 	        	
+	        	// Find the Item from the UPC
 	        	Item item = Item.findItemFromUPC(db, upc);
 	        	
+	        	// If the UPC is known, add the item to the inventory
 	        	if(item != null) {
 	            	Inventory invent = new Inventory(getApplicationContext());
-	            	Ingredient ing = new Ingredient(item.getID(), item.getName(), 1, " units");
+	            	Ingredient ing = new Ingredient(item.getID(), item.getName(), 1, "ton");
+	            	
+	            	// Try to add the item, notify the user of success or failure
 	            	if(invent.updateItem(ing)) {
 	            		toaster(item.getName() + " added").show();
 	            	} else {
@@ -174,6 +194,11 @@ public class MainPageActivity extends Activity {
 	    }
 	}
 	
+	/**
+	 * This is a dumb little funtion I wrote to make Toasts
+	 * @param msg The message for the Toast
+	 * @return A Toast with the given message
+	 */
 	private Toast toaster(String msg) {
 		return Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
 	}
@@ -187,6 +212,7 @@ public class MainPageActivity extends Activity {
 		
 		boolean showsplash = true;
 		
+		// Load information from the saved state if it exists
 		if(savedInstanceState != null) {
 			if(savedInstanceState.getBoolean("scanchecked")) {
 				hasScannerApp = savedInstanceState.getBoolean("hasscanner");
@@ -199,6 +225,7 @@ public class MainPageActivity extends Activity {
 			hasScannerApp = isIntentAvailable(this, "com.google.zxing.client.android.SCAN");
 		}
 
+		// Show the add item dialog if the scanner exists, otherwise just start the ManualAddListActivity
 		Button add = (Button)findViewById(R.id.front_add);
 		add.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -213,17 +240,16 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
+		// Go to the InventoryActivity
 		Button inventory = (Button)findViewById(R.id.front_inventory);
 		inventory.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// Go to the remove page
-				toaster("Inventory button").show();
-				
 				Intent invent = new Intent(getApplicationContext(), InventoryActivity.class);
 				startActivity(invent);
 			}
 		});
 		
+		// Show the recipe dialog
 		Button recipes = (Button)findViewById(R.id.front_recipes);
 		recipes.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -231,6 +257,7 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
+		// Choose a random recipe and start the RecipeActivity with that recipe
 		Button random = (Button)findViewById(R.id.front_random);
 		random.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -247,8 +274,9 @@ public class MainPageActivity extends Activity {
 			}
 		});
 		
-		//Button devices = (Button)findViewById(R.id.front_devices);
-		/*devices.setOnClickListener(new OnClickListener() {
+		// This was the cooking devices thing but that feature was cut
+		/*Button devices = (Button)findViewById(R.id.front_devices);
+		devices.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Go to the devices page
 				for(int i = 0; i < checkedDevices.length; i++){
@@ -258,6 +286,7 @@ public class MainPageActivity extends Activity {
 			}
 		});*/
 		
+		// If we need to, show the splash screen
 		if(showsplash) {
 			Intent splash = new Intent(this, SplashscreenActivity.class);
 			startActivity(splash);
