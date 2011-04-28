@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class InventoryActivity extends ListActivity {
 	static final int DIALOG_ADD_ITEM = 0;
 	
@@ -30,10 +32,11 @@ public class InventoryActivity extends ListActivity {
 	 * @return An ArrayAdapter containing the information stored in the inventory
 	 */
 	private ArrayAdapter<String> makeAdapter() {
+		DecimalFormat df = new DecimalFormat("0.##");
 		String[] items = new String[inventory.getCount()];
 		for(int a = 0; a < items.length; a++) {
 			Ingredient i = inventory.getItem(a);
-			items[a] = i.getName() + "\t(" + i.getQuantity() + " " + i.getQuantityMetric() + ")";
+			items[a] = i.getName() + "\t(" + df.format(i.getQuantity()) + " " + i.getQuantityMetric() + ")";
 		}
 		
 		return new ArrayAdapter<String>(this, R.layout.list_item, items);
@@ -80,7 +83,7 @@ public class InventoryActivity extends ListActivity {
 	    	quantity_input.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					if (quantity_input.getText().equals(initial_text1)){
+					if (quantity_input.getText().toString().equals(initial_text1)){
 						quantity_input.setText("");
 					}
 				}});
@@ -89,7 +92,7 @@ public class InventoryActivity extends ListActivity {
 	    	metric_input.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					if (metric_input.getText().equals(initial_text2)){
+					if (metric_input.getText().toString().equals(initial_text2)){
 						metric_input.setText("");
 					}
 				}});
@@ -100,25 +103,27 @@ public class InventoryActivity extends ListActivity {
 				public void onClick(View v) {
 					if(!selectedItem.equals("")) {
 						// Get the given quantity and metric
-						String quantity = quantity_input.getText().toString().trim();
+						String quantity = quantity_input.getText().toString().trim().replaceAll("\\D", "");
 						String unit = metric_input.getText().toString().trim().toLowerCase();
-	
-						// If the unit is known then try to remove the item
-						if(UnitConverter.knownUnit(unit)) {
-							double number = -Double.parseDouble(quantity);
-							HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
-							SQLiteDatabase db = hdh.getReadableDatabase();
-							
-							Ingredient addition = new Ingredient(selectedItem, number, unit, db);
-							// Try to remove the ingredient, let the user know if it works
-							if(inventory.updateItem(addition)) {
-								Toast.makeText(getApplicationContext(), selectedItem + " removed", Toast.LENGTH_SHORT).show();
-								refreshList();
-							} else { // If it fails, let the user know
-								Toast.makeText(getApplicationContext(), "Error removing " + selectedItem, Toast.LENGTH_SHORT).show();
+						
+						if(!quantity.equals("")) {
+							// If the unit is known then try to remove the item
+							if(UnitConverter.knownUnit(unit)) {
+								double number = -Double.parseDouble(quantity);
+								HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
+								SQLiteDatabase db = hdh.getReadableDatabase();
+								
+								Ingredient addition = new Ingredient(selectedItem, number, unit, db);
+								// Try to remove the ingredient, let the user know if it works
+								if(inventory.updateItem(addition)) {
+									Toast.makeText(getApplicationContext(), selectedItem + " removed", Toast.LENGTH_SHORT).show();
+									refreshList();
+								} else { // If it fails, let the user know
+									Toast.makeText(getApplicationContext(), "Error removing " + selectedItem, Toast.LENGTH_SHORT).show();
+								}
+							} else { // Otherwise, let the user know that we have no idea what metric that is
+								Toast.makeText(getApplicationContext(), "Unknown unit: " + unit, Toast.LENGTH_SHORT).show();
 							}
-						} else { // Otherwise, let the user know that we have no idea what metric that is
-							Toast.makeText(getApplicationContext(), "Unknown unit: " + unit, Toast.LENGTH_SHORT).show();
 						}
 						
 						quantity_input.setText(initial_text1);
