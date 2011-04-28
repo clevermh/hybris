@@ -1,4 +1,4 @@
-= How to Kumquat =
+= How to =
 _A step by step walkthrough_
 
 === How do I add an item via the bar code scanner? ===
