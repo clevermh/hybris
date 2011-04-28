@@ -8,10 +8,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:allowBackup="true">
+    <application android:icon="@drawable/icon" android:allowBackup="true" android:label="Kumquat">
         <activity android:name=".MainPageActivity"
                   android:label="@string/app_name">
             <intent-filter>

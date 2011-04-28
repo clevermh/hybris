@@ -32,7 +32,7 @@ public class InventoryActivity extends ListActivity {
 	 * @return An ArrayAdapter containing the information stored in the inventory
 	 */
 	private ArrayAdapter<String> makeAdapter() {
-		DecimalFormat df = new DecimalFormat("0.##");
+		DecimalFormat df = new DecimalFormat("0.###");
 		String[] items = new String[inventory.getCount()];
 		for(int a = 0; a < items.length; a++) {
 			Ingredient i = inventory.getItem(a);
