@@ -123,24 +123,26 @@ public class ManualAddListActivity extends ListActivity {
 				public void onClick(View v) {
 					if(!selectedItem.equals("")) {
 						// Get the given quantity and metric
-						String quantity = quantity_input.getText().toString().trim();
+						String quantity = quantity_input.getText().toString().trim().replaceAll("\\D", "");
 						String unit = metric_input.getText().toString().trim().toLowerCase();
 
-						// If the unit is known then try to add the item
-						if(UnitConverter.knownUnit(unit)) {
-							double number = Double.parseDouble(quantity);
-							HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
-							SQLiteDatabase db = hdh.getReadableDatabase();
-							
-							Ingredient addition = new Ingredient(selectedItem, number, unit, db);
-							// Try to add the ingredient, let the user know if it works
-							if(inventory.updateItem(addition)) {
-								Toast.makeText(getApplicationContext(), selectedItem + " added", Toast.LENGTH_SHORT).show();
-							} else { // If it fails, let the user know
-								Toast.makeText(getApplicationContext(), "Error adding " + selectedItem, Toast.LENGTH_SHORT).show();
+						if(!quantity.equals("")) {
+							// If the unit is known then try to add the item
+							if(UnitConverter.knownUnit(unit)) {
+								double number = Double.parseDouble(quantity);
+								HybrisDatabaseHelper hdh = new HybrisDatabaseHelper(getApplicationContext());
+								SQLiteDatabase db = hdh.getReadableDatabase();
+								
+								Ingredient addition = new Ingredient(selectedItem, number, unit, db);
+								// Try to add the ingredient, let the user know if it works
+								if(inventory.updateItem(addition)) {
+									Toast.makeText(getApplicationContext(), selectedItem + " added", Toast.LENGTH_SHORT).show();
+								} else { // If it fails, let the user know
+									Toast.makeText(getApplicationContext(), "Error adding " + selectedItem, Toast.LENGTH_SHORT).show();
+								}
+							} else { // Otherwise, let the user know that we have no idea what metric that is
+								Toast.makeText(getApplicationContext(), "Unknown unit (" + unit + ")", Toast.LENGTH_SHORT).show();
 							}
-						} else { // Otherwise, let the user know that we have no idea what metric that is
-							Toast.makeText(getApplicationContext(), "Unknown unit (" + unit + ")", Toast.LENGTH_SHORT).show();
 						}
 						
 						quantity_input.setText(initial_text1);
