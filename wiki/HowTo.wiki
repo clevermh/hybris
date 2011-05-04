@@ -3,7 +3,7 @@
 = How to =
 _A step by step walkthrough_
 
-==Inventory==
+==Managing the Inventory==
 ===How to add by name===
   # Navigate to the main menu of out application.
   # Select Add Item.
@@ -21,7 +21,8 @@ _A step by step walkthrough_
   # Select View Inventory.
   # Select the item to remove.
   # Enter the amount to remove and select OK
-==Recipes==
+
+==Look-up Recipes==
 ===Random===
   # Navigate to the main menu of our application.
   # Select Random Recipe.
