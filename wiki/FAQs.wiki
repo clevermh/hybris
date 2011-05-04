@@ -1,11 +1,17 @@
-= FAQS =
+= Frequently Asked Questions =
 
-*What is Kumquat?*
+==Navigation==
+  * [#What_is_Kumquat What is Kumquat?]
+  * [#Why_dont_I_have_the_option_to_use_the_bar_code_scanner Why don't I have the option to use the bar code scanner?]
+
+----
+
+===What is Kumquat?===
 
 We recommend you go to the Main page. Click on the link in the Navigation pane
 
 ----
 
-*Why doesn't the bar code scanner appear when I try to add an item?*
+===Why don't I have the option to use the bar code scanner?===
 
 The reason the bar code scanner doesn't appear is that our application has determined that you do not have the Barcode Scanner application installed.
