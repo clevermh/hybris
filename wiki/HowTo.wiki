@@ -1,36 +1,37 @@
 = How to =
 _A step by step walkthrough_
 
-=== How do I add an item via the bar code scanner? ===
-[FAQs]
-  # Navigate to the main menu of out application.
-  # Select Add Item.
-  # Select With Bar Code Scanner.
-  # Scan the item.
+==Navigation==
+[#Inventory Inventory]
+  * How to add by name
+  * How to add by bar code
+  * How to remove
 
-=== How do I add an item by name? ===
-  # Navigate to the main menu of out application.
-  # Select Add Item.
-  # Select By Name.
-  # Search for the item
-  # Select the item
-  # Specify the quantity and unit.
+[#Recipes Recipes]
+  * Random
+  * All
+  * Inventory
 
-=== How do I find a random recipe? ===
-  # Navigate to the main menu of our application.
-  # Select Random Recipe.
+==Inventory==
+===How to add by name===
+  # some
+  # steps
+===How to add by bar code===
+  # other
+  # steps
+===How to remove===
+  # more
+  # steps
 
-=== How do I check your inventory? ===
-  # Navigate to the main menu of our application.
-  # Select View Inventory.
-
-=== How do I search for a recipe? ===
-  # Navigate to the main menu of our application.
-  # Select the Look Up Recipe.
-  # Choose either Using Inventory or All accordingly.
-  # Scroll Through recipes or type in the name of the recipe.
-
-=== How do I specify which cooking devices I have? ===
-  # Navigate to the main menu of our application.
-  # Select Manage Cooking Devices
-  # Make sure that those that are checked are the devices you have and those that are uncheck are devices that you do not have.
+==Recipes==
+===Random===
+  # woo
+  # steps
+===All===
+  # so
+  # many
+  # steps
+===Inventory===
+  # this
+  # keeps
+  # going
