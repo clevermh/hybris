@@ -3,5 +3,4 @@
 === Navigation ===
 ==== [Hybris Main Page] ====
 ==== [HowTo How To] ====
-==== [AboutUs About Us] ====
 ==== [FAQs FAQs] ====
