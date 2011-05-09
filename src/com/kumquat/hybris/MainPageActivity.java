@@ -115,8 +115,6 @@ public class MainPageActivity extends Activity {
 	    	       .setPositiveButton("All", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   // Go to the recipes page
-	    					toaster("All Recipes").show();
-	    					
 	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
 	    					recipeViewer.putExtra("com.kumquat.hybris.devices", checkedDevices);
 	    					recipeViewer.putExtra("com.kumquat.hybris.useInventory", false);
@@ -126,8 +124,6 @@ public class MainPageActivity extends Activity {
 	    	       .setNeutralButton("Using Inventory", new DialogInterface.OnClickListener() {
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	        	   // Go to the recipes page
-	    					toaster("Recipes button: Ones I can make right now").show();
-	    					
 	    					Intent recipeViewer = new Intent(getApplicationContext(), RecipeListActivity.class);
 	    					recipeViewer.putExtra("com.kumquat.hybris.devices", checkedDevices);
 	    					recipeViewer.putExtra("com.kumquat.hybris.useInventory", true);
