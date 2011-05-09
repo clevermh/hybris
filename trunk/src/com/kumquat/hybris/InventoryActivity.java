@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.text.method.NumberKeyListener;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,9 +51,6 @@ public class InventoryActivity extends ListActivity {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    switch(id) {
 	    case DIALOG_ADD_ITEM:
-	    	final String initial_text1 = "Quantity";
-	    	final String initial_text2 = "Unit";
-	    	
 	    	// LayoutInflaters are awesome!
 	    	LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 	    	View layout = inflater.inflate(R.layout.twoinputdialog, (ViewGroup) findViewById(R.id.layout_root));
@@ -62,40 +59,12 @@ public class InventoryActivity extends ListActivity {
 	    	final EditText metric_input = (EditText) layout.findViewById(R.id.dialog_input_two);
 	    	Button dialogOK = (Button) layout.findViewById(R.id.dialog_ok_button);
 	    	
-	    	// Set the initial text
-	    	quantity_input.setText(initial_text1);
-	    	metric_input.setText(initial_text2);
+	    	// Set the hint text
+	    	quantity_input.setHint("Quantity");
+	    	metric_input.setHint("Unit");
 	    	
 	    	// The quantity should be numeric only
-	    	quantity_input.setKeyListener(new NumberKeyListener(){
-				@Override
-				public int getInputType() {
-					return 0;
-				}
-
-				@Override
-				protected char[] getAcceptedChars() {
-					char[] numberChars = {'1','2','3','4','5','6','7','8','9','0','.'};
-				    return numberChars;
-				}});
-	    	
-	    	// On the first click into this field, clear it
-	    	quantity_input.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					if (quantity_input.getText().toString().equals(initial_text1)){
-						quantity_input.setText("");
-					}
-				}});
-	    	
-	    	// Same as the above
-	    	metric_input.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					if (metric_input.getText().toString().equals(initial_text2)){
-						metric_input.setText("");
-					}
-				}});
+	    	quantity_input.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 	    	
 	    	// When the OK button is pressed, probably remove the item
 	    	dialogOK.setOnClickListener(new OnClickListener(){
@@ -126,8 +95,8 @@ public class InventoryActivity extends ListActivity {
 							}
 						}
 						
-						quantity_input.setText(initial_text1);
-						metric_input.setText(initial_text2);
+						quantity_input.setText("");
+						metric_input.setText("");
 					}
 					
 					// The dialog should go away when the button is pressed
