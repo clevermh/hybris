@@ -39,7 +39,7 @@ _A step by step walkthrough_
   # Select the Look Up Recipe.
 [http://hybris.googlecode.com/svn/Images/LookUp.png]
   # Choose All. 
-[http://hybris.googlecode.com/svn/Images/LookUpall.png]
+[http://hybris.googlecode.com/svn/Images/LookupAll.png]
   # Scroll Through recipes or type in the name of the recipe.
 [http://hybris.googlecode.com/svn/Images/PickMuffins.png]
 ===How to browse through recipes that can be made using the inventory===
@@ -49,4 +49,4 @@ _A step by step walkthrough_
   # Choose Using Inventory
 [http://hybris.googlecode.com/svn/Images/LookUpInventory.png]
   # Scroll through the recipes if any are available
-[http://hybris.googlecode.com/svn/Images/PickBrownies.png]
+[http://hybris.googlecode.com/svn/Images/Pickbrownies.png]
