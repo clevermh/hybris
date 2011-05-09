@@ -5,34 +5,48 @@ _A step by step walkthrough_
 
 ==Managing the Inventory==
 ===How to add by name===
-  # Navigate to the main menu of out application.
-[http://hybris.googlecode.com/svn/Images/AddItem.png]
+  # Navigate to the main menu of the application.
   # Select Add Item.
+[http://hybris.googlecode.com/svn/Images/AddItem.png]
   # Select By Name.
   # Search for the item.
   # Select the item.
+[http://hybris.googlecode.com/svn/Images/CanolaOil.png]
   # Specify the quantity and unit.
+[http://hybris.googlecode.com/svn/Images/16floz.png]
 ===How to add by bar code===
-  # Navigate to the main menu of out application.
+  # Navigate to the main menu of the application.
   # Select Add Item.
+[http://hybris.googlecode.com/svn/Images/AddItem.png]
   # Select With Bar Code Scanner.
   # Scan the item.
 ===How to remove===
-  # Navigate to the main menu of out application.
+  # Navigate to the main menu of the application.
   # Select View Inventory.
+[http://hybris.googlecode.com/svn/Images/ViewInventory.png]
   # Select the item to remove.
+[http://hybris.googlecode.com/svn/Images/CanolaInventory.png]
   # Enter the amount to remove and select OK
+[http://hybris.googlecode.com/svn/Images/Remove.png]
 
 ==Look-up Recipes==
 ===How to find a random recipe===
-  # Navigate to the main menu of our application.
+  # Navigate to the main menu of the application.
   # Select Random Recipe.
+[http://hybris.googlecode.com/svn/Images/LookUp.png]
 ===How to browse all recipes===
-  # Navigate to the main menu of our application.
+  # Navigate to the main menu of the application.
   # Select the Look Up Recipe.
-  # Choose All.
+[http://hybris.googlecode.com/svn/Images/LookUp.png]
+  # Choose All. 
+[http://hybris.googlecode.com/svn/Images/LookUpall.png]
   # Scroll Through recipes or type in the name of the recipe.
+[http://hybris.googlecode.com/svn/Images/PickMuffins.png]
 ===How to browse through recipes that can be made using the inventory===
-  # Navigate to the main menu of our application.
-  # Select the Look Up Recipe.
-  # Choose either Using Inventory
+  # Navigate to the main menu of the application.
+  # Select Look Up Recipe.
+[http://hybris.googlecode.com/svn/Images/LookUp.png]
+  # Choose Using Inventory
+[http://hybris.googlecode.com/svn/Images/LookUpInventory.png]
+  # Scroll through the recipes if any are available
+[http://hybris.googlecode.com/svn/Images/PickBrownies.png]
