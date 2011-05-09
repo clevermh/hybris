@@ -18,35 +18,35 @@ _A step by step walkthrough_
   # Navigate to the main menu of the application.
   # Select Add Item.
 [http://hybris.googlecode.com/svn/Images/AddItem.png]
-  # Select With Bar Code Scanner.
+  # Select "With Bar Code Scanner."
   # Scan the item.
 ===How to remove===
   # Navigate to the main menu of the application.
-  # Select View Inventory.
+  # Select "View Inventory."
 [http://hybris.googlecode.com/svn/Images/ViewInventory.png]
   # Select the item to remove.
 [http://hybris.googlecode.com/svn/Images/CanolaInventory.png]
-  # Enter the amount to remove and select OK
+  # Enter the amount to remove and select "OK"
 [http://hybris.googlecode.com/svn/Images/Remove.png]
 
 ==Look-up Recipes==
 ===How to find a random recipe===
   # Navigate to the main menu of the application.
-  # Select Random Recipe.
+  # Select "Random Recipe."
 [http://hybris.googlecode.com/svn/Images/LookUp.png]
 ===How to browse all recipes===
   # Navigate to the main menu of the application.
-  # Select the Look Up Recipe.
+  # Select "Look Up Recipe."
 [http://hybris.googlecode.com/svn/Images/LookUp.png]
   # Choose All. 
 [http://hybris.googlecode.com/svn/Images/LookupAll.png]
-  # Scroll Through recipes or type in the name of the recipe.
+  # Scroll through recipes or type in the name of the recipe.
 [http://hybris.googlecode.com/svn/Images/PickMuffins.png]
 ===How to browse through recipes that can be made using the inventory===
   # Navigate to the main menu of the application.
-  # Select Look Up Recipe.
+  # Select "Look Up Recipe."
 [http://hybris.googlecode.com/svn/Images/LookUp.png]
-  # Choose Using Inventory
+  # Choose "Using Inventory"
 [http://hybris.googlecode.com/svn/Images/LookUpInventory.png]
   # Scroll through the recipes if any are available
 [http://hybris.googlecode.com/svn/Images/Pickbrownies.png]
